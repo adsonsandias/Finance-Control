@@ -19,24 +19,29 @@ export const Container = styled.nav`
     background: var(--gradient-first);
     box-shadow: var(--box-shadow);
     border-radius: 1.56rem;
-    gap: 16px;
-    padding: 0.94rem 1.44rem;
+    gap: 12px;
+    padding: 0.6rem 1rem;
     position: absolute;
 
     li {
       a {
         display: block;
         box-sizing: border-box;
-        background: var(--btn-nav);
+        background-color: rgba(255, 255, 255, 0.3);
         padding: 0.38rem 0.94rem;
         border-radius: 15px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
+        transition: all ease 0.5s;
+        transform: scale(0.9);
 
         &:hover {
-          background: var(--btn-nav-hover);
+          background-color: rgba(255, 255, 255, 0.6);
+          transform: scale(1);
         }
         & svg path {
           fill: var(--background-white);
-          fill-opacity: 0.6;
+          fill-opacity: 0.8;
+          transition: fill ease 0.5s;
         }
         &:hover svg path {
           fill: var(--detail);
