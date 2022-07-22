@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
     --background: #F0F2F5;
     --background-white: #ffffff;
     --success:#33CC95;
+    --withdraw:#E62E4D;
     --detail:#FB9C49;
     --btn-detail:rgba(255, 255, 255, 0.5);
     --btn-nav: linear-gradient(92.26deg, rgba(255, 250, 224, 0.2) -31.74%, rgba(255, 235, 223, 0.2) 122.11%);

@@ -20,7 +20,7 @@ export const Container = styled.section`
       display: flex;
       flex-direction: column;
       background: var(--background-white);
-      padding: 2rem;
+      padding: 1.5rem 2rem;
       border-radius: 1.56rem;
 
       header {
