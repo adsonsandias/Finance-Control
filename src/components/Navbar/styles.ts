@@ -24,7 +24,7 @@ export const Container = styled.nav`
     position: absolute;
 
     li {
-      a {
+      button {
         display: block;
         box-sizing: border-box;
         background-color: rgba(255, 255, 255, 0.3);
@@ -32,6 +32,7 @@ export const Container = styled.nav`
         border-radius: 15px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
         transition: all ease 0.5s;
+        border: none;
         transform: scale(0.9);
 
         &:hover {

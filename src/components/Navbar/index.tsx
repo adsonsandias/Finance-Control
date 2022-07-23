@@ -1,26 +1,33 @@
+import React from "react";
+
 import { IconCalc } from "./Icons/IconCalc";
 import { IconHomer } from "./Icons/IconsHomer";
 import { IconUser } from "./Icons/IconUser";
 import { Container } from "./styles";
 
-export function Navbar() {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+interface NavbarProps {
+  openTransactionModal: () => void;
+}
+
+export function Navbar({ openTransactionModal }: NavbarProps) {
   return (
     <Container>
       <ul>
         <li>
-          <a href="#homer">
+          <button type="button">
             <IconHomer />
-          </a>
+          </button>
         </li>
         <li>
-          <a href="#trasation">
+          <button type="button" onClick={openTransactionModal}>
             <IconCalc />
-          </a>
+          </button>
         </li>
         <li>
-          <a href="#user">
+          <button type="button">
             <IconUser />
-          </a>
+          </button>
         </li>
       </ul>
     </Container>
