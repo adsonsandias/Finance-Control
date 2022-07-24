@@ -65,6 +65,11 @@ export const User = styled.div`
         transform: scale(1);
         background: rgba(255, 255, 255, 0.2);
       }
+      &:focus {
+        box-shadow: 0px 0px 0px 4px rgba(255, 201, 142, 0.8),
+          0px 0px 0px 5px rgba(250, 131, 65, 0.5);
+        outline: none;
+      }
     }
   }
   img {

@@ -35,16 +35,23 @@ export const Container = styled.nav`
         border: none;
         transform: scale(0.9);
 
-        &:hover {
+        &:hover,
+        &:focus {
           background-color: rgba(255, 255, 255, 0.6);
           transform: scale(1);
+          outline: none;
+        }
+        &:focus {
+          box-shadow: 0px 0px 0px 4px rgba(255, 201, 142, 0.8),
+            0px 0px 0px 5px rgba(250, 131, 65, 0.5);
         }
         & svg path {
           fill: var(--background-white);
           fill-opacity: 0.8;
           transition: fill ease 0.5s;
         }
-        &:hover svg path {
+        &:hover svg path,
+        &:focus svg path {
           fill: var(--detail);
           fill-opacity: 1;
         }
