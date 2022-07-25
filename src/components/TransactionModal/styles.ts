@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import styled from "styled-components";
 
 export const Container = styled.form`
@@ -113,5 +114,112 @@ export const BtnChose = styled.button`
   &:hover img,
   &:focus img {
     animation-name: rotate;
+  }
+`;
+
+export const IncomeDiscountsContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 1rem 0;
+`;
+
+interface BtnTypeTransitionProps {
+  isActive: boolean;
+}
+
+export const BtnTypeTransition = styled.button<BtnTypeTransitionProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.94rem;
+  height: 4rem;
+
+  transition: box-shadow ease 0.3s;
+
+  &:first-child {
+    background: ${(props) =>
+      props.isActive ? "rgba(157, 216, 193, 0.3)" : "transparent"};
+    border: 1px solid ${(props) => (props.isActive ? "#63D094" : "d7d7d7")};
+  }
+
+  &:last-child {
+    background: ${(props) =>
+      props.isActive ? "rgba(255, 197, 206, 0.3)" : "transparent"};
+    border: 1px solid ${(props) => (props.isActive ? "#F18F9F" : "d7d7d7")};
+  }
+
+  &:last-child:hover,
+  &:last-child:focus {
+    outline: none;
+    box-shadow: ${(props) =>
+      props.isActive
+        ? " 0px 0px 0px 4px rgba(255, 219, 219, 0.5), 0px 0px 0px 5px rgba(226, 180, 180, 0.8)"
+        : "0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5)"};
+  }
+
+  &:hover,
+  &:focus {
+    outline: none;
+    box-shadow: ${(props) =>
+      props.isActive
+        ? "0px 0px 0px 4px rgba(219, 255, 235, 0.5), 0px 0px 0px 5px rgba(180, 226, 201, 0.8)"
+        : "0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5)"};
+  }
+
+  @keyframes imgJumpDown {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0.5;
+    }
+    60% {
+      transform: translateY(5px);
+    }
+    90% {
+      transform: translateY(3px);
+    }
+    90% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes imgJumpUp {
+    0% {
+      transform: translateY(10px);
+      opacity: 0.5;
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+    90% {
+      transform: translateY(-3px);
+    }
+    90% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    opacity: 1;
+  }
+
+  &:hover img,
+  &:focus img {
+    animation-name: ${(props) =>
+      props.isActive ? "imgJumpUp" : "imgJumpDown"};
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: var(--color-text-2);
   }
 `;

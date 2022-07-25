@@ -2,8 +2,16 @@
 import React from "react";
 import Modal from "react-modal";
 
+import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
-import { BtnCadastrar, Container, BtnChose } from "./styles";
+import iconDiscounts from "../../assets/saida.svg";
+import {
+  BtnCadastrar,
+  Container,
+  BtnChose,
+  IncomeDiscountsContainer,
+  BtnTypeTransition,
+} from "./styles";
 
 interface TransactionModalProps {
   isOpen: boolean;
@@ -14,6 +22,10 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: TransactionModalProps) {
+  const [type, setType] = React.useState("deposit");
+
+  console.log(type);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -30,6 +42,26 @@ export function TransactionModal({
 
         <input type="text" placeholder="Título" />
         <input type="number" placeholder="Valor" />
+
+        <IncomeDiscountsContainer>
+          <BtnTypeTransition
+            type="button"
+            onClick={() => setType("deposit")}
+            isActive={type === "deposit"}
+          >
+            <img src={iconIncome} alt="Entradas" />
+            <span>Entradas</span>
+          </BtnTypeTransition>
+          <BtnTypeTransition
+            type="button"
+            onClick={() => setType("withdraw")}
+            isActive={type === "withdraw"}
+          >
+            <img src={iconDiscounts} alt="Saidas" />
+            <span>Saidas</span>
+          </BtnTypeTransition>
+        </IncomeDiscountsContainer>
+
         <input type="text" placeholder="Categoria" />
 
         <BtnCadastrar type="submit">Cadastrar</BtnCadastrar>
