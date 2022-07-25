@@ -1,10 +1,12 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable @typescript-eslint/naming-convention */
-import React from "react";
+import React, { FormEvent } from "react";
 import Modal from "react-modal";
 
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
+import { api } from "../../services/api";
 import {
   BtnCadastrar,
   Container,
@@ -22,9 +24,17 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: TransactionModalProps) {
+  const [title, setTitle] = React.useState("");
+  const [value, setValue] = React.useState(0);
+  const [category, setCategory] = React.useState("");
   const [type, setType] = React.useState("deposit");
 
-  console.log(type);
+  function handleCreateTransaction(event: FormEvent) {
+    event.preventDefault();
+    const data = { title, value, category, type };
+
+    api.post("/transactions", data);
+  }
 
   return (
     <Modal
@@ -37,11 +47,22 @@ export function TransactionModal({
         <img src={iconChose} alt="Fechar Modal" />
       </BtnChose>
 
-      <Container>
+      <Container onSubmit={handleCreateTransaction}>
         <h2>Cadastrar transação</h2>
 
-        <input type="text" placeholder="Título" />
-        <input type="number" placeholder="Valor" />
+        <input
+          type="text"
+          placeholder="Título"
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+        />
+
+        <input
+          type="number"
+          placeholder="Valor"
+          value={value}
+          onChange={({ target }) => setValue(Number(target.value))}
+        />
 
         <IncomeDiscountsContainer>
           <BtnTypeTransition
@@ -62,7 +83,12 @@ export function TransactionModal({
           </BtnTypeTransition>
         </IncomeDiscountsContainer>
 
-        <input type="text" placeholder="Categoria" />
+        <input
+          type="text"
+          placeholder="Categoria"
+          value={category}
+          onChange={({ target }) => setCategory(target.value)}
+        />
 
         <BtnCadastrar type="submit">Cadastrar</BtnCadastrar>
       </Container>
