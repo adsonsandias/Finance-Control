@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import styled from "styled-components";
 
 export const Container = styled.form`
@@ -124,11 +123,11 @@ export const IncomeDiscountsContainer = styled.div`
   margin: 1rem 0;
 `;
 
-interface BtnTypeTransitionProps {
+interface IBTNTYPETRANSITIONPROPS {
   isActive: boolean;
 }
 
-export const BtnTypeTransition = styled.button<BtnTypeTransitionProps>`
+export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
   display: flex;
   align-items: center;
   justify-content: center;

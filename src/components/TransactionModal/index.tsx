@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable @typescript-eslint/naming-convention */
 import React, { FormEvent } from "react";
 import Modal from "react-modal";
 
@@ -15,7 +14,7 @@ import {
   BtnTypeTransition,
 } from "./styles";
 
-interface TransactionModalProps {
+interface ITRANSACTIONMODALPROPS {
   isOpen: boolean;
   onRequestClose: () => void;
 }
@@ -23,7 +22,7 @@ interface TransactionModalProps {
 export function TransactionModal({
   isOpen,
   onRequestClose,
-}: TransactionModalProps) {
+}: ITRANSACTIONMODALPROPS) {
   const [title, setTitle] = React.useState("");
   const [value, setValue] = React.useState(0);
   const [category, setCategory] = React.useState("");
