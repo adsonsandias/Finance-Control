@@ -1,9 +1,16 @@
+import React from "react";
+
 import iconTotal from "../../assets/dolar.svg";
 import iconEntries from "../../assets/entrar.svg";
 import iconOutputs from "../../assets/saida.svg";
+import { TransactionsContext } from "../../TransactionsContext";
 import { Container } from "./styles";
 
 export function Summary() {
+  const { transactions } = React.useContext(TransactionsContext);
+
+  console.log(transactions);
+
   return (
     <Container>
       <div>
