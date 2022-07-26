@@ -3,7 +3,7 @@ import React from "react";
 
 import { api } from "./services/api";
 
-interface ITRANSACTIONS {
+interface ITRANSACTION {
   id: number;
   title: string;
   amount: number;
@@ -12,22 +12,22 @@ interface ITRANSACTIONS {
   createdAt: string;
 }
 
-type ITRANSACTIONINPUT = Omit<ITRANSACTIONS, "id" | "createdAt">;
+type ITRANSACTIONINPUT = Omit<ITRANSACTION, "id" | "createdAt">;
 
 interface ITRANSACTIONSPROVIDERPROPS {
   children: React.ReactNode;
 }
 
 interface ITRANSACTIONSCONTEXTDATA {
-  transactions: ITRANSACTIONS[];
-  createTransaction: (transaction: ITRANSACTIONINPUT) => void;
+  transactions: ITRANSACTION[];
+  createTransaction: (transaction: ITRANSACTIONINPUT) => Promise<void>;
 }
 
 export const TransactionsContext =
   React.createContext<ITRANSACTIONSCONTEXTDATA>({} as ITRANSACTIONSCONTEXTDATA);
 
 export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
-  const [transactions, setTransactions] = React.useState<ITRANSACTIONS[]>([]);
+  const [transactions, setTransactions] = React.useState<ITRANSACTION[]>([]);
 
   React.useEffect(() => {
     api
@@ -35,8 +35,13 @@ export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
       .then((response) => setTransactions(response.data.transactions));
   }, []);
 
-  function createTransaction(transaction: ITRANSACTIONINPUT) {
-    api.post("/transactions", transaction);
+  async function createTransaction(transactionInput: ITRANSACTIONINPUT) {
+    const response = await api.post("/transactions", {
+      ...transactionInput,
+      createdAt: new Date(),
+    });
+    const { transaction } = response.data;
+    setTransactions([...transactions, transaction]);
   }
 
   return (
