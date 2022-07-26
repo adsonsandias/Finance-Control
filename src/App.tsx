@@ -7,6 +7,7 @@ import { Header } from "./components/Header";
 import { Navbar } from "./components/Navbar";
 import { TransactionModal } from "./components/TransactionModal";
 import { GlobalStyle } from "./styles/global";
+import { TransactionsProvider } from "./TransactionsContext";
 
 Modal.setAppElement("#root");
 
@@ -22,7 +23,7 @@ export function App() {
     setIsTransactionModalOpen(false);
   }
   return (
-    <>
+    <TransactionsProvider>
       <Header />
       <Dashboard />
       <TransactionModal
@@ -31,6 +32,6 @@ export function App() {
       />
       <Navbar openTransactionModal={handleOpenIsNewTransactionModal} />
       <GlobalStyle />
-    </>
+    </TransactionsProvider>
   );
 }

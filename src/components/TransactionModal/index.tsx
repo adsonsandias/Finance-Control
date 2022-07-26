@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
-import { api } from "../../services/api";
+import { TransactionsContext } from "../../TransactionsContext";
 import {
   BtnCadastrar,
   Container,
@@ -23,16 +23,22 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
+  const { createTransaction } = React.useContext(TransactionsContext);
+
   const [title, setTitle] = React.useState("");
-  const [value, setValue] = React.useState(0);
+  const [amount, setAmount] = React.useState(0);
   const [category, setCategory] = React.useState("");
   const [type, setType] = React.useState("deposit");
 
   function handleCreateTransaction(event: FormEvent) {
     event.preventDefault();
-    const data = { title, value, category, type };
 
-    api.post("/transactions", data);
+    createTransaction({
+      title,
+      amount,
+      category,
+      type,
+    });
   }
 
   return (
@@ -59,8 +65,8 @@ export function TransactionModal({
         <input
           type="number"
           placeholder="Valor"
-          value={value}
-          onChange={({ target }) => setValue(Number(target.value))}
+          value={amount}
+          onChange={({ target }) => setAmount(Number(target.value))}
         />
 
         <IncomeDiscountsContainer>
