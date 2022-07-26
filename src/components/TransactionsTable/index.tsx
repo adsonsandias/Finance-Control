@@ -3,9 +3,22 @@ import React from "react";
 import { api } from "../../services/api";
 import { Container } from "./styles";
 
+interface ITRANSACTIONS {
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: string;
+}
+
 export function TransactionsTable() {
+  const [transactions, setTransactions] = React.useState<ITRANSACTIONS[]>([]);
+
   React.useEffect(() => {
-    api.get("transactions").then((response) => console.log(response.data));
+    api
+      .get("transactions")
+      .then((response) => setTransactions(response.data.transactions));
   }, []);
 
   return (
@@ -20,32 +33,16 @@ export function TransactionsTable() {
               <th>Data</th>
             </tr>
           </thead>
-
           <tbody>
-            <tr>
-              <td className="title">Google Developer App</td>
-              <td className="deposit">R$13.650</td>
-              <td>Buiness</td>
-              <td>15/03/2022</td>
-            </tr>
-            <tr>
-              <td>JAL Auto Peça S/A</td>
-              <td className="withdraw">- R$650</td>
-              <td>Carro</td>
-              <td>15/03/2022</td>
-            </tr>
-            <tr>
-              <td>Desenvolvimento de site</td>
-              <td className="deposit">R$5.850</td>
-              <td>Desenvolvimento</td>
-              <td>15/03/2022</td>
-            </tr>
-            <tr>
-              <td>Alugue</td>
-              <td className="withdraw">- R$1.650</td>
-              <td>Casa</td>
-              <td>15/03/2022</td>
-            </tr>
+            {transactions &&
+              transactions.map((transaction) => (
+                <tr key={transaction.id}>
+                  <td className="title">{transaction.title}</td>
+                  <td className={transaction.type}>R$ {transaction.amount}</td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.createdAt}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

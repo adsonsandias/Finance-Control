@@ -5,12 +5,11 @@ import { IconHomer } from "./Icons/IconsHomer";
 import { IconUser } from "./Icons/IconUser";
 import { Container } from "./styles";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-interface NavbarProps {
+interface INAVBARPROPS {
   openTransactionModal: () => void;
 }
 
-export function Navbar({ openTransactionModal }: NavbarProps) {
+export function Navbar({ openTransactionModal }: INAVBARPROPS) {
   return (
     <Container>
       <ul>
