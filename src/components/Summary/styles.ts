@@ -45,10 +45,6 @@ export const Container = styled.section`
         font-size: 2.25rem;
         font-weight: 400;
         letter-spacing: 0.03rem;
-
-        span {
-          font-weight: 600;
-        }
       }
     }
   }
