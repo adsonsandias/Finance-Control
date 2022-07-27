@@ -1,14 +1,13 @@
-import { access } from "fs";
 import React from "react";
 
 import iconTotal from "../../assets/dolar.svg";
 import iconEntries from "../../assets/entrar.svg";
 import iconOutputs from "../../assets/saida.svg";
-import { TransactionsContext } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function Summary() {
-  const { transactions } = React.useContext(TransactionsContext);
+  const { transactions } = useTransactions();
 
   const summary = transactions.reduce(
     (acc, transaction) => {
