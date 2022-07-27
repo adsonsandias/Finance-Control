@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
-import { TransactionsContext } from "../../TransactionsContext";
+import { useTransactions } from "../../hooks/useTransactions";
 import {
   BtnCadastrar,
   Container,
@@ -23,7 +23,7 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
-  const { createTransaction } = React.useContext(TransactionsContext);
+  const { createTransaction } = useTransactions();
 
   const [title, setTitle] = React.useState("");
   const [amount, setAmount] = React.useState(0);

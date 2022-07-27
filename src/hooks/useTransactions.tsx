@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React from "react";
 
-import { api } from "./services/api";
+import { api } from "../services/api";
 
 interface ITRANSACTION {
   id: number;
@@ -23,8 +23,9 @@ interface ITRANSACTIONSCONTEXTDATA {
   createTransaction: (transaction: ITRANSACTIONINPUT) => Promise<void>;
 }
 
-export const TransactionsContext =
-  React.createContext<ITRANSACTIONSCONTEXTDATA>({} as ITRANSACTIONSCONTEXTDATA);
+const TransactionsContext = React.createContext<ITRANSACTIONSCONTEXTDATA>(
+  {} as ITRANSACTIONSCONTEXTDATA
+);
 
 export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
   const [transactions, setTransactions] = React.useState<ITRANSACTION[]>([]);
@@ -49,4 +50,10 @@ export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
       {children}
     </TransactionsContext.Provider>
   );
+}
+
+export function useTransactions() {
+  const context = React.useContext(TransactionsContext);
+
+  return context;
 }
