@@ -69,6 +69,9 @@ export const GlobalStyle = createGlobalStyle`
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.5);
+    @media (max-width: 576px) {
+      align-items: flex-end;
+    }
   }
   .react-modal-content{
     width: 100%;

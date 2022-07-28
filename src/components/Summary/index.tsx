@@ -11,19 +11,21 @@ export function Summary() {
 
   const summary = transactions.reduce(
     (acc, transaction) => {
-      if (transaction.type === "deposit") {
+      if (transaction?.type === "deposit") {
         acc.deposit += transaction.amount;
         acc.total += transaction.amount;
-      } else {
-        acc.withdraws += transaction.amount;
+      } else if (transaction?.type === "withdraw") {
+        acc.withdraw += transaction.amount;
         acc.total -= transaction.amount;
+      } else {
+        return acc;
       }
 
       return acc;
     },
     {
       deposit: 0,
-      withdraws: 0,
+      withdraw: 0,
       total: 0,
     }
   );
@@ -37,10 +39,11 @@ export function Summary() {
             <img src={iconEntries} alt="Entradas de valores" />
           </header>
           <strong>
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(summary.deposit)}
+            {summary &&
+              new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(summary.deposit)}
           </strong>
           <span>Última entrada dia 13 de abril</span>
         </div>
@@ -52,10 +55,11 @@ export function Summary() {
             <img src={iconOutputs} alt="Saida de valor" />
           </header>
           <strong>
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(summary.withdraws)}
+            {summary &&
+              new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(summary.withdraw)}
           </strong>
           <span>Última entrada dia 13 de abril</span>
         </div>
@@ -67,10 +71,11 @@ export function Summary() {
             <img src={iconTotal} alt="Valor Total" />
           </header>
           <strong>
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(summary.total)}
+            {summary &&
+              new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(summary.total)}
           </strong>
           <span>Última entrada dia 13 de abril</span>
         </div>
