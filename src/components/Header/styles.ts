@@ -20,6 +20,9 @@ export const Logo = styled.div`
 
   img {
     max-width: 4rem;
+    @media (max-width: 480px) {
+      max-width: 3rem;
+    }
   }
   div {
     display: flex;
@@ -33,6 +36,12 @@ export const Logo = styled.div`
     &:nth-child(2n + 0) {
       margin-left: 2.63rem;
     }
+    @media (max-width: 480px) {
+      font-size: 1rem;
+      &:nth-child(2n + 0) {
+        margin-left: 1.5rem;
+      }
+    }
   }
 `;
 
@@ -44,6 +53,10 @@ export const User = styled.div`
     flex-direction: column;
     align-items: flex-end;
     margin-right: 1rem;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
 
     span {
       font-size: 1rem;
@@ -76,5 +89,8 @@ export const User = styled.div`
     max-width: 3.75rem;
     background-size: cover;
     background-position: center center;
+    @media (max-width: 480px) {
+      max-width: 3rem;
+    }
   }
 `;

@@ -7,14 +7,33 @@ export const Container = styled.section`
   gap: 2rem;
   grid-template-columns: repeat(3, 1fr);
   margin-top: -8rem;
+  @media (max-width: 1100px) {
+    overflow: auto;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 
   & > div {
     background: var(--gradient-first);
     padding: 0.25rem;
     box-shadow: var(--box-shadow);
     border-radius: 1.6rem;
+
+    max-width: 22rem;
+
     display: flex;
 
+    &:nth-child(2) div strong {
+      padding-left: 1rem;
+    }
+    &:nth-child(2) div strong::before {
+      content: "-";
+      display: inline-block;
+      color: currentColor;
+      position: absolute;
+      left: 0;
+    }
     div {
       flex: 1;
       display: flex;
@@ -22,6 +41,13 @@ export const Container = styled.section`
       background: var(--background-white);
       padding: 1.5rem 2rem;
       border-radius: 1.56rem;
+      overflow: hidden;
+      @media (max-width: 980px) {
+        max-width: 19rem;
+      }
+      @media (max-width: 480px) {
+        height: 12rem;
+      }
 
       header {
         flex: 2;
@@ -38,6 +64,12 @@ export const Container = styled.section`
           max-width: 40px;
           padding: 0.25rem;
         }
+        @media (max-width: 480px) {
+          align-items: flex-start;
+          p {
+            padding-top: 0.25rem;
+          }
+        }
       }
 
       strong {
@@ -45,6 +77,19 @@ export const Container = styled.section`
         font-size: 2.25rem;
         font-weight: 400;
         letter-spacing: 0.03rem;
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      span {
+        display: none;
+        @media (max-width: 480px) {
+          display: block;
+          font-size: 0.95rem;
+          padding-top: 1rem;
+          color: var(--color-text-3);
+        }
       }
     }
   }
