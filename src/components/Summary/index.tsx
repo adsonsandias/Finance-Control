@@ -42,6 +42,7 @@ export function Summary() {
               currency: "BRL",
             }).format(summary.deposit)}
           </strong>
+          <span>Última entrada dia 13 de abril</span>
         </div>
       </div>
       <div>
@@ -51,12 +52,12 @@ export function Summary() {
             <img src={iconOutputs} alt="Saida de valor" />
           </header>
           <strong>
-            -{" "}
             {new Intl.NumberFormat("pt-BR", {
               style: "currency",
               currency: "BRL",
             }).format(summary.withdraws)}
           </strong>
+          <span>Última entrada dia 13 de abril</span>
         </div>
       </div>
       <div>
@@ -71,6 +72,7 @@ export function Summary() {
               currency: "BRL",
             }).format(summary.total)}
           </strong>
+          <span>Última entrada dia 13 de abril</span>
         </div>
       </div>
     </Container>
