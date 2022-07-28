@@ -4,6 +4,9 @@ export const Container = styled.form`
   background: var(--background);
   padding: 3rem;
   border-radius: 0.9rem;
+  @media (max-width: 480px) {
+    padding: 2rem;
+  }
 
   h2 {
     color: var(--color-text-2);
