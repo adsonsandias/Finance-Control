@@ -36,6 +36,16 @@ export const GlobalStyle = createGlobalStyle`
     } 
   }
 
+  body, #root {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #root{
+    display: flex;
+    flex-direction: column;
+  }
+
   body {
     background: var(--background);
     -webkit-font-smoothing: antialiased;

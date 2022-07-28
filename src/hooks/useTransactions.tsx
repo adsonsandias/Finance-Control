@@ -34,7 +34,7 @@ export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
     api
       .get("transactions")
       .then((response) => setTransactions(response.data.transactions));
-  }, [transactions]);
+  }, []);
 
   async function createTransaction(transactionInput: ITRANSACTIONINPUT) {
     const response = await api.post("/transactions", {
