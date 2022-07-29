@@ -18,8 +18,16 @@ interface ITRANSACTIONSPROVIDERPROPS {
   children: React.ReactNode;
 }
 
+interface IDISPATCH {
+  dispatch: true | false;
+  setDispatch: () => void;
+}
+
 interface ITRANSACTIONSCONTEXTDATA {
   transactions: ITRANSACTION[];
+  dispatch: IDISPATCH["dispatch"];
+
+  setDispatch: (dispatch: IDISPATCH["dispatch"]) => void;
   createTransaction: (transaction: ITRANSACTIONINPUT) => Promise<void>;
 }
 
@@ -29,12 +37,13 @@ const TransactionsContext = React.createContext<ITRANSACTIONSCONTEXTDATA>(
 
 export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
   const [transactions, setTransactions] = React.useState<ITRANSACTION[]>([]);
+  const [dispatch, setDispatch] = React.useState<IDISPATCH["dispatch"]>(false);
 
   React.useEffect(() => {
     api
       .get("transactions")
       .then((response) => setTransactions(response.data.transactions));
-  }, []);
+  }, [dispatch]);
 
   async function createTransaction(transactionInput: ITRANSACTIONINPUT) {
     const response = await api.post("/transactions", {
@@ -46,7 +55,9 @@ export function TransactionsProvider({ children }: ITRANSACTIONSPROVIDERPROPS) {
   }
 
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction, dispatch, setDispatch }}
+    >
       {children}
     </TransactionsContext.Provider>
   );

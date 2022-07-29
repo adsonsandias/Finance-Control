@@ -42,11 +42,9 @@ export const Container = styled.section`
       padding: 1.5rem 2rem;
       border-radius: 1.56rem;
       overflow: hidden;
-      @media (max-width: 980px) {
-        max-width: 19rem;
-      }
       @media (max-width: 480px) {
-        height: 12rem;
+        height: 13rem;
+        min-width: 15rem;
       }
 
       header {

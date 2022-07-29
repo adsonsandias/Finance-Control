@@ -23,7 +23,7 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
-  const { createTransaction } = useTransactions();
+  const { createTransaction, setDispatch } = useTransactions();
 
   const [title, setTitle] = React.useState("");
   const [amount, setAmount] = React.useState(0);
@@ -45,6 +45,7 @@ export function TransactionModal({
     setCategory("");
     setType("deposit");
     onRequestClose();
+    setDispatch(true);
   }
 
   return (
