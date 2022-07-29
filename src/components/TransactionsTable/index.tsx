@@ -4,13 +4,19 @@ import { useTransactions } from "../../hooks/useTransactions";
 import { Container, MobileTitle } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions } = useTransactions();
+  const { transactions, dispatch, setDispatch } = useTransactions();
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setDispatch(false);
+    }, 1000);
+  }, [dispatch]);
 
   return (
     <Container>
       <MobileTitle>
         <h1>Transactions</h1>
-        <span>4 itens</span>
+        <span>{transactions.length} itens</span>
       </MobileTitle>
       <table>
         <thead>
