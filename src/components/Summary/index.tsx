@@ -14,8 +14,6 @@ export function Summary() {
     total: 0,
   });
 
-  console.log(transactions.length);
-
   React.useEffect(() => {
     const summary = transactions.reduce(
       (acc, transaction) => {
