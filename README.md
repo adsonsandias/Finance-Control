@@ -41,7 +41,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 ## Web App Final Production screens
 
 ##### Responsivo Tablet/Mobile 
-![Responsivo Tablet Mobile][image-responsivo-tablet-mobile]
+![test-mobile-vs-tablet](https://user-images.githubusercontent.com/27157739/181996059-e5dbb78e-bcf5-4674-bf51-5e6e2f7520e0.png)
 
 
 ## Technologies used
@@ -55,8 +55,8 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
   <img align="center"  alt="babel" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg">
   <img align="center"  alt="webpack" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg">
   <img align="center"  alt="eslint" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg">
-  <img align="center"  alt="mirage js" height="35" width="35" src="https://github.com/adsonsandias/apr-finance-controll/blob/a77c42565618eb6956de40f041339cc7ebd5a417/miragejs.png">  
-  <img align="center" alt="Axios" height="10" src="https://github.com/adsonsandias/apr-finance-controll/blob/7b4c742884a54818bdb06d8ba74fd86adf4eee90/axios.svg">
+  <img align="center"  alt="mirage js" height="35" width="35" src="https://user-images.githubusercontent.com/27157739/181996145-81e6d8f0-4ff5-4207-80e0-c0d4764c6130.png">  
+  <img align="center" alt="Axios" height="10" src="https://user-images.githubusercontent.com/27157739/181996153-8543d675-cf6b-44dc-af04-21c941ec8f1d.svg">
 </div>
 
 ## Installation
