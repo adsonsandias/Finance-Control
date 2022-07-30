@@ -10,56 +10,38 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 ### Font: Montserrat (400, 500, 600, 700)
 
 ### Color
-| Color Order |  0% | 100% |
-|---------------|---------------|---------------|
-| Primary Color | `#FFE664`  | `#FA8341` |
-| Secondary Color | `#F0F2F5` |
-| Primary Color Text| `#363F5F` |
-| Secondary Color Text| `#969CB2` |
-| Detail in green| `#7FDFBD` | `#12A454` |
-| Detail in red| `#E52E4D` | `#F296A5` |
-| Header title color | `#834713` |
-| Green | `#33CC95` |
+| Color Order |  0% | 100% | Preview  |
+|---------------|---------------|---------------|------|
+| Primary Color | `#FFE664`  | `#FA8341` |![Primary-Color](https://user-images.githubusercontent.com/27157739/181995021-9573d4c8-36fc-4b62-9320-2e96f01617db.svg) |
+| Secondary Color | `#F0F2F5` | | ![Secondary-Color](https://user-images.githubusercontent.com/27157739/181995593-772b8894-8e45-48f1-965a-8dfd33b8dd23.svg) |
+| Primary Color Text| `#363F5F` | | ![Primary-Color-Text](https://user-images.githubusercontent.com/27157739/181995687-2e4bc773-95c7-412a-b434-c9d89c4c466d.svg) |
+| Secondary Color Text| `#969CB2` | | ![Secondary-Color-Text](https://user-images.githubusercontent.com/27157739/181995595-76335c81-7879-44cf-8243-18482d766895.svg) | 
+| Detail in green| `#7FDFBD` | `#12A454` | ![Detail-in-green](https://user-images.githubusercontent.com/27157739/181995791-f8588799-9101-4ccd-96b9-2edb17e8f0f7.svg) |
+| Detail in red| `#E52E4D` | `#F296A5` | ![Detail-in-red](https://user-images.githubusercontent.com/27157739/181995896-615fd709-8c88-4a38-a74e-f5370a1eb0c6.svg) |
+| Header title color | `#834713` | | ![Header-title-color](https://user-images.githubusercontent.com/27157739/181995922-ac8fd502-df3e-4b73-a8bd-cc740acf28ab.svg) |
+| Green | `#33CC95` | | ![Green](https://user-images.githubusercontent.com/27157739/181995934-40715750-0143-4431-bbd6-3fd6c0b7edbc.svg) |
 
-<div style="display: inline_block"><br>
-  <img align="center"  alt="Primary Color" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/9dedfc7d9ec511c4304c81a9d6969c65c44b0953/Primary-Color.svg">
-  <img align="center"  alt="Secondary Color" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/9dedfc7d9ec511c4304c81a9d6969c65c44b0953/Secondary-Color.svg">
-  <img align="center" alt="Primary Color Text" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/f0b607acb762ea8f2c6c512536f85408091a785d/Primary-Color-Text.svg">
-  <img align="center" alt="Secondary Color Text" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/07db1671401d637ff8bb0bb1fa22bc0aac616ed3/Secondary-Color-Text.svg">
-  <img align="center" alt="Detail in green" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/b0b84257120f5a50fac532f89983e294e76804e3/Detail-in-green.svg">
-  <img align="center" alt="Detail in red" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/a42a05aa3c26a27ae61debcde9944ce0ca3c4cab/Detail-in-red.svg">
-  <img align="center" alt="Header title color" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/d33a049f573bd8ce9712a8e4ec0078ab1cd410ba/Header-title-color.svg">
-  <img align="center" alt="Green" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/a42a05aa3c26a27ae61debcde9944ce0ca3c4cab/Green.svg">
-</div>
+
 
 ### Screens Figma
 
 ##### UI Design Desktop 
-![Figma Desktop Prototype][image-figma-desktop]
+![figma-desktop](https://user-images.githubusercontent.com/27157739/181994854-a9575e09-f100-4e8f-b6f4-0312d5847a90.png)
 
 #### UI Design Mobile 
-![Figma Mobile Prototype][image-figma-mobile]
+![figma-mobile](https://user-images.githubusercontent.com/27157739/181994857-93f3bc33-fa85-415f-bfb3-72bda4516111.png)
 
 #### Interface elements
 
+![Cards](https://user-images.githubusercontent.com/27157739/181994918-21d39e53-c566-4130-ab5a-fd7c211a4982.png)
+![Modal](https://user-images.githubusercontent.com/27157739/181994924-ae62eec5-4feb-48aa-8008-72e878b46b5b.png)
+![nav](https://user-images.githubusercontent.com/27157739/181994926-85dc86fb-e730-4279-9064-791d656e8fca.png)
 
-<div style="display: inline_block"><br>
-  <img align="center" src="https://github.com/adsonsandias/apr-finance-controll/blob/b8156b8114d3dfa9986139ac3f65cc6ff75d46f5/Cards.png">
-  <img align="center" src="https://github.com/adsonsandias/apr-finance-controll/blob/baccab3a0cecdf009a1db3a0d2e2dc06a866282b/Modal.png">
-  <img align="center" src="https://github.com/adsonsandias/apr-finance-controll/blob/baccab3a0cecdf009a1db3a0d2e2dc06a866282b/nav.png">
- </div>
 
 ## Web App Final Production screens
 
 ##### Responsivo Tablet/Mobile 
 ![Responsivo Tablet Mobile][image-responsivo-tablet-mobile]
-
-
-
-
-
-
-
 
 
 ## Technologies used
@@ -107,8 +89,3 @@ Instalação das lib's do projeto com npm
   <a href="https://instagram.com/adson.san.dev" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a>
   <a href="https://www.linkedin.com/in/adson-santos-72ba75140/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 </div>
-
-<!-- Markdown link & img dfn's -->
-[image-figma-desktop]: https://github.com/adsonsandias/apr-finance-controll/blob/37e8a762717fa1b6296298f9c323b185fbfeed21/figma-desktop.png
-[image-figma-mobile]: https://github.com/adsonsandias/apr-finance-controll/blob/37e8a762717fa1b6296298f9c323b185fbfeed21/figma-mobile.png
-[image-responsivo-tablet-mobile]: https://github.com/adsonsandias/apr-finance-controll/blob/37e8a762717fa1b6296298f9c323b185fbfeed21/test-mobile-vs-tablet.png
