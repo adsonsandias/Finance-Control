@@ -2,6 +2,8 @@
 
 #### Financial control web app focused on accessibility and usability, transforming the experience of how you manage your finances.
 
+## Preview 
+https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-840e-1151c3865323.mov
 
 ## Design System
 
@@ -51,6 +53,13 @@
 
 ##### Responsivo Tablet/Mobile 
 ![Responsivo Tablet Mobile][image-responsivo-tablet-mobile]
+
+
+
+
+
+
+
 
 
 ## Technologies used
