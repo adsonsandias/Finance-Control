@@ -15,8 +15,20 @@
 | Primary Color Text| `#363F5F` |
 | Secondary Color Text| `#969CB2` |
 | Detail in green| `#7FDFBD` | `#12A454` |
+| Detail in red| `#E52E4D` | `#F296A5` |
 | Header title color | `#834713` |
 | Green | `#33CC95` |
+
+<div style="display: inline_block"><br>
+  <img align="center"  alt="Primary Color" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/9dedfc7d9ec511c4304c81a9d6969c65c44b0953/Primary-Color.svg">
+  <img align="center"  alt="Secondary Color" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/9dedfc7d9ec511c4304c81a9d6969c65c44b0953/Secondary-Color.svg">
+  <img align="center" alt="Primary Color Text" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/f0b607acb762ea8f2c6c512536f85408091a785d/Primary-Color-Text.svg">
+  <img align="center" alt="Secondary Color Text" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/07db1671401d637ff8bb0bb1fa22bc0aac616ed3/Secondary-Color-Text.svg">
+  <img align="center" alt="Detail in green" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/b0b84257120f5a50fac532f89983e294e76804e3/Detail-in-green.svg">
+  <img align="center" alt="Detail in red" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/a42a05aa3c26a27ae61debcde9944ce0ca3c4cab/Detail-in-red.svg">
+  <img align="center" alt="Header title color" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/d33a049f573bd8ce9712a8e4ec0078ab1cd410ba/Header-title-color.svg">
+  <img align="center" alt="Green" height="40" width="40" src="https://github.com/adsonsandias/apr-finance-controll/blob/a42a05aa3c26a27ae61debcde9944ce0ca3c4cab/Green.svg">
+</div>
 
 ### Screens Figma
 
@@ -79,10 +91,6 @@ Instalação das lib's do projeto com npm
 ```bash
   npm start
 ```
-#
-#
-#
-
 
 
 ### Follow me :hugs: :point_down:
