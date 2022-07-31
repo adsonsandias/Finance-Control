@@ -59,30 +59,6 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
   <img align="center" alt="Axios" height="10" src="https://user-images.githubusercontent.com/27157739/181996153-8543d675-cf6b-44dc-af04-21c941ec8f1d.svg">
 </div>
 
-## Installation
-
-Instalação das lib's do projeto com npm
-
-### Cloning of project
-
-```bash
-  git clone https://github.com/adsonsandias/Finance-Control.git
-```
-
-### Access the project folder and instalation of lib's
-
-```bash
-  cd Finance-Control
-  
-  npm install
-```
-
-### Running the project
-
-```bash
-  npm start
-```
-
 
 ### Follow me :hugs: :point_down:
 <div> 
