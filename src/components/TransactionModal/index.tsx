@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { FormEvent } from "react";
+import React from "react";
 import Modal from "react-modal";
 
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
-// import { useTransactions } from "../../hooks/useTransactions";
+import { AuthContext } from "../../contexts/AuthContext";
 import {
   BtnCadastrar,
   Container,
@@ -23,30 +23,31 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
-  // const { createTransaction, setDispatch } = useTransactions();
+  const { setCloudFirestore } = React.useContext(AuthContext);
 
   const [title, setTitle] = React.useState("");
-  const [amount, setAmount] = React.useState(0);
+  const [type, setType] = React.useState("");
   const [category, setCategory] = React.useState("");
-  const [type, setType] = React.useState("deposit");
+  const [amount, setAmount] = React.useState(0);
 
-  // async function handleCreateTransaction(event: FormEvent) {
-  //   event.preventDefault();
-
-  //   await createTransaction({
-  //     title,
-  //     amount,
-  //     category,
-  //     type,
-  //   });
-
-  //   setTitle("");
-  //   setAmount(0);
-  //   setCategory("");
-  //   setType("deposit");
-  //   onRequestClose();
-  //   setDispatch(true);
-  // }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function setTransactionCloudFirestore(event: any) {
+    event.preventDefault();
+    if (title && type && category && amount) {
+      setCloudFirestore({
+        title,
+        type,
+        category,
+        amount,
+        createdAt: new Date(),
+      });
+      setTitle("");
+      setType("");
+      setCategory("");
+      setAmount(0);
+    }
+    onRequestClose();
+  }
 
   return (
     <Modal
@@ -59,7 +60,7 @@ export function TransactionModal({
         <img src={iconChose} alt="Fechar Modal" />
       </BtnChose>
 
-      <Container /* onSubmit={handleCreateTransaction} */>
+      <Container onSubmit={setTransactionCloudFirestore}>
         <h2>Cadastrar transação</h2>
 
         <input
