@@ -6,12 +6,20 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  User,
 } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import { app } from "../services/FirebaseConfig";
+import { app, db } from "../services/FirebaseConfig";
+
+interface ISETTRANSANCTIONFIRESTORE {
+  title: string;
+  type: string;
+  category: string;
+  amount: number;
+  createdAt: Date;
+}
 
 interface ISIGNUPPROPS {
   preventDefault: () => void;
@@ -60,6 +68,7 @@ interface IAUTHCONTEXTDATA {
   setPassword: (password: IPASSWORDLPROPS["password"]) => void;
   setLoading: (loading: boolean) => void;
   signInEmail: (event: ISIGNUPPROPS) => Promise<void>;
+  setCloudFirestore: (transactions: ISETTRANSANCTIONFIRESTORE) => Promise<void>;
 }
 
 export const AuthContext = React.createContext<IAUTHCONTEXTDATA>(
@@ -87,16 +96,18 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
       }
     };
     loadStorageData();
-  });
+  }, [user]);
 
   async function signInGoogle() {
     await signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if (credential !== null && credential !== undefined) {
-          const token = credential.accessToken;
           const { user } = result;
+          const token = user.uid;
           if (user !== null && user !== undefined) setUser(user);
+          console.log("Usuario Google uid:", user.uid);
+
           if (token !== undefined)
             sessionStorage.setItem("@AuthFirebase:token", token);
           sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
@@ -134,8 +145,8 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         // Signed in
         const { user } = userCredential;
         setUser(user);
+
         const token = user.uid;
-        // const token = user.accessToken;
         if (token !== undefined) {
           sessionStorage.setItem("@AuthFirebase:token", token);
           sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
@@ -169,7 +180,6 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         const { user } = userCredential;
         setUser(user);
         const token = user.uid;
-        // const token = user.accessToken;
         if (token !== undefined) {
           sessionStorage.setItem("@AuthFirebase:token", token);
           sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
@@ -193,6 +203,25 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
       });
   }
 
+  // --------------------------- Cloud Firestore ------------------------------
+
+  async function setCloudFirestore(transactions: ISETTRANSANCTIONFIRESTORE) {
+    const uid = sessionStorage.getItem("@AuthFirebase:token");
+    if (uid && transactions !== null && transactions !== undefined) {
+      const setItemCloudFirestore = async () => {
+        try {
+          const docRef = await addDoc(collection(db, uid), {
+            transactions,
+          });
+          console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      };
+      setItemCloudFirestore();
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -208,6 +237,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         setLoading,
         loading,
         signInEmail,
+        setCloudFirestore,
       }}
     >
       {children}
