@@ -64,11 +64,11 @@ export const User = styled.div`
       font-weight: 600;
     }
 
-    a {
-      text-decoration: none;
+    button {
+      border: none;
       color: var(--color-text-1);
       font-weight: 400;
-      padding: 0.2rem;
+      padding: 0.25rem 0.5rem;
       transform: scale(0.9);
       transition: transform 0.3s ease;
       background: transparent;

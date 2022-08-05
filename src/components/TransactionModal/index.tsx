@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
-import { useTransactions } from "../../hooks/useTransactions";
+// import { useTransactions } from "../../hooks/useTransactions";
 import {
   BtnCadastrar,
   Container,
@@ -23,30 +23,30 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
-  const { createTransaction, setDispatch } = useTransactions();
+  // const { createTransaction, setDispatch } = useTransactions();
 
   const [title, setTitle] = React.useState("");
   const [amount, setAmount] = React.useState(0);
   const [category, setCategory] = React.useState("");
   const [type, setType] = React.useState("deposit");
 
-  async function handleCreateTransaction(event: FormEvent) {
-    event.preventDefault();
+  // async function handleCreateTransaction(event: FormEvent) {
+  //   event.preventDefault();
 
-    await createTransaction({
-      title,
-      amount,
-      category,
-      type,
-    });
+  //   await createTransaction({
+  //     title,
+  //     amount,
+  //     category,
+  //     type,
+  //   });
 
-    setTitle("");
-    setAmount(0);
-    setCategory("");
-    setType("deposit");
-    onRequestClose();
-    setDispatch(true);
-  }
+  //   setTitle("");
+  //   setAmount(0);
+  //   setCategory("");
+  //   setType("deposit");
+  //   onRequestClose();
+  //   setDispatch(true);
+  // }
 
   return (
     <Modal
@@ -59,7 +59,7 @@ export function TransactionModal({
         <img src={iconChose} alt="Fechar Modal" />
       </BtnChose>
 
-      <Container onSubmit={handleCreateTransaction}>
+      <Container /* onSubmit={handleCreateTransaction} */>
         <h2>Cadastrar transação</h2>
 
         <input

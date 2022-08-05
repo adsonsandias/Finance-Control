@@ -3,45 +3,46 @@ import React from "react";
 import iconTotal from "../../assets/dolar.svg";
 import iconEntries from "../../assets/entrar.svg";
 import iconOutputs from "../../assets/saida.svg";
-import { useTransactions } from "../../hooks/useTransactions";
+
+// import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function Summary() {
-  const { transactions } = useTransactions();
+  // const { transactions } = useTransactions();
   const [dados, setDados] = React.useState({
     deposit: 0,
     withdraw: 0,
     total: 0,
   });
 
-  React.useEffect(() => {
-    const summary = transactions.reduce(
-      (acc, transaction) => {
-        if (transaction?.type === "deposit") {
-          acc.deposit += transaction.amount;
-          acc.total += transaction.amount;
-        } else if (transaction?.type === "withdraw") {
-          acc.withdraw += transaction.amount;
-          acc.total -= transaction.amount;
-        } else {
-          return acc;
-        }
+  // React.useEffect(() => {
+  //   const summary = transactions.reduce(
+  //     (acc, transaction) => {
+  //       if (transaction?.type === "deposit") {
+  //         acc.deposit += transaction.amount;
+  //         acc.total += transaction.amount;
+  //       } else if (transaction?.type === "withdraw") {
+  //         acc.withdraw += transaction.amount;
+  //         acc.total -= transaction.amount;
+  //       } else {
+  //         return acc;
+  //       }
 
-        return acc;
-      },
-      {
-        deposit: 0,
-        withdraw: 0,
-        total: 0,
-      }
-    );
+  //       return acc;
+  //     },
+  //     {
+  //       deposit: 0,
+  //       withdraw: 0,
+  //       total: 0,
+  //     }
+  //   );
 
-    setDados({
-      deposit: summary.deposit,
-      withdraw: summary.withdraw,
-      total: summary.total,
-    });
-  }, [transactions]);
+  //   setDados({
+  //     deposit: summary.deposit,
+  //     withdraw: summary.withdraw,
+  //     total: summary.total,
+  //   });
+  // }, [transactions]);
 
   return (
     <Container>

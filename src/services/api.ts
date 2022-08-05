@@ -1,5 +1,7 @@
-import axios from "axios";
+export {};
 
-export const api = axios.create({
-  baseURL: "https://finance-control-steel.vercel.app/api",
-});
+// import axios from "axios";
+
+// export const api = axios.create({
+//   baseURL: "https://finance-control-steel.vercel.app/api",
+// });

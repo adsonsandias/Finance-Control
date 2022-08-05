@@ -94,4 +94,59 @@ export const GlobalStyle = createGlobalStyle`
 
   }
 
+  /* Syles Svg 404 */
+  @keyframes error {
+    to {
+      opacity: 1;
+    }
+  }
+  .error {
+    opacity: 0.3;
+    animation: error 1s ease alternate infinite;
+  }
+  @keyframes smoke-02 {
+    from {
+      transform: translateY(-10px);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }
+  .smoke-02 {
+    transform: translateY(10px);
+    animation: smoke-02 2s ease alternate infinite;
+
+  }
+  @keyframes smoke-01 {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-10px);
+    }
+  }
+  .smoke-01 {
+    transform: translateY(10px);
+    animation: smoke-01 1.2s ease alternate infinite;
+  }
+  @keyframes fallen {
+    0% {
+      transform: translate(3px,-3px);
+    }
+    50% {
+      transform: translate(-3px,2px);
+    }
+    100% {
+      transform: translate(-4px,-3px);
+
+    }
+  }
+  .fallen {
+    transform: translate(-3px,2px);
+    animation: fallen 1s linear alternate infinite;
+  }
+  .bg{
+    animation: fallen 5s linear alternate-reverse infinite;
+  }
+  
 `;
