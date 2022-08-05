@@ -1,22 +1,22 @@
 import React from "react";
 
-import { useTransactions } from "../../hooks/useTransactions";
+// import { useTransactions } from "../../hooks/useTransactions";
 import { Container, MobileTitle } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions, dispatch, setDispatch } = useTransactions();
+  // const { transactions, dispatch, setDispatch } = useTransactions();
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setDispatch(false);
-    }, 1000);
-  }, [dispatch]);
+  // React.useEffect(() => {
+  //   setTimeout(() => {
+  //     setDispatch(false);
+  //   }, 1000);
+  // }, [dispatch]);
 
   return (
     <Container>
       <MobileTitle>
         <h1>Transactions</h1>
-        <span>{transactions.length} itens</span>
+        <span>{/* transactions.length */} itens</span>
       </MobileTitle>
       <table>
         <thead>
@@ -28,7 +28,7 @@ export function TransactionsTable() {
           </tr>
         </thead>
         <tbody>
-          {transactions &&
+          {/* {transactions &&
             transactions.map((transaction) => (
               <tr key={transaction?.id}>
                 <td>{transaction?.title}</td>
@@ -47,7 +47,7 @@ export function TransactionsTable() {
                     )}
                 </td>
               </tr>
-            ))}
+            ))} */}
         </tbody>
       </table>
     </Container>

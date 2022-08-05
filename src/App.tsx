@@ -1,37 +1,19 @@
-/* eslint-disable react/jsx-no-bind */
-import React from "react";
 import Modal from "react-modal";
 
-import { Dashboard } from "./components/Dashboard";
-import { Header } from "./components/Header";
-import { Navbar } from "./components/Navbar";
-import { TransactionModal } from "./components/TransactionModal";
-import { TransactionsProvider } from "./hooks/useTransactions";
+import { AuthGoogleProvider } from "./contexts/AuthContext";
+// import { TransactionsProvider } from "./hooks/useTransactions";
+import { AppRoutes } from "./routes/routes";
 import { GlobalStyle } from "./styles/global";
 
 Modal.setAppElement("#root");
 
 export function App() {
-  const [isTransactionModalOpen, setIsTransactionModalOpen] =
-    React.useState(false);
-
-  function handleOpenIsNewTransactionModal() {
-    setIsTransactionModalOpen(true);
-  }
-
-  function handleCloseIsNewTransactionModal() {
-    setIsTransactionModalOpen(false);
-  }
   return (
-    <TransactionsProvider>
-      <Header />
-      <Dashboard />
-      <TransactionModal
-        isOpen={isTransactionModalOpen}
-        onRequestClose={handleCloseIsNewTransactionModal}
-      />
-      <Navbar openTransactionModal={handleOpenIsNewTransactionModal} />
+    // <TransactionsProvider>
+    <AuthGoogleProvider>
+      <AppRoutes />
       <GlobalStyle />
-    </TransactionsProvider>
+    </AuthGoogleProvider>
+    // </TransactionsProvider>
   );
 }
