@@ -38,8 +38,14 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 #### Interface elements
 
+##### Card Component
 ![Cards](https://user-images.githubusercontent.com/27157739/181994918-21d39e53-c566-4130-ab5a-fd7c211a4982.png)
+
+
+##### Modal Component with hover and focus active
 ![Modal](https://user-images.githubusercontent.com/27157739/181994924-ae62eec5-4feb-48aa-8008-72e878b46b5b.png)
+
+##### Navigation Component
 ![nav](https://user-images.githubusercontent.com/27157739/181994926-85dc86fb-e730-4279-9064-791d656e8fca.png)
 
 
