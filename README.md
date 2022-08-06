@@ -44,6 +44,32 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 ![test-mobile-vs-tablet](https://user-images.githubusercontent.com/27157739/181996059-e5dbb78e-bcf5-4674-bf51-5e6e2f7520e0.png)
 
 
+## Status
+
+### Completed
+
+#### Pages 
+
+- Home
+- Sigin
+- Sigup
+- Page Not Found(404)
+
+#### Authentication 
+
+- Google
+- Email
+
+#### Routes
+
+- Redirected Routes
+- Protected Route
+
+#### Context
+
+### In production and integration with Firebase Firestore
+
+
 ## Technologies used
 
 <div style="display: inline_block"><br>
@@ -55,8 +81,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
   <img align="center"  alt="babel" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg">
   <img align="center"  alt="webpack" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg">
   <img align="center"  alt="eslint" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg">
-  <img align="center"  alt="mirage js" height="35" width="35" src="https://user-images.githubusercontent.com/27157739/181996145-81e6d8f0-4ff5-4207-80e0-c0d4764c6130.png">  
-  <img align="center" alt="Axios" height="10" src="https://user-images.githubusercontent.com/27157739/181996153-8543d675-cf6b-44dc-af04-21c941ec8f1d.svg">
+  <img align="center"  alt="firebase" height="35" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg">  
 </div>
 
 
