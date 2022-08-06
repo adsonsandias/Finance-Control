@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import {
@@ -7,11 +8,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import React from "react";
 import { Navigate } from "react-router-dom";
 
 import { app, db } from "../services/FirebaseConfig";
+
+interface IUSERCOLLECTIONPROPS {
+  id: { id: string }[];
+}
 
 interface ISETTRANSANCTIONFIRESTORE {
   title: string;
@@ -60,6 +65,10 @@ interface IAUTHCONTEXTDATA {
   email: IEMAILPROPS["email"];
   password: IPASSWORDLPROPS["password"];
   loading: boolean;
+  userCollection: {
+    [x: string]: any;
+    id: string;
+  }[];
 
   signOut: () => void;
   signInGoogle: () => Promise<void>;
@@ -69,6 +78,7 @@ interface IAUTHCONTEXTDATA {
   setLoading: (loading: boolean) => void;
   signInEmail: (event: ISIGNUPPROPS) => Promise<void>;
   setCloudFirestore: (transactions: ISETTRANSANCTIONFIRESTORE) => Promise<void>;
+  getCloudFirestore: () => Promise<void>;
 }
 
 export const AuthContext = React.createContext<IAUTHCONTEXTDATA>(
@@ -86,6 +96,10 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
   const auth = getAuth(app);
   // User context
   const [user, setUser] = React.useState<IUSERPROPS["user"]>(null);
+  // Data context User Collection
+  const [userCollection, setUserCollection] = React.useState<
+    IUSERCOLLECTIONPROPS["id"]
+  >([]);
 
   React.useEffect(() => {
     const loadStorageData = () => {
@@ -210,9 +224,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
     if (uid && transactions !== null && transactions !== undefined) {
       const setItemCloudFirestore = async () => {
         try {
-          const docRef = await addDoc(collection(db, uid), {
-            transactions,
-          });
+          const docRef = await addDoc(collection(db, uid), transactions);
           console.log("Document written with ID: ", docRef.id);
         } catch (e) {
           console.error("Error adding document: ", e);
@@ -221,6 +233,19 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
       setItemCloudFirestore();
     }
   }
+
+  async function getCloudFirestore() {
+    const uid = sessionStorage.getItem("@AuthFirebase:token");
+    if (uid !== null && uid !== undefined) {
+      const data = await getDocs(collection(db, uid));
+
+      setUserCollection(
+        data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    }
+  }
+
+  // ---------------------------Chose Cloud Firestore ------------------------------
 
   return (
     <AuthContext.Provider
@@ -238,6 +263,8 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         loading,
         signInEmail,
         setCloudFirestore,
+        getCloudFirestore,
+        userCollection,
       }}
     >
       {children}
