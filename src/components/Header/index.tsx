@@ -1,12 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import logoImg from "../../assets/logo.svg";
-import fotoUser from "../../assets/user.png";
+import fotoUser from "../../assets/user-new.svg";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Container, Content, Logo, User } from "./styles";
 
 export function Header() {
-  const { signOut } = React.useContext(AuthContext);
+  const { signOut, user } = React.useContext(AuthContext);
+  const userLogado = JSON.parse(user as string);
 
   return (
     <Container>
@@ -20,12 +22,21 @@ export function Header() {
         </Logo>
         <User>
           <div>
-            <span>Adson Santos</span>
+            <span>
+              {userLogado.displayName
+                ? userLogado.displayName
+                : userLogado.email}
+            </span>
             <button type="button" onClick={signOut}>
               sair
             </button>
           </div>
-          <img src={fotoUser} alt="Perfil de usúario" />
+          <Link to="/user">
+            <img
+              src={userLogado.photoURL ? userLogado.photoURL : fotoUser}
+              alt="Perfil de usúario"
+            />
+          </Link>
         </User>
       </Content>
     </Container>

@@ -89,6 +89,7 @@ export const User = styled.div`
     max-width: 3.75rem;
     background-size: cover;
     background-position: center center;
+    border-radius: 50%;
     @media (max-width: 480px) {
       max-width: 3rem;
     }

@@ -1,22 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 
-// import { useTransactions } from "../../hooks/useTransactions";
+import { AuthContext } from "../../contexts/AuthContext";
 import { Container, MobileTitle } from "./styles";
 
 export function TransactionsTable() {
-  // const { transactions, dispatch, setDispatch } = useTransactions();
+  const { getCloudFirestore, userCollection, loading, setLoading } =
+    React.useContext(AuthContext);
 
-  // React.useEffect(() => {
-  //   setTimeout(() => {
-  //     setDispatch(false);
-  //   }, 1000);
-  // }, [dispatch]);
+  React.useEffect(() => {
+    async function getCloudFirestoreData() {
+      setLoading(true);
+      await getCloudFirestore();
+      setLoading(false);
+    }
+    getCloudFirestoreData();
+  }, []);
 
+  if (loading) return <>Carregando</>;
   return (
     <Container>
       <MobileTitle>
         <h1>Transactions</h1>
-        <span>{/* transactions.length */} itens</span>
+        <span>{userCollection.length} itens</span>
       </MobileTitle>
       <table>
         <thead>
@@ -28,26 +34,28 @@ export function TransactionsTable() {
           </tr>
         </thead>
         <tbody>
-          {/* {transactions &&
-            transactions.map((transaction) => (
-              <tr key={transaction?.id}>
-                <td>{transaction?.title}</td>
-                <td className={transaction?.type}>
-                  {transaction &&
-                    new Intl.NumberFormat("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    }).format(transaction.amount)}
-                </td>
-                <td>{transaction?.category}</td>
-                <td>
-                  {transaction &&
-                    new Intl.DateTimeFormat("pt-BR").format(
-                      new Date(transaction?.createdAt)
-                    )}
-                </td>
-              </tr>
-            ))} */}
+          {userCollection &&
+            userCollection.map(
+              ({ id, title, type, amount, category, createdAt }: any) => (
+                <tr key={id}>
+                  <td>{title}</td>
+                  <td className={type}>
+                    {amount &&
+                      new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(amount)}
+                  </td>
+                  <td>{category}</td>
+                  <td>
+                    {createdAt &&
+                      new Intl.DateTimeFormat("pt-BR").format(
+                        new Date(createdAt.toDate().toString())
+                      )}
+                  </td>
+                </tr>
+              )
+            )}
         </tbody>
       </table>
     </Container>

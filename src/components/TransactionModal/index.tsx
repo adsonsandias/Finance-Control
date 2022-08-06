@@ -23,7 +23,8 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
-  const { setCloudFirestore } = React.useContext(AuthContext);
+  const { setCloudFirestore, getCloudFirestore } =
+    React.useContext(AuthContext);
 
   const [title, setTitle] = React.useState("");
   const [type, setType] = React.useState("");
@@ -31,10 +32,10 @@ export function TransactionModal({
   const [amount, setAmount] = React.useState(0);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function setTransactionCloudFirestore(event: any) {
+  async function setTransactionCloudFirestore(event: any) {
     event.preventDefault();
     if (title && type && category && amount) {
-      setCloudFirestore({
+      await setCloudFirestore({
         title,
         type,
         category,
@@ -45,6 +46,7 @@ export function TransactionModal({
       setType("");
       setCategory("");
       setAmount(0);
+      await getCloudFirestore();
     }
     onRequestClose();
   }
