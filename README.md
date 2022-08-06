@@ -46,29 +46,31 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ## Status
 
-### Completed
+### Completed :white_check_mark:
 
-#### Pages 
+#### Pages :white_check_mark:
 
 - Home
 - Sigin
 - Sigup
 - Page Not Found(404)
 
-#### Authentication 
-
-- Google
-- Email
-
-#### Routes
+#### Routes :white_check_mark:
 
 - Redirected Routes
 - Protected Route
 
-#### Context
+#### Context 
 
-### In production and integration with Firebase Firestore
+### Firebase :white_check_mark:
 
+- Firebase Authentication with Google and Email
+- Firestore integration with unique data collection for each user 
+
+### Under Construction :construction:
+
+- User Page
+- Redesign Login Page Mobile
 
 ## Technologies used
 
