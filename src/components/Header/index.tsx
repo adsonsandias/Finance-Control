@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 
 import logoImg from "../../assets/logo.svg";
@@ -9,6 +10,7 @@ import { Container, Content, Logo, User } from "./styles";
 export function Header() {
   const { signOut, user } = React.useContext(AuthContext);
   const userLogado = JSON.parse(user as string);
+  const { pathname } = useLocation();
 
   return (
     <Container>
@@ -20,24 +22,28 @@ export function Header() {
             <span>Control</span>
           </div>
         </Logo>
-        <User>
-          <div>
-            <span>
-              {userLogado.displayName
-                ? userLogado.displayName
-                : userLogado.email}
-            </span>
-            <button type="button" onClick={signOut}>
-              sair
-            </button>
-          </div>
-          <Link to="/user">
-            <img
-              src={userLogado.photoURL ? userLogado.photoURL : fotoUser}
-              alt="Perfil de usúario"
-            />
-          </Link>
-        </User>
+        {pathname === "/user" ? (
+          ""
+        ) : (
+          <User>
+            <div>
+              <span>
+                {userLogado.displayName
+                  ? userLogado.displayName
+                  : userLogado.email}
+              </span>
+              <button type="button" onClick={signOut}>
+                sair
+              </button>
+            </div>
+            <Link to="/user">
+              <img
+                src={userLogado.photoURL ? userLogado.photoURL : fotoUser}
+                alt="Perfil de usúario"
+              />
+            </Link>
+          </User>
+        )}
       </Content>
     </Container>
   );
