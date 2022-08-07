@@ -65,6 +65,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 - Sigin
 - Sigup
 - Page Not Found(404)
+- User Page
 
 #### Routes :white_check_mark:
 
@@ -80,7 +81,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ### Under Construction :construction:
 
-- User Page
+
 - Redesign Login Page Mobile
 - Page Loading Component
 
