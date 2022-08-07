@@ -44,6 +44,7 @@ export const GlobalStyle = createGlobalStyle`
   #root{
     display: flex;
     flex-direction: column;
+    overflow: auto;
   }
 
   body {

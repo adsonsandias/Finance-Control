@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { IconCalc } from "./Icons/IconCalc";
 import { IconHomer } from "./Icons/IconsHomer";
@@ -14,9 +15,11 @@ export function Navbar({ openTransactionModal }: INAVBARPROPS) {
     <Container>
       <ul>
         <li>
-          <button type="button">
-            <IconHomer />
-          </button>
+          <Link to="/">
+            <button type="button">
+              <IconHomer />
+            </button>
+          </Link>
         </li>
         <li>
           <button type="button" onClick={openTransactionModal}>
@@ -24,9 +27,11 @@ export function Navbar({ openTransactionModal }: INAVBARPROPS) {
           </button>
         </li>
         <li>
-          <button type="button">
-            <IconUser />
-          </button>
+          <Link to="/user">
+            <button type="button">
+              <IconUser />
+            </button>
+          </Link>
         </li>
       </ul>
     </Container>
