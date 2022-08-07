@@ -5,8 +5,6 @@ import fotoUser from "../../assets/new-user.png";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CardTotal, NewCategory, UserInfo, UserSection } from "./styles";
 
-// import { AuthContext } from "../../contexts/AuthContext";
-
 export function UserProfile() {
   const { userCollection } = React.useContext(AuthContext);
   const [dados, setDados] = React.useState({
@@ -43,19 +41,28 @@ export function UserProfile() {
       total: summary.total,
     });
   }, [userCollection]);
-  // const { signOut, user } = React.useContext(AuthContext);
-  // const userLogado = JSON.parse(user as string);
+  const { signOut, user } = React.useContext(AuthContext);
+  const userLogado = JSON.parse(user as string);
   return (
     <UserSection>
       <div>
         <UserInfo>
-          <img src={fotoUser} alt="Foto de Usuario" />
+          <img
+            src={userLogado.photoURL ? userLogado.photoURL : fotoUser}
+            alt="Foto de Usuario"
+          />
           <div>
             <div>
-              <h1>Adson Santos</h1>
-              <span>adson@email.com</span>
+              <h1>
+                {userLogado.displayName
+                  ? userLogado.displayName
+                  : userLogado.email}
+              </h1>
+              <span>{userLogado.email && userLogado.email}</span>
             </div>
-            <button type="button">sair</button>
+            <button type="button" onClick={signOut}>
+              sair
+            </button>
           </div>
         </UserInfo>
         <CardTotal>
