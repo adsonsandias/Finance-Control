@@ -67,6 +67,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 - Page Not Found(404)
 - User Page
 
+
 #### Routes :white_check_mark:
 
 - Redirected Routes
@@ -79,10 +80,14 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 - Firebase Authentication with Google and Email
 - Firestore integration with unique data collection for each user 
 
+### General Adjustment :white_check_mark:
+
+-- Redesign Login Page Mobile
+
+
 ### Under Construction :construction:
 
 
-- Redesign Login Page Mobile
 - Page Loading Component
 
 ## Technologies used
