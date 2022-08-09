@@ -5,7 +5,6 @@ export const Container = styled.section`
   display: grid;
   grid-template-columns: 5fr 7fr;
   align-items: center;
-  /* height: calc(100vh - 8rem); */
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -30,7 +29,8 @@ export const ContentBackground = styled.div`
   }
   @media (max-width: 530px) {
     height: 100%;
-    min-height: 8rem;
+    min-height: 12.5rem;
+    box-shadow: initial;
   }
 
   div {
@@ -72,13 +72,25 @@ export const ContentBackground = styled.div`
         font-weight: 600;
         font-size: 1.63rem;
         color: var(--color-text-1);
+        @media (max-width: 460px) {
+          margin-left: 0.5rem;
+        }
+
         &:nth-child(2n + 0) {
           margin-left: 3.26rem;
         }
         @media (max-width: 1100px) {
-          font-size: 1rem;
+          font-size: 1.25rem;
+          margin-left: 0.5rem;
+
           &:nth-child(2n + 0) {
             margin-left: 2rem;
+          }
+        }
+        @media (max-width: 460px) {
+          font-size: 1rem;
+          &:nth-child(2n + 0) {
+            margin-left: 1.5rem;
           }
         }
       }
@@ -119,15 +131,16 @@ export const ContentForm = styled.div`
     -10px -5px 25px rgba(228, 228, 228, 0.25);
   @media (max-width: 530px) {
     margin: 0 1rem;
-    padding: 3rem;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     margin-bottom: 8rem;
-  }
-  @media (max-width: 460px) {
-    padding: 2rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    background: var(--background);
+    box-shadow: initial;
+
+    input {
+      background: #fff;
+    }
   }
 
   h1 {
@@ -169,7 +182,7 @@ export const ContentForm = styled.div`
   }
 
   p {
-    align-self: flex-start;
+    text-align: center;
     margin-top: 42px;
     font-size: 0.93rem;
     color: var(--color-text-3);

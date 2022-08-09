@@ -37,10 +37,11 @@ export function Header() {
               </button>
             </div>
             <Link to="/user">
-              <img
-                src={userLogado.photoURL ? userLogado.photoURL : fotoUser}
-                alt="Perfil de usúario"
-              />
+              {userLogado.photoURL ? (
+                <img src={userLogado.photoURL} alt="Perfil de usúario" />
+              ) : (
+                <img src={fotoUser} alt="Perfil de usúario" />
+              )}
             </Link>
           </User>
         )}
