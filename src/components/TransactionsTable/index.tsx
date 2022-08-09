@@ -2,6 +2,7 @@
 import React from "react";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import { Loading } from "../Loading";
 import { Container, MobileTitle } from "./styles";
 
 export function TransactionsTable() {
@@ -17,7 +18,7 @@ export function TransactionsTable() {
     getCloudFirestoreData();
   }, []);
 
-  if (loading) return <>Carregando</>;
+  if (loading) return <Loading />;
   return (
     <Container>
       <MobileTitle>
