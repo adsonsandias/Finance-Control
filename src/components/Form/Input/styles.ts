@@ -9,6 +9,7 @@ export const InputStyle = styled.input`
   background: #f3f4f7;
   font-weight: 400;
   font-size: 1rem;
+  height: 4rem;
 
   &::placeholder {
     color: var(--color-text-3);

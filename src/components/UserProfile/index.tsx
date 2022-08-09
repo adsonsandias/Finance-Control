@@ -43,14 +43,16 @@ export function UserProfile() {
   }, [userCollection]);
   const { signOut, user } = React.useContext(AuthContext);
   const userLogado = JSON.parse(user as string);
+
   return (
     <UserSection>
       <div>
         <UserInfo>
-          <img
-            src={userLogado.photoURL ? userLogado.photoURL : fotoUser}
-            alt="Foto de Usuario"
-          />
+          {userLogado.photoURL ? (
+            <img src={userLogado.photoURL} alt="Perfil de usúario" />
+          ) : (
+            <img src={fotoUser} alt="Perfil de usúario" />
+          )}
           <div>
             <div>
               <h1>

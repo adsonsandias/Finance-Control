@@ -62,6 +62,7 @@ export function Signup() {
               type="email"
               placeholder="Email"
               name="email"
+              required
               onChange={onChangeEmail}
             />
             <Input
@@ -69,11 +70,15 @@ export function Signup() {
               type="password"
               placeholder="Senha"
               name="password"
+              required
               onChange={onChangePassword}
             />
             <Button isActive="sign" type="submit" name="submit">
               Entrar
             </Button>
+            <p>
+              Já possui conta ? <Link to="/login">Entrar</Link>
+            </p>
             <span>ou</span>
             <div>
               <Button
@@ -97,9 +102,6 @@ export function Signup() {
               </Button>
             </div>
           </form>
-          <p>
-            Já possui conta ? <Link to="/login">Entrar</Link>
-          </p>
         </ContentForm>
       </Container>
     );

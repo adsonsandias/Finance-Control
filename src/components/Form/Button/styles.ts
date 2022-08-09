@@ -11,6 +11,8 @@ export const ButtonStyle = styled.button<IBTNTYPEPROPS>`
   gap: 1rem;
   font-size: 1rem;
   padding: 1rem 3.5rem;
+  height: 4rem;
+
   font-weight: ${(props) => (props.isActive === "sign" ? "bold" : "normal")};
   border: ${(props) =>
     props.isActive === "button" ? "1px solid #d7d7d7" : "none"};
