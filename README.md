@@ -67,7 +67,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 - Page Not Found(404)
 - User Page
 
-### Loading Component :white_check_mark:
+#### Loading Component :white_check_mark:
 
 - Loading Component with lottie animation
 
@@ -79,12 +79,12 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 #### Context 
 
-### Firebase :white_check_mark:
+#### Firebase :white_check_mark:
 
 - Firebase Authentication with Google and Email
 - Firestore integration with unique data collection for each user 
 
-### General Adjustment :white_check_mark:
+#### General Adjustment :white_check_mark:
 
 -- Redesign Login Page Mobile
 
