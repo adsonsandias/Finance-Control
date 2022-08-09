@@ -91,9 +91,9 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ### Under Construction :construction:
 
-- rebuild the user page to get useful information
-- handle error on login pages
-- test and adjust if necessary
+- Rebuild the user page to get useful information
+- Handle error on login pages
+- Test and adjust if necessary
 
 ## Technologies used
 
