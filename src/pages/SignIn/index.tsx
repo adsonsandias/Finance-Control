@@ -14,13 +14,12 @@ import {
   ContentBackground,
   ContentForm,
 } from "../../components/Form/styles/global";
+import { Loading } from "../../components/Loading";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export function Signin() {
   const { loading, setEmail, setPassword, signInEmail, signInGoogle, signed } =
     React.useContext(AuthContext);
-
-  if (loading) return <>Carregando...</>;
 
   async function handleLoginFromGoogle() {
     await signInGoogle();
@@ -36,6 +35,7 @@ export function Signin() {
     setPassword(password);
   }
 
+  if (loading) return <Loading />;
   if (!signed) {
     return (
       <Container>
