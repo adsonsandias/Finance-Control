@@ -67,6 +67,10 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 - Page Not Found(404)
 - User Page
 
+### Loading Component :white_check_mark:
+
+- Loading Component with lottie animation
+
 
 #### Routes :white_check_mark:
 
@@ -87,8 +91,8 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ### Under Construction :construction:
 
-
-- Page Loading Component
+- handle error on login pages
+- test and adjust if necessary
 
 ## Technologies used
 
