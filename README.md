@@ -86,11 +86,12 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 #### General Adjustment :white_check_mark:
 
--- Redesign Login Page Mobile
+- Redesign Login Page Mobile
 
 
 ### Under Construction :construction:
 
+- rebuild the user page to get useful information
 - handle error on login pages
 - test and adjust if necessary
 
