@@ -17,7 +17,7 @@ export function UserProfile() {
   return (
     <Container>
       <UserInfor>
-        <h1>Óla, Bem vindo de volta, Adson Santos</h1>
+        <h1>Óla, Bem Vindo de volta 🤩</h1>
         {userLogado.photoURL ? (
           <img src={userLogado.photoURL} alt="Perfil de usúario" />
         ) : (
