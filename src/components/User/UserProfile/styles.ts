@@ -11,13 +11,35 @@ export const Container = styled.section`
   grid-template-columns: 1fr 1fr;
   margin-top: -8rem;
   margin-bottom: 7rem;
+  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25),
+    -10px -5px 25px rgba(228, 228, 228, 0.25);
   border-radius: 1.56rem;
+
+  @media (max-width: 1180px) {
+    width: initial;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+  @media (max-width: 830px) {
+    width: initial;
+    padding: 0rem;
+    grid-template-columns: 1fr;
+    background: transparent;
+    box-shadow: initial;
+  }
 `;
 
 export const UserInfor = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 0.94rem;
+  @media (max-width: 830px) {
+    background: #ffffff;
+    margin-bottom: 1rem;
+    padding: 2rem 1rem;
+    justify-content: center;
+  }
 
   h1 {
     width: 20ch;
@@ -25,18 +47,35 @@ export const UserInfor = styled.div`
     align-items: center;
     font-size: 1.63rem;
     font-weight: 500;
-    margin-bottom: 2.63rem;
+    margin-bottom: 4rem;
     color: var(--color-text-2);
+    @media (max-width: 830px) {
+      display: none;
+    }
   }
 
   img {
     margin-bottom: 2rem;
+    border-radius: 50%;
+    width: 100%;
+    max-width: 8.63rem;
+    box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
+      -5px -2px 25px rgba(255, 230, 100, 0.25);
+
+    @media (max-width: 480px) {
+      max-width: 6rem;
+      margin-bottom: 1rem;
+    }
   }
 
   h2 {
     margin-bottom: 1rem;
     font-size: 1.63rem;
     color: var(--color-text-2);
+    @media (max-width: 480px) {
+      margin-bottom: 0.5rem;
+      font-size: 1.38rem;
+    }
   }
 
   span {
@@ -56,6 +95,9 @@ export const Config = styled.div`
     font-weight: 500;
     margin-bottom: 2rem;
     color: var(--color-text-2);
+    @media (max-width: 830px) {
+      display: none;
+    }
   }
 
   ul {
@@ -70,6 +112,9 @@ export const Config = styled.div`
       justify-content: center;
       align-items: center;
       text-decoration: none;
+      @media (max-width: 830px) {
+        background: #ffffff;
+      }
 
       svg:first-child {
         grid-area: span 2;
@@ -107,6 +152,9 @@ export const Config = styled.div`
     align-items: center;
     border: none;
     margin-top: 1rem;
+    @media (max-width: 830px) {
+      background: #ffffff;
+    }
 
     svg {
       margin-right: 1rem;
