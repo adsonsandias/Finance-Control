@@ -20,10 +20,9 @@ export const Container = styled.form`
     height: 4rem;
     border-radius: 0.94rem;
     transition: all ease 0.3s;
-
+    display: block;
     border: 1px solid #d7d7d7;
     background: #e7e7e7;
-
     font-weight: 400;
     font-size: 1rem;
 
