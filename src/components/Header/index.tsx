@@ -22,7 +22,10 @@ export function Header() {
             <span>Control</span>
           </div>
         </Logo>
-        {pathname === "/user" ? (
+        {pathname === "/user" ||
+        pathname === "/user/login-details" ||
+        pathname === "/user/help-details" ||
+        pathname === "/user/version-detail" ? (
           ""
         ) : (
           <User>

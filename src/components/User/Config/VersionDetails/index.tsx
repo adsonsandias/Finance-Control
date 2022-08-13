@@ -1,8 +1,11 @@
-import { Player } from "@lottiefiles/react-lottie-player";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
-import { Context, ContainerAnimation } from "./styles";
+import DeveloperAdsonSantos from "../../../../assets/dev-adson-santos.png";
+import { ReactComponent as GithubIcon } from "../../../../assets/github-icon.svg";
+import { ReactComponent as InstagramIcon } from "../../../../assets/instagram-icon.svg";
+import { ReactComponent as LinkedinIcon } from "../../../../assets/linkedin-icon.svg";
+import { Context, DeveloperInfor } from "./styles";
 
 export function VersionDetails() {
   return (
@@ -18,17 +21,48 @@ export function VersionDetails() {
             </li>
           </ul>
         </nav>
-        <h2>Detalhes de Versão do app</h2>
       </header>
-      <ContainerAnimation>
-        <Player
-          autoplay
-          loop
-          src="https://assets3.lottiefiles.com/packages/lf20_w1fl6e19.json"
-          style={{ height: "300px", width: "300px" }}
-        />
-        <p>Estamos nos esforçando para terminar essa página.</p>
-      </ContainerAnimation>
+      <DeveloperInfor>
+        <div>
+          <h1>Beta 1.3.0</h1>
+          <span>Developer Version</span>
+        </div>
+        <div>
+          <h2>Sobre o Desenvolverdor e UI/UX Design</h2>
+          <img src={DeveloperAdsonSantos} alt="" />
+          <strong>Adson Santos</strong>
+          <span>adsonbmx15@gmail.com</span>
+          <ul>
+            <li>
+              <a
+                target="_blank"
+                href="https://www.instagram.com/adson.san.dev/"
+                rel="noreferrer"
+              >
+                <InstagramIcon />
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                href="https://www.linkedin.com/in/adson-santos-front-end/"
+                rel="noreferrer"
+              >
+                <LinkedinIcon />
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                href="https://github.com/adsonsandias"
+                rel="noreferrer"
+              >
+                <GithubIcon />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </DeveloperInfor>
     </Context>
   );
 }

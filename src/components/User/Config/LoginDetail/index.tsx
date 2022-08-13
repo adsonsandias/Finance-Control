@@ -1,10 +1,16 @@
 import { Player } from "@lottiefiles/react-lottie-player";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
-import { Context, ContainerAnimation } from "./styles";
+import fotoUser from "../../../../assets/new-user.png";
+import { AuthContext } from "../../../../contexts/AuthContext";
+import { Context, ContainerAnimation, UserInfor } from "./styles";
 
 export function LoginDetails() {
+  const { user } = React.useContext(AuthContext);
+  const userLogado = JSON.parse(user as string);
+
   return (
     <Context>
       <header>
@@ -18,8 +24,18 @@ export function LoginDetails() {
             </li>
           </ul>
         </nav>
-        <h2>Detalhes de Login</h2>
       </header>
+      <UserInfor>
+        {userLogado.photoURL ? (
+          <img src={userLogado.photoURL} alt="Perfil de usúario" />
+        ) : (
+          <img src={fotoUser} alt="Perfil de usúario" />
+        )}
+        <h2>
+          {userLogado.displayName ? userLogado.displayName : userLogado.email}
+        </h2>
+        <span>{userLogado.email && userLogado.email}</span>
+      </UserInfor>
       <ContainerAnimation>
         <Player
           autoplay
