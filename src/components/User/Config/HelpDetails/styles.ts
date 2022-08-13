@@ -73,17 +73,29 @@ export const ContainerAnimation = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  grid-area: -1/1;
+  position: relative;
+  align-self: center;
+  height: 300px;
+  @media (max-width: 480px) {
+    justify-content: flex-start;
+    height: 200px;
+  }
 
   p {
     width: 25ch;
     margin-top: 1rem;
     text-align: center;
-    bottom: 20%;
+    position: absolute;
+    bottom: 2rem;
+    @media (max-width: 480px) {
+      bottom: 0;
+      font-size: 0.88rem;
+    }
   }
 
   #lottie {
     pointer-events: none !important;
+    flex: 1;
   }
 
   @media (max-width: 830px) {
@@ -92,8 +104,8 @@ export const ContainerAnimation = styled.div`
 
   @media (max-width: 480px) {
     #lottie {
-      width: 150px !important;
-      height: 150px !important;
+      width: 200px !important;
+      height: 200px !important;
     }
   }
 `;
