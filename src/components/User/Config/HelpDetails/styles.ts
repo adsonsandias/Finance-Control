@@ -45,15 +45,6 @@ export const Context = styled.div`
     }
   }
 
-  h2 {
-    margin-top: 2rem;
-    font-size: 1rem;
-    color: var(--color-text-2);
-    @media (max-width: 480px) {
-      font-size: 1.38rem;
-    }
-  }
-
   @media (max-width: 1180px) {
     width: initial;
     margin-left: 1.5rem;
@@ -68,44 +59,70 @@ export const Context = styled.div`
   }
 `;
 
-export const ContainerAnimation = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
-  align-self: center;
-  height: 300px;
-  @media (max-width: 480px) {
-    justify-content: flex-start;
-    height: 200px;
-  }
-
-  p {
-    width: 25ch;
-    margin-top: 1rem;
-    text-align: center;
-    position: absolute;
-    bottom: 2rem;
-    @media (max-width: 480px) {
-      bottom: 0;
-      font-size: 0.88rem;
-    }
-  }
-
-  #lottie {
-    pointer-events: none !important;
-    flex: 1;
-  }
-
+export const Container = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   @media (max-width: 830px) {
-    grid-area: initial;
+    margin-top: 4rem;
+    grid-template-columns: 1fr;
+  }
+  @media (max-width: 480px) {
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
 
-  @media (max-width: 480px) {
-    #lottie {
-      width: 200px !important;
-      height: 200px !important;
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 830px) {
+      margin-bottom: 3rem;
     }
+
+    h1 {
+      background: linear-gradient(93.67deg, #ffe664 -8.18%, #fa8341 112.11%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 4rem;
+      font-weight: 700;
+
+      @media (max-width: 880px) {
+        font-size: 3rem;
+      }
+
+      @media (max-width: 359px) {
+        font-size: 1.75rem;
+      }
+    }
+
+    span {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text-3);
+
+      @media (max-width: 880px) {
+        font-size: 1rem;
+      }
+
+      @media (max-width: 359px) {
+        font-size: 0.63rem;
+      }
+    }
+  }
+
+  & > div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+export const AccordionListStyle = styled.div`
+  div + div {
+    margin-top: 0.5rem;
   }
 `;

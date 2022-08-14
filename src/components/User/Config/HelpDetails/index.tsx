@@ -1,10 +1,15 @@
-import { Player } from "@lottiefiles/react-lottie-player";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
-import { ContainerAnimation, Context } from "./styles";
+import { Accordion } from "../../../Helps/Accordion";
+import { Context, Container, AccordionListStyle } from "./styles";
 
 export function HelpDetails() {
+  const [active, setActive] = React.useState(
+    "Por que não posso altera as informação ?"
+  );
+
   return (
     <Context>
       <header>
@@ -13,22 +18,69 @@ export function HelpDetails() {
             <li>
               <Link to="/user">
                 <ArrowIcon />
-                <span>Help</span>
+                <span>Versão do App</span>
               </Link>
             </li>
           </ul>
         </nav>
-        <h2>Detalhes de Ajuda</h2>
       </header>
-      <ContainerAnimation>
-        <Player
-          autoplay
-          loop
-          src="https://assets3.lottiefiles.com/packages/lf20_w1fl6e19.json"
-          style={{ height: "300px", width: "300px" }}
-        />
-        <p>Estamos nos esforçando para terminar essa página.</p>
-      </ContainerAnimation>
+      <Container>
+        <div>
+          <h1>F.A.Q</h1>
+          <span>Perguntas Freqüentes</span>
+        </div>
+        <AccordionListStyle>
+          <Accordion
+            title="Por que não posso altera as informação ?"
+            active={active}
+            setActive={setActive}
+            contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
+            nesciunt quas iusto earum placeat, eos est similique, quibusdam
+            neque debitis amet veritatis sit architecto obcaecati atque autem
+            minus! Deleniti? Lorem ipsum dolor sit, amet consectetur adipisicing
+            elit. Quisquam accusamus magnam necessitatibus error laboriosam
+            soluta repudiandae, nemo ut temporibus ipsum maxime consectetur
+            perspiciatis a nostrum eaque totam ducimus similique beatae."
+          />
+          <Accordion
+            title="Posso logar com a conta google ?"
+            active={active}
+            setActive={setActive}
+            contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
+            nesciunt quas iusto earum placeat, eos est similique, quibusdam
+            neque debitis amet veritatis sit architecto obcaecati atque autem
+            minus! Deleniti? Lorem ipsum dolor sit, amet consectetur adipisicing
+            elit. Quisquam accusamus magnam necessitatibus error laboriosam
+            soluta repudiandae, nemo ut temporibus ipsum maxime consectetur
+            perspiciatis a nostrum eaque totam ducimus similique beatae."
+          />
+          <Accordion
+            title="Por que o login com Github não funciona ?"
+            active={active}
+            setActive={setActive}
+            contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
+            nesciunt quas iusto earum placeat, eos est similique, quibusdam
+            neque debitis amet veritatis sit architecto obcaecati atque autem
+            minus! Deleniti? Lorem ipsum dolor sit, amet consectetur adipisicing
+            elit. Quisquam accusamus magnam necessitatibus error laboriosam
+            soluta repudiandae, nemo ut temporibus ipsum maxime consectetur
+            perspiciatis a nostrum eaque totam ducimus similique beatae."
+          />
+          <Accordion
+            title="Porque não posso alterar meu
+            nome de usuario ?"
+            active={active}
+            setActive={setActive}
+            contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
+            nesciunt quas iusto earum placeat, eos est similique, quibusdam
+            neque debitis amet veritatis sit architecto obcaecati atque autem
+            minus! Deleniti? Lorem ipsum dolor sit, amet consectetur adipisicing
+            elit. Quisquam accusamus magnam necessitatibus error laboriosam
+            soluta repudiandae, nemo ut temporibus ipsum maxime consectetur
+            perspiciatis a nostrum eaque totam ducimus similique beatae."
+          />
+        </AccordionListStyle>
+      </Container>
     </Context>
   );
 }
