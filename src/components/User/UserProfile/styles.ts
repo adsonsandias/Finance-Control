@@ -26,6 +26,8 @@ export const Container = styled.section`
     grid-template-columns: 1fr;
     background: transparent;
     box-shadow: initial;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 `;
 
