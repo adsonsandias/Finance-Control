@@ -30,6 +30,7 @@ export const AccordionItem = styled.div`
 export const AccordionButton = styled.button<ISACTIVE>`
   background: #f0f2f5;
   border: none;
+
   font-size: 1rem;
   color: var(--color-text-2);
   font-weight: 600;
@@ -41,13 +42,17 @@ export const AccordionButton = styled.button<ISACTIVE>`
 
   p {
     text-align: start;
+    padding-right: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
   }
 `;
 
 export const AccordionContent = styled.div<ISACTIVE>`
   background: #f0f2f5;
   color: var(--color-text-2);
-  padding: 2rem;
   padding: ${(props) => (props.isActive === true ? "1rem 2rem" : "0rem")};
   overflow: auto;
   transition: all 0.3s ease;
@@ -55,4 +60,8 @@ export const AccordionContent = styled.div<ISACTIVE>`
   opacity: ${(props) => (props.isActive === true ? "1" : "0")};
   border-radius: ${(props) =>
     props.isActive === true ? "0 0 0.63rem 0.63rem " : "0rem"};
+
+  @media (max-width: 480px) {
+    padding: ${(props) => (props.isActive === true ? ".5rem 1rem" : "0rem")};
+  }
 `;

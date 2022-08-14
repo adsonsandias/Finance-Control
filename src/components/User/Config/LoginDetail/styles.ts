@@ -57,6 +57,11 @@ export const Context = styled.section`
     grid-template-columns: 1fr;
     box-shadow: initial;
     border-radius: 0.94rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  @media (max-width: 480px) {
+    padding: 1.63rem 1.25rem;
   }
 `;
 
