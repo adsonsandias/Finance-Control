@@ -149,26 +149,5 @@ export const GlobalStyle = createGlobalStyle`
   .bg{
     animation: fallen 5s linear alternate-reverse infinite;
   }
-  
-  
-  /* .lf-player-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    position: relative;
-  }
 
-  .lf-player-container::after {
-    content: 'Estamos nos esforçando para terminar essa página.';
-    display: inline-block;
-    width: 25ch;
-    margin-top: 1rem;
-    text-align: center;
-    position: absolute;
-    bottom: 2rem;
-    @media (max-width: 480px) {
-      bottom: 0rem;
-    }
-  } */
 `;
