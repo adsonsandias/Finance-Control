@@ -1,6 +1,8 @@
 # Finance Control
 
-#### Financial control web app focused on accessibility and usability, transforming the experience of how you manage your finances.
+#### Financial control (web) application focused on accessibility and usability, transforming the experience of how you manage your finances.
+
+#### Each user has their unique account which can be created using email or google for authentication, the application routes are private and only have access if they are logged in with their account, if they have already logged in, they exit the application without logging out, and login again, you are redirected straight to the home page without having to enter your email and password again.
 
 ## Preview 
 https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-840e-1151c3865323.mov
