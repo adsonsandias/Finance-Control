@@ -109,10 +109,14 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
   <img align="center"  alt="typescript" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg">
   <img align="center"  alt="Html" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
   <:nail_care:>
+   <img align="center"  alt="firebase" height="35" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg">  
   <img align="center"  alt="babel" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg">
   <img align="center"  alt="webpack" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg">
   <img align="center"  alt="eslint" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg">
-  <img align="center"  alt="firebase" height="35" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg">  
+  <img align="center"  alt="Frame Motion" height="30" width="30" src="https://user-images.githubusercontent.com/27157739/185726445-a7664858-4301-4e1e-852d-3ca2c7777268.png">
+
+ 
+ 
 </div>
 
 
@@ -121,3 +125,4 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
   <a href="https://instagram.com/adson.san.dev" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a>
   <a href="https://www.linkedin.com/in/adson-santos-72ba75140/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 </div>
+
