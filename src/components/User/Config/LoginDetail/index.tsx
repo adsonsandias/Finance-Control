@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
 import fotoUser from "../../../../assets/new-user.png";
 import { AuthContext } from "../../../../contexts/AuthContext";
-import { container, item } from "../../../Helps/FrameMotion";
+import { containerLeft, item } from "../../../Helps/FrameMotion";
 import { Context, ContainerAnimation, UserInfor } from "./styles";
 
 export function LoginDetails() {
@@ -15,7 +15,7 @@ export function LoginDetails() {
   return (
     <Context
       className="container"
-      variants={container}
+      variants={containerLeft}
       initial="hidden"
       animate="visible"
     >

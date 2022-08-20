@@ -11,6 +11,18 @@ export const container = {
   },
 };
 
+export const containerLeft = {
+  hidden: { opacity: 1, x: 200 },
+  visible: {
+    x: 0,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
 export const item = {
   hidden: { y: 20, opacity: 0 },
   visible: {
