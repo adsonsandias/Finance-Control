@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
 import { Accordion } from "../../../Helps/Accordion";
-import { container, item } from "../../../Helps/FrameMotion";
+import { containerLeft, item } from "../../../Helps/FrameMotion";
 import { Context, Container, AccordionListStyle } from "./styles";
 
 export function HelpDetails() {
@@ -15,7 +15,7 @@ export function HelpDetails() {
   return (
     <Context
       className="container"
-      variants={container}
+      variants={containerLeft}
       initial="hidden"
       animate="visible"
     >

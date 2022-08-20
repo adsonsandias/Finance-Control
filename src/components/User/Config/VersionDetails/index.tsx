@@ -6,14 +6,14 @@ import DeveloperAdsonSantos from "../../../../assets/dev-adson-santos.png";
 import { ReactComponent as GithubIcon } from "../../../../assets/github-icon.svg";
 import { ReactComponent as InstagramIcon } from "../../../../assets/instagram-icon.svg";
 import { ReactComponent as LinkedinIcon } from "../../../../assets/linkedin-icon.svg";
-import { container, item } from "../../../Helps/FrameMotion";
+import { containerLeft, item } from "../../../Helps/FrameMotion";
 import { Context, DeveloperInfor } from "./styles";
 
 export function VersionDetails() {
   return (
     <Context
       className="container"
-      variants={container}
+      variants={containerLeft}
       initial="hidden"
       animate="visible"
     >

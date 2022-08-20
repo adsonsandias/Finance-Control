@@ -1,4 +1,9 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
+
+interface ISACTIVE {
+  isActive?: boolean;
+}
 
 export const Container = styled.nav`
   max-width: 1120px;
@@ -22,40 +27,27 @@ export const Container = styled.nav`
     gap: 12px;
     padding: 0.6rem 1rem;
     position: absolute;
+  }
+`;
 
-    li {
-      button {
-        display: block;
-        box-sizing: border-box;
-        background-color: rgba(255, 255, 255, 0.3);
-        padding: 0.38rem 0.94rem;
-        border-radius: 15px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
-        transition: all ease 0.5s;
-        border: none;
-        transform: scale(0.9);
+export const Button = styled(motion.button)<ISACTIVE>`
+  display: block;
+  box-sizing: border-box;
+  background-color: ${(props) =>
+    props.isActive ? "rgba(255, 255, 255, 0.6)" : " rgba(255, 255, 255, 0.3)"};
+  padding: 0.38rem 0.94rem;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
+  border: none;
 
-        &:hover,
-        &:focus {
-          background-color: rgba(255, 255, 255, 0.6);
-          transform: scale(1);
-          outline: none;
-        }
-        &:focus {
-          box-shadow: 0px 0px 0px 4px rgba(255, 201, 142, 0.8),
-            0px 0px 0px 5px rgba(250, 131, 65, 0.5);
-        }
-        & svg path {
-          fill: var(--background-white);
-          fill-opacity: 0.8;
-          transition: fill ease 0.5s;
-        }
-        &:hover svg path,
-        &:focus svg path {
-          fill: var(--detail);
-          fill-opacity: 1;
-        }
-      }
-    }
+  & svg path {
+    fill-opacity: ${(props) => (props.isActive ? "1" : "0.8")};
+    transition: fill ease 0.5s;
+    fill: ${(props) =>
+      props.isActive ? "var(--detail)" : "var(--background-white)"};
+  }
+  &:hover svg path {
+    fill: var(--detail);
+    fill-opacity: 1;
   }
 `;
