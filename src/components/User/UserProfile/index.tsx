@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -8,6 +9,7 @@ import fotoUser from "../../../assets/new-user.png";
 import { ReactComponent as UserIcon } from "../../../assets/user-icon.svg";
 import { ReactComponent as VersionIcon } from "../../../assets/version-icon.svg";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { container, item } from "../../Helps/FrameMotion";
 import { Config, Container, UserInfor } from "./styles";
 
 export function UserProfile() {
@@ -16,11 +18,12 @@ export function UserProfile() {
 
   return (
     <Container
-      animate={{ x: 0 }}
-      initial={{ opacity: 0, x: -200 }}
-      whileInView={{ opacity: 1 }}
+      className="container"
+      variants={container}
+      initial="hidden"
+      animate="visible"
     >
-      <UserInfor>
+      <UserInfor variants={item}>
         <h1>Óla, Bem Vindo de volta 🤩</h1>
         {userLogado.photoURL ? (
           <img src={userLogado.photoURL} alt="Perfil de usúario" />
@@ -33,37 +36,37 @@ export function UserProfile() {
         <span>{userLogado.email && userLogado.email}</span>
       </UserInfor>
       <Config>
-        <h1>Configuração</h1>
+        <motion.h1 variants={item}>Configuração</motion.h1>
         <ul>
-          <li>
+          <motion.li variants={item}>
             <Link to="login-details">
               <UserIcon />
               <h2>Login detalhes</h2>
               <p>Usuário e senha.</p>
               <ArrowIcon />
             </Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li variants={item}>
             <Link to="help-details">
               <HelpIcon />
               <h2>Help</h2>
               <p>Informações de ajuda.</p>
               <ArrowIcon />
             </Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li variants={item}>
             <Link to="version-detail">
               <VersionIcon />
               <h2>Versão do App</h2>
               <p>Beta 1.3.0</p>
               <ArrowIcon />
             </Link>
-          </li>
+          </motion.li>
         </ul>
-        <button type="button" onClick={signOut}>
+        <motion.button variants={item} type="button" onClick={signOut}>
           <LogoutIcon />
           <h2>Sair da conta</h2>
-        </button>
+        </motion.button>
       </Config>
     </Container>
   );

@@ -6,12 +6,14 @@ import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
 import { AuthContext } from "../../contexts/AuthContext";
+import { container } from "../Helps/FrameMotion";
 import {
   BtnCadastrar,
   Container,
   BtnChose,
   IncomeDiscountsContainer,
   BtnTypeTransition,
+  ModalBackground,
 } from "./styles";
 
 interface ITRANSACTIONMODALPROPS {
@@ -58,55 +60,62 @@ export function TransactionModal({
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
     >
-      <BtnChose type="button" onClick={onRequestClose}>
-        <img src={iconChose} alt="Fechar Modal" />
-      </BtnChose>
+      <ModalBackground
+        className="container"
+        variants={container}
+        initial={{ x: 0, y: 300, opacity: 0 }}
+        animate={{ x: 0, y: 0, opacity: 1 }}
+      >
+        <BtnChose type="button" onClick={onRequestClose}>
+          <img src={iconChose} alt="Fechar Modal" />
+        </BtnChose>
 
-      <Container onSubmit={setTransactionCloudFirestore}>
-        <h2>Cadastrar transação</h2>
+        <Container onSubmit={setTransactionCloudFirestore}>
+          <h2>Cadastrar transação</h2>
 
-        <input
-          type="text"
-          placeholder="Título"
-          value={title}
-          onChange={({ target }) => setTitle(target.value)}
-        />
+          <input
+            type="text"
+            placeholder="Título"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
 
-        <input
-          type="number"
-          placeholder="Valor"
-          value={amount}
-          onChange={({ target }) => setAmount(Number(target.value))}
-        />
+          <input
+            type="number"
+            placeholder="Valor"
+            value={amount}
+            onChange={({ target }) => setAmount(Number(target.value))}
+          />
 
-        <IncomeDiscountsContainer>
-          <BtnTypeTransition
-            type="button"
-            onClick={() => setType("deposit")}
-            isActive={type === "deposit"}
-          >
-            <img src={iconIncome} alt="Entradas" />
-            <span>Entradas</span>
-          </BtnTypeTransition>
-          <BtnTypeTransition
-            type="button"
-            onClick={() => setType("withdraw")}
-            isActive={type === "withdraw"}
-          >
-            <img src={iconDiscounts} alt="Saidas" />
-            <span>Saidas</span>
-          </BtnTypeTransition>
-        </IncomeDiscountsContainer>
+          <IncomeDiscountsContainer>
+            <BtnTypeTransition
+              type="button"
+              onClick={() => setType("deposit")}
+              isActive={type === "deposit"}
+            >
+              <img src={iconIncome} alt="Entradas" />
+              <span>Entradas</span>
+            </BtnTypeTransition>
+            <BtnTypeTransition
+              type="button"
+              onClick={() => setType("withdraw")}
+              isActive={type === "withdraw"}
+            >
+              <img src={iconDiscounts} alt="Saidas" />
+              <span>Saidas</span>
+            </BtnTypeTransition>
+          </IncomeDiscountsContainer>
 
-        <input
-          type="text"
-          placeholder="Categoria"
-          value={category}
-          onChange={({ target }) => setCategory(target.value)}
-        />
+          <input
+            type="text"
+            placeholder="Categoria"
+            value={category}
+            onChange={({ target }) => setCategory(target.value)}
+          />
 
-        <BtnCadastrar type="submit">Cadastrar</BtnCadastrar>
-      </Container>
+          <BtnCadastrar type="submit">Cadastrar</BtnCadastrar>
+        </Container>
+      </ModalBackground>
     </Modal>
   );
 }

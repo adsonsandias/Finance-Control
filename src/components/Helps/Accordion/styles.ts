@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 interface ISACTIVE {
@@ -5,7 +6,7 @@ interface ISACTIVE {
   title?: string | undefined;
 }
 
-export const AccordionContainer = styled.div<ISACTIVE>`
+export const AccordionContainer = styled(motion.div)<ISACTIVE>`
   h2 {
     display: flex;
     align-items: center;

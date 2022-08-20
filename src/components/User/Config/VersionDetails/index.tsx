@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
@@ -5,11 +6,17 @@ import DeveloperAdsonSantos from "../../../../assets/dev-adson-santos.png";
 import { ReactComponent as GithubIcon } from "../../../../assets/github-icon.svg";
 import { ReactComponent as InstagramIcon } from "../../../../assets/instagram-icon.svg";
 import { ReactComponent as LinkedinIcon } from "../../../../assets/linkedin-icon.svg";
+import { container, item } from "../../../Helps/FrameMotion";
 import { Context, DeveloperInfor } from "./styles";
 
 export function VersionDetails() {
   return (
-    <Context>
+    <Context
+      className="container"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
       <header>
         <nav aria-label="Navigate to Help Details">
           <ul>
@@ -23,16 +30,18 @@ export function VersionDetails() {
         </nav>
       </header>
       <DeveloperInfor>
-        <div>
+        <motion.div variants={item}>
           <h1>Beta 1.3.0</h1>
           <span>Developer Version</span>
-        </div>
+        </motion.div>
         <div>
-          <h2>Sobre o Desenvolverdor e UI/UX Design</h2>
-          <img src={DeveloperAdsonSantos} alt="" />
-          <strong>Adson Santos</strong>
-          <span>adsonbmx15@gmail.com</span>
-          <ul>
+          <motion.h2 variants={item}>
+            Sobre o Desenvolverdor e UI/UX Design
+          </motion.h2>
+          <motion.img variants={item} src={DeveloperAdsonSantos} alt="" />
+          <motion.strong variants={item}>Adson Santos</motion.strong>
+          <motion.span variants={item}>adsonbmx15@gmail.com</motion.span>
+          <motion.ul variants={item}>
             <li>
               <a
                 target="_blank"
@@ -60,7 +69,7 @@ export function VersionDetails() {
                 <GithubIcon />
               </a>
             </li>
-          </ul>
+          </motion.ul>
         </div>
       </DeveloperInfor>
     </Context>

@@ -32,7 +32,7 @@ export const Container = styled(motion.section)`
   }
 `;
 
-export const UserInfor = styled.div`
+export const UserInfor = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
