@@ -15,7 +15,11 @@ export function UserProfile() {
   const userLogado = JSON.parse(user as string);
 
   return (
-    <Container>
+    <Container
+      animate={{ x: 0 }}
+      initial={{ opacity: 0, x: -200 }}
+      whileInView={{ opacity: 1 }}
+    >
       <UserInfor>
         <h1>Óla, Bem Vindo de volta 🤩</h1>
         {userLogado.photoURL ? (
