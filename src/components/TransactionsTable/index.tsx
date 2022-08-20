@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { motion } from "framer-motion";
 import React from "react";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import { container, item } from "../Helps/FrameMotion";
 import { Loading } from "../Loading";
 import { Container, MobileTitle } from "./styles";
 
@@ -20,25 +22,30 @@ export function TransactionsTable() {
 
   if (loading) return <Loading />;
   return (
-    <Container>
+    <Container
+      className="container"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
       <MobileTitle>
         <h1>Transactions</h1>
         <span>{userCollection.length} itens</span>
       </MobileTitle>
       <table>
-        <thead>
+        <motion.thead variants={item}>
           <tr>
             <th>Título</th>
             <th>Valor</th>
             <th>Categoria</th>
             <th>Data</th>
           </tr>
-        </thead>
+        </motion.thead>
         <tbody>
           {userCollection &&
             userCollection.map(
               ({ id, title, type, amount, category, createdAt }: any) => (
-                <tr key={id}>
+                <motion.tr variants={item} key={id}>
                   <td>{title}</td>
                   <td className={type}>
                     {amount &&
@@ -54,7 +61,7 @@ export function TransactionsTable() {
                         new Date(createdAt.toDate().toString())
                       )}
                   </td>
-                </tr>
+                </motion.tr>
               )
             )}
         </tbody>

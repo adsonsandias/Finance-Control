@@ -87,12 +87,6 @@ export const GlobalStyle = createGlobalStyle`
   .react-modal-content{
     width: 100%;
     max-width: 576px;
-    background: var(--gradient-first);
-    padding: .25rem;
-    box-shadow: var(--box-shadow);
-    border-radius: 0.94rem;
-    position: relative;
-
   }
 
   /* Syles Svg 404 */

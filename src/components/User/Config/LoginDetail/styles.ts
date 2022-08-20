@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const Context = styled.section`
+export const Context = styled(motion.section)`
   padding: 4rem;
   max-width: 1120px;
   background: white;
@@ -65,7 +66,7 @@ export const Context = styled.section`
   }
 `;
 
-export const ContainerAnimation = styled.div`
+export const ContainerAnimation = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,7 +108,7 @@ export const ContainerAnimation = styled.div`
   }
 `;
 
-export const UserInfor = styled.div`
+export const UserInfor = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;

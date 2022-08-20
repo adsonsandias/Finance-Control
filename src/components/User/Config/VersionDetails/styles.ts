@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const Context = styled.div`
+export const Context = styled(motion.section)`
   padding: 4rem;
   max-width: 1120px;
   background: white;
@@ -64,7 +65,7 @@ export const Context = styled.div`
   }
 `;
 
-export const DeveloperInfor = styled.section`
+export const DeveloperInfor = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   @media (max-width: 830px) {

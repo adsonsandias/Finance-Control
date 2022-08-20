@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const Container = styled.form`
@@ -223,4 +224,12 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
     font-size: 1rem;
     color: var(--color-text-2);
   }
+`;
+
+export const ModalBackground = styled(motion.div)`
+  background: var(--gradient-first);
+  padding: 0.25rem;
+  box-shadow: var(--box-shadow);
+  border-radius: 0.94rem;
+  position: relative;
 `;

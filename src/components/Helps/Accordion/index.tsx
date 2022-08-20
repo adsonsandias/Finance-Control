@@ -12,13 +12,22 @@ type AccordionProps = {
   contents: string;
 };
 
+// Animate the accordion
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
+
 export function Accordion({ ...props }: AccordionProps) {
   const { title, setActive, active, contents } = props;
 
   console.log(active === title);
 
   return (
-    <AccordionContainer isActive={active === title}>
+    <AccordionContainer variants={item} isActive={active === title}>
       <h2>
         <AccordionButton
           isActive={active === title}

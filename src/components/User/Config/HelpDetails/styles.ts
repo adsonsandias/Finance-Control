@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const Context = styled.div`
+export const Context = styled(motion.section)`
   padding: 4rem;
   max-width: 1120px;
   background: white;

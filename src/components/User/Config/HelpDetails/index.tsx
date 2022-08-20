@@ -1,8 +1,10 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
 import { Accordion } from "../../../Helps/Accordion";
+import { container, item } from "../../../Helps/FrameMotion";
 import { Context, Container, AccordionListStyle } from "./styles";
 
 export function HelpDetails() {
@@ -11,7 +13,12 @@ export function HelpDetails() {
   );
 
   return (
-    <Context>
+    <Context
+      className="container"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
       <header>
         <nav aria-label="Navigate to Help Details">
           <ul>
@@ -25,10 +32,10 @@ export function HelpDetails() {
         </nav>
       </header>
       <Container>
-        <div>
+        <motion.div variants={item}>
           <h1>F.A.Q</h1>
           <span>Perguntas Freqüentes</span>
-        </div>
+        </motion.div>
         <AccordionListStyle>
           <Accordion
             title="Por que não posso altera as informação ?"

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
 import fotoUser from "../../../../assets/new-user.png";
 import { AuthContext } from "../../../../contexts/AuthContext";
+import { container, item } from "../../../Helps/FrameMotion";
 import { Context, ContainerAnimation, UserInfor } from "./styles";
 
 export function LoginDetails() {
@@ -12,7 +13,12 @@ export function LoginDetails() {
   const userLogado = JSON.parse(user as string);
 
   return (
-    <Context>
+    <Context
+      className="container"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+    >
       <header>
         <nav aria-label="Navigate to Help Details">
           <ul>
@@ -25,7 +31,7 @@ export function LoginDetails() {
           </ul>
         </nav>
       </header>
-      <UserInfor>
+      <UserInfor variants={item}>
         {userLogado.photoURL ? (
           <img src={userLogado.photoURL} alt="Perfil de usúario" />
         ) : (
@@ -36,7 +42,7 @@ export function LoginDetails() {
         </h2>
         <span>{userLogado.email && userLogado.email}</span>
       </UserInfor>
-      <ContainerAnimation>
+      <ContainerAnimation variants={item}>
         <Player
           autoplay
           loop
