@@ -100,6 +100,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 - Test and adjust if necessary
 - Adding animation in the web app
 - CRUD of information list and profile user 
+- implementation with redux toolkit for status management
 
 ## Technologies used
 
