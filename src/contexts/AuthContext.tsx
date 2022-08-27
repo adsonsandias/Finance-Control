@@ -7,14 +7,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import {
   addDoc,
   collection,
   deleteDoc,
   getDocs,
-  doc
+  doc,
 } from "firebase/firestore";
 import React from "react";
 import { Navigate } from "react-router-dom";
@@ -122,7 +122,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
 
   async function signInGoogle() {
     await signInWithPopup(auth, provider)
-      .then(result => {
+      .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if (credential !== null && credential !== undefined) {
           const { user } = result;
@@ -135,11 +135,11 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
           sessionStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
           return {
             user,
-            token
+            token,
           };
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         const { email } = error;
@@ -163,7 +163,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
     event.preventDefault();
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
+      .then((userCredential) => {
         // Signed in
         const { user } = userCredential;
         setUser(user);
@@ -179,10 +179,10 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         // ...
         return {
           user,
-          token
+          token,
         };
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -197,7 +197,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
     event.preventDefault();
     const auth = getAuth();
     await signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
+      .then((userCredential) => {
         // Signed in
         const { user } = userCredential;
         setUser(user);
@@ -212,10 +212,10 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         // ...
         return {
           user,
-          token
+          token,
         };
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false);
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -247,7 +247,9 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
     if (uid !== null && uid !== undefined) {
       const data = await getDocs(collection(db, uid));
 
-      setUserCollection(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+      setUserCollection(
+        data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
     }
   }
 
@@ -278,7 +280,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         setCloudFirestore,
         getCloudFirestore,
         userCollection,
-        deleteItemCloudFirestore
+        deleteItemCloudFirestore,
       }}
     >
       {children}
