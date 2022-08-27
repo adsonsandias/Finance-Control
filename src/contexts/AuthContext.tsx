@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-constructed-context-values */
@@ -8,7 +9,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  getDocs,
+  doc,
+} from "firebase/firestore";
 import React from "react";
 import { Navigate } from "react-router-dom";
 
@@ -79,6 +86,7 @@ interface IAUTHCONTEXTDATA {
   signInEmail: (event: ISIGNUPPROPS) => Promise<void>;
   setCloudFirestore: (transactions: ISETTRANSANCTIONFIRESTORE) => Promise<void>;
   getCloudFirestore: () => Promise<void>;
+  deleteItemCloudFirestore: (id: string) => Promise<void>;
 }
 
 export const AuthContext = React.createContext<IAUTHCONTEXTDATA>(
@@ -245,6 +253,13 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
     }
   }
 
+  async function deleteItemCloudFirestore(id: string) {
+    const uid = sessionStorage.getItem("@AuthFirebase:token");
+    if (uid !== null && uid !== undefined) {
+      await deleteDoc(doc(db, uid, id));
+    }
+  }
+
   // ---------------------------Chose Cloud Firestore ------------------------------
 
   return (
@@ -265,6 +280,7 @@ export function AuthGoogleProvider({ children }: IAUTHGOOGLEPROVIDERPROPS) {
         setCloudFirestore,
         getCloudFirestore,
         userCollection,
+        deleteItemCloudFirestore,
       }}
     >
       {children}
