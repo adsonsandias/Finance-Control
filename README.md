@@ -93,6 +93,7 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ### Under Construction :construction:
 
+- New Home
 - Rebuild the user page to get useful information
   - config sub routes will be added
   
