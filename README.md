@@ -73,7 +73,6 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 #### Pages :white_check_mark:
 
-- Home
 - Sigin
 - Sigup
 - Page Not Found(404)
@@ -104,6 +103,9 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 ### Under Construction :construction:
 
 - New Home
+- Bitcoin chart and value
+- new transations
+- credit card implementation
 - Rebuild the user page to get useful information
   - config sub routes will be added
   
