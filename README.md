@@ -1,8 +1,18 @@
 # Finance Control
 
-#### Financial control (web) application focused on accessibility and usability, transforming the experience of how you manage your finances.
+Financial control (web) application focused on accessibility and usability, transforming the experience of how you manage your finances.
 
-#### Each user has their unique account which can be created using email or google for authentication, the application routes are private and only have access if they are logged in with their account, if they have already logged in, they exit the application without logging out, and login again, you are redirected straight to the home page without having to enter your email and password again.
+The concept around the purpose of the application has been expanded, now not only can you manage your personal finances, but you can look in real time at the value of Bitcoin, in the three main currencies, Euro, Dollar, and Real, you will now have a detailed chart about your expenses, as well as credit card expenses (the active credit card in the app is not real, because it is a personal project and without a partnership or integration with banks, the objective is just to demonstrate a better usability of the experience which your credit expenses are visualized)
+
+More technical concepts of the app
+
+The application will have a database that is where I store the login information, profile image and user data regarding the added transactions, and for that I am using Firebase, for user authentication either by email or right login through the account Google (Github also once it's done).
+
+
+All transactions are saved in Firestore Database, and returned instantly to the user once added, he can delete the information and update the ones that have already been added, thus closing a complete C.R.U.D made in Firebase. If you want to change your name and add a profile picture, you can do so.
+
+
+All states will be managed by the Redux toolkit, giving me more control over the application and its triggered states.
 
 ## Preview 
 https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-840e-1151c3865323.mov
