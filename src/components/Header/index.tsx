@@ -39,13 +39,14 @@ export function Header() {
                 sair
               </button>
             </div>
-            <Link to="/user">
-              {userLogado.photoURL ? (
-                <img src={userLogado.photoURL} alt="Perfil de usúario" />
-              ) : (
-                <img src={fotoUser} alt="Perfil de usúario" />
-              )}
-            </Link>
+            <Link
+              to="/user"
+              style={{
+                backgroundImage: `url(${
+                  userLogado.photoURL ? userLogado.photoURL : fotoUser
+                })`,
+              }}
+            />
           </User>
         )}
       </Content>

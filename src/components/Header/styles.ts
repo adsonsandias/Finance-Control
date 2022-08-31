@@ -85,13 +85,15 @@ export const User = styled.div`
       }
     }
   }
-  img {
-    max-width: 3.75rem;
+  a {
+    width: 3.75rem;
+    height: 3.75rem;
     background-size: cover;
     background-position: center center;
     border-radius: 50%;
     @media (max-width: 480px) {
       max-width: 3rem;
+      height: 3rem;
     }
   }
 `;
