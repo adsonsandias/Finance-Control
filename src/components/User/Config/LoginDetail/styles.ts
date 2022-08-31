@@ -118,15 +118,18 @@ export const UserInfor = styled(motion.div)`
     margin-top: 4rem;
   }
 
-  img {
+  div {
+    width: 8.63rem;
+    height: 8.63rem;
+    margin-bottom: 2rem;
+    background-size: cover;
+    background-position: center center;
     border-radius: 50%;
-    width: 100%;
-    max-width: 8.63rem;
     box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
       -5px -2px 25px rgba(255, 230, 100, 0.25);
-
     @media (max-width: 480px) {
-      max-width: 6rem;
+      width: 6rem;
+      height: 6rem;
       margin-bottom: 1rem;
     }
   }

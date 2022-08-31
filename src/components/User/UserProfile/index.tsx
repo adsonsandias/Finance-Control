@@ -25,11 +25,13 @@ export function UserProfile() {
     >
       <UserInfor variants={item}>
         <h1>Óla, Bem Vindo de volta 🤩</h1>
-        {userLogado.photoURL ? (
-          <img src={userLogado.photoURL} alt="Perfil de usúario" />
-        ) : (
-          <img src={fotoUser} alt="Perfil de usúario" />
-        )}
+        <div
+          style={{
+            backgroundImage: `url(${
+              userLogado.photoURL ? userLogado.photoURL : fotoUser
+            })`,
+          }}
+        />
         <h2>
           {userLogado.displayName ? userLogado.displayName : userLogado.email}
         </h2>
