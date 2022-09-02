@@ -8,7 +8,7 @@ export const Container = styled.main`
   flex: 1;
   padding-bottom: 6.5rem;
   @media (max-width: 1100px) {
-    padding: 0;
+    padding: 1rem;
     padding-bottom: 8rem;
   }
 `;

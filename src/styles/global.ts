@@ -4,6 +4,8 @@ export const GlobalStyle = createGlobalStyle`
   :root {
     --gradient-first: linear-gradient(93.67deg, #FFE664 -8.18%, #FA8341 112.11%);
     --gradient-green: linear-gradient(103.87deg, #7FDFBD -41.3%, #12A454 90.03%);
+    --gradient-blue: linear-gradient(93.67deg, #64D0FF -8.18%, #4174FA 112.11%);
+    --gradient-purple: linear-gradient(93.67deg, #F364FF -8.18%, #9241FA 112.11%);
     --gradient-red: linear-gradient(103.87deg, #E62E4D -41.3%, #F296A5 90.03%);
     --box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25), -5px -2px 25px rgba(255, 230, 100, 0.25);
     --background: #F0F2F5;
