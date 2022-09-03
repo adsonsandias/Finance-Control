@@ -4,7 +4,6 @@ export const iconMotion = {
     transition: { type: "spring", stiffness: 700, damping: 30 },
   },
   close: {
-    // transform: 'translate(0rem,0rem)',
     transform: "translate(-1rem,-1.25rem)",
     transition: { type: "spring", stiffness: 700, damping: 30 },
   },
