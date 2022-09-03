@@ -59,10 +59,6 @@ export const CartVirtual = styled.div`
   }
 `;
 
-interface ICARDCONTENTPROPS {
-  isActive: boolean;
-}
-
 export const CardContent = styled.div`
   display: flex;
   width: 20.44rem;
@@ -135,23 +131,37 @@ export const CardInfor = styled.div`
 
 // Gastos
 export const Spending = styled.div`
+  overflow: auto;
+  position: relative;
+
   h1 {
+    position: fixed;
     font-weight: 500;
     font-size: 1.63rem;
-    margin-bottom: 1.25rem;
 
     @media (max-width: 830px) {
       display: none;
     }
   }
 
+  & > div {
+    margin-top: 3.25rem;
+    margin-bottom: 1rem;
+  }
+
   ul {
     list-style: none;
     display: grid;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    grid-template-columns: auto 1fr;
-    gap: 1rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(auto, 16rem));
+    /* grid-template-columns: 1fr 1fr; */
+    /* gap: 1rem 2rem; */
+    gap: 1rem;
+
+    @media (max-width: 1120px) {
+      grid-template-columns: repeat(4, minmax(auto, 16rem));
+    }
   }
 `;
 
@@ -160,65 +170,3 @@ Spending.defaultProps = {
     icon: "var(--gradient-green)",
   },
 };
-
-export const SpendingItem = styled(motion.li)<ICARDCONTENTPROPS>`
-  background: var(--gradient-first);
-  padding: 0.63rem;
-  width: 16rem;
-  /* width: ${(props) => (props.isActive ? "16rem" : "3.63rem")}; */
-  height: 6.25rem;
-  border-radius: 1.75rem;
-  display: flex;
-  /* transition: width 0.3s; */
-
-  & > div {
-    display: flex;
-    /* grid-template-columns: auto 1fr; */
-    align-items: center;
-    flex: 1;
-    background-color: #f0f2f5;
-    border-radius: 1.13rem;
-    box-shadow: 0 0 0 0.5rem #ffffff;
-    position: relative;
-
-    & > div:first-child {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: ${(props) => props.theme.icon};
-      padding: 0.75rem;
-      margin-left: 1rem;
-      border-radius: 50%;
-    }
-
-    & > div:last-child {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      margin-right: 1rem;
-      flex: 1;
-
-      strong {
-        color: var(--color-text-2);
-        width: 100%;
-        text-align: end;
-        font-size: 1.38rem;
-        font-weight: 400;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        position: relative;
-        bottom: 0.5rem;
-      }
-
-      span {
-        color: var(--color-text-3);
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        margin-top: 0.38rem;
-        position: absolute;
-        bottom: 1rem;
-      }
-    }
-  }
-`;
