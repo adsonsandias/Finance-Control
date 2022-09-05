@@ -22,10 +22,21 @@ export const Container = styled(motion.section)`
   }
   @media (max-width: 830px) {
     width: initial;
+    /* padding: 0rem; */
+    padding: 2rem;
+    /* grid-template-columns: 1fr; */
+    /* background: transparent; */
+    /* box-shadow: initial; */
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  @media (max-width: 780px) {
+    width: initial;
     padding: 0rem;
     grid-template-columns: 1fr;
-    background: transparent;
-    box-shadow: initial;
+    /* background: transparent; */
+    /* box-shadow: initial; */
     margin-left: 1rem;
     margin-right: 1rem;
   }
@@ -43,9 +54,9 @@ export const CartVirtual = styled.div`
     font-size: 1.63rem;
     margin-bottom: 2rem;
 
-    @media (max-width: 830px) {
+    /* @media (max-width: 830px) {
       display: none;
-    }
+    } */
   }
 
   &::after {
@@ -139,9 +150,9 @@ export const Spending = styled.div`
     font-weight: 500;
     font-size: 1.63rem;
 
-    @media (max-width: 830px) {
+    /* @media (max-width: 830px) {
       display: none;
-    }
+    } */
   }
 
   & > div {
@@ -154,12 +165,10 @@ export const Spending = styled.div`
     display: grid;
     justify-content: start;
     align-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(auto, 16rem));
-    /* grid-template-columns: 1fr 1fr; */
-    /* gap: 1rem 2rem; */
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 
-    @media (max-width: 1120px) {
+    @media (max-width: 1100px) {
       grid-template-columns: repeat(4, minmax(auto, 16rem));
     }
   }
