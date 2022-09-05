@@ -43,10 +43,18 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ##### UI Design Desktop 
 
-![figma-desktop](https://user-images.githubusercontent.com/27157739/181994854-a9575e09-f100-4e8f-b6f4-0312d5847a90.png)
+![new Início](https://user-images.githubusercontent.com/27157739/188340669-f1b5d6bc-4ecc-47e2-8c8b-1eb203abc1ba.jpg)
 
 #### UI Design Mobile 
-![figma-mobile](https://user-images.githubusercontent.com/27157739/181994857-93f3bc33-fa85-415f-bfb3-72bda4516111.png)
+
+- Login and Home
+![Home - Login](https://user-images.githubusercontent.com/27157739/188341075-5cb9c3ea-a951-46f2-9bf6-00d4e03146b2.png)
+
+- Transaction and User
+![User](https://user-images.githubusercontent.com/27157739/188341083-6ee0ad6a-fae3-4e76-8401-bfa99e9d933e.png)
+
+- F.A.Q and Version
+![dev](https://user-images.githubusercontent.com/27157739/188341090-9db8e896-fc3c-4413-a2e9-bbc156acff88.png)
 
 #### Interface elements
 
