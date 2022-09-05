@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-interface ICARDCONTENTPROPS {
-  isActive: boolean;
-}
-
-export const SpendingItemStyles = styled(motion.li)<ICARDCONTENTPROPS>`
+export const SpendingItemStyles = styled(motion.li)`
   background: var(--gradient-first);
   padding: 0.63rem;
   width: 16rem;

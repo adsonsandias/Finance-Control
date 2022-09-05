@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 
+import { useWindowSize } from "../../../hooks/useWindowSize";
 import { iconMotion, numberMotion } from "../animation";
 import { SpendingItemStyles } from "./styles";
 
@@ -13,8 +14,17 @@ interface ISPENDINGPROPS {
 }
 
 export function SpendingItem({ ...props }: ISPENDINGPROPS) {
+  const [width] = useWindowSize();
   const { value, theme, title, icon } = props;
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const isWidth = () => {
+      if (width >= 1100) setIsOpen(true);
+      else setIsOpen(false);
+    };
+    isWidth();
+  }, [width]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -23,7 +33,6 @@ export function SpendingItem({ ...props }: ISPENDINGPROPS) {
         initial={{ width: "3.88rem" }}
         animate={{ width: isOpen ? "16rem" : "3.88rem" }}
         transition={{ type: "linear" }}
-        isActive={isOpen}
         theme={theme}
         onClick={() => setIsOpen(!isOpen)}
       >

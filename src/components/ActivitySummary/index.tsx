@@ -16,11 +16,6 @@ import {
 } from "./styles";
 
 export function ActivitySummary() {
-  React.useEffect(() => {
-    const width = window.innerWidth;
-    console.log(width);
-  }, []);
-
   return (
     <Container>
       <CartVirtual>
