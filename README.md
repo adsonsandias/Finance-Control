@@ -14,8 +14,8 @@ All transactions are saved in Firestore Database, and returned instantly to the 
 
 All states will be managed by the Redux toolkit, giving me more control over the application and its triggered states.
 
-## Preview 
-https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-840e-1151c3865323.mov
+## Preview 🚧
+## 🚧
 
 ## Design System
 
@@ -71,9 +71,8 @@ https://user-images.githubusercontent.com/27157739/181914852-8a83a16a-b7e3-4d05-
 
 ## Web App Final Production screens
 
-##### Responsivo Tablet/Mobile 
-![test-mobile-vs-tablet](https://user-images.githubusercontent.com/27157739/181996059-e5dbb78e-bcf5-4674-bf51-5e6e2f7520e0.png)
-
+##### Responsivo Tablet/Mobile 🚧
+## 🚧
 
 ## Status
 
