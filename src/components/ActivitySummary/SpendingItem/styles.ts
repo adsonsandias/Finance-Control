@@ -57,7 +57,6 @@ export const SpendingItemStyles = styled(motion.li)`
         position: absolute;
         white-space: nowrap;
         overflow: hidden;
-        /* text-overflow: ellipsis; */
         bottom: 1rem;
       }
     }

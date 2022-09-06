@@ -22,11 +22,7 @@ export const Container = styled(motion.section)`
   }
   @media (max-width: 830px) {
     width: initial;
-    /* padding: 0rem; */
     padding: 2rem;
-    /* grid-template-columns: 1fr; */
-    /* background: transparent; */
-    /* box-shadow: initial; */
     margin-left: 1rem;
     margin-right: 1rem;
   }
@@ -35,10 +31,15 @@ export const Container = styled(motion.section)`
     width: initial;
     padding: 0rem;
     grid-template-columns: 1fr;
-    /* background: transparent; */
-    /* box-shadow: initial; */
-    margin-left: 1rem;
-    margin-right: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    width: initial;
+    padding: 0rem;
+    background: transparent;
+    box-shadow: initial;
+    margin-left: 0rem;
+    margin-right: 0rem;
   }
 `;
 
@@ -48,15 +49,24 @@ export const CartVirtual = styled.div`
   flex-direction: column;
   position: relative;
   margin-right: 4rem;
+  @media (max-width: 780px) {
+    padding-top: 2rem;
+    margin-right: 0rem;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (max-width: 480px) {
+    padding-top: 0rem;
+  }
 
   h1 {
     font-weight: 500;
     font-size: 1.63rem;
     margin-bottom: 2rem;
 
-    /* @media (max-width: 830px) {
+    @media (max-width: 780px) {
       display: none;
-    } */
+    }
   }
 
   &::after {
@@ -67,6 +77,10 @@ export const CartVirtual = styled.div`
     position: absolute;
     top: 0;
     right: -2.5rem;
+
+    @media (max-width: 780px) {
+      display: none;
+    }
   }
 `;
 
@@ -144,15 +158,35 @@ export const CardInfor = styled.div`
 export const Spending = styled.div`
   overflow: auto;
   position: relative;
+  @media (max-width: 780px) {
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    padding-bottom: 0rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
 
   h1 {
     position: fixed;
     font-weight: 500;
+    color: var(--color-text-2);
     font-size: 1.63rem;
 
-    /* @media (max-width: 830px) {
-      display: none;
-    } */
+    @media (max-width: 780px) {
+      text-align: center;
+      left: 0;
+      right: 0;
+    }
+
+    @media (max-width: 480px) {
+      text-align: center;
+      left: initial;
+      right: initial;
+    }
   }
 
   & > div {
@@ -170,6 +204,14 @@ export const Spending = styled.div`
 
     @media (max-width: 1100px) {
       grid-template-columns: repeat(4, minmax(auto, 16rem));
+    }
+
+    @media (max-width: 780px) {
+      justify-items: center;
+    }
+
+    @media (max-width: 480px) {
+      justify-items: start;
     }
   }
 `;
