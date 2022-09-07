@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardInfor,
   Spending,
+  TitleMobile,
 } from "./styles";
 
 export function ActivitySummary() {
@@ -40,7 +41,7 @@ export function ActivitySummary() {
           </div>
         </CardContent>
       </CartVirtual>
-
+      <TitleMobile>Gastos</TitleMobile>
       <Spending>
         <h1>Gastos</h1>
         <div>
@@ -52,16 +53,16 @@ export function ActivitySummary() {
               icon={<DepositIcon />}
             />
             <SpendingItem
-              title="Total"
-              value="R$ 20.400,00"
-              theme={{ icon: "var(--gradient-blue)" }}
-              icon={<TotalIcon />}
-            />
-            <SpendingItem
               title="Saidas"
               value="R$ 20.400,00"
               theme={{ icon: "var(--gradient-red)" }}
               icon={<WithdrawnIcon />}
+            />
+            <SpendingItem
+              title="Total"
+              value="R$ 20.400,00"
+              theme={{ icon: "var(--gradient-blue)" }}
+              icon={<TotalIcon />}
             />
             <SpendingItem
               title="Fatura crédito"

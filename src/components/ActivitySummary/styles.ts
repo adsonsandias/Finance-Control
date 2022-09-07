@@ -23,8 +23,6 @@ export const Container = styled(motion.section)`
   @media (max-width: 830px) {
     width: initial;
     padding: 2rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
 
   @media (max-width: 780px) {
@@ -51,12 +49,14 @@ export const CartVirtual = styled.div`
   margin-right: 4rem;
   @media (max-width: 780px) {
     padding-top: 2rem;
+    padding-bottom: 2rem;
     margin-right: 0rem;
     align-items: center;
     justify-content: center;
   }
   @media (max-width: 480px) {
     padding-top: 0rem;
+    padding-bottom: 1rem;
   }
 
   h1 {
@@ -95,6 +95,11 @@ export const CardContent = styled.div`
   box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
     -5px -2px 25px rgba(255, 230, 100, 0.25);
 
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 14rem;
+  }
+
   & > div {
     flex: 1;
     display: flex;
@@ -119,6 +124,7 @@ export const CardHeader = styled.div`
 
   span {
     font-size: 0.88rem;
+    /* font-size: 1rem; */
     text-transform: uppercase;
     color: var(--color-text-3);
   }
@@ -171,26 +177,17 @@ export const Spending = styled.div`
   }
 
   h1 {
-    position: fixed;
     font-weight: 500;
     color: var(--color-text-2);
     font-size: 1.63rem;
 
     @media (max-width: 780px) {
-      text-align: center;
-      left: 0;
-      right: 0;
-    }
-
-    @media (max-width: 480px) {
-      text-align: center;
-      left: initial;
-      right: initial;
+      display: none;
     }
   }
 
   & > div {
-    margin-top: 3.25rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
   }
 
@@ -213,6 +210,20 @@ export const Spending = styled.div`
     @media (max-width: 480px) {
       justify-items: start;
     }
+  }
+`;
+
+export const TitleMobile = styled.h1`
+  display: none;
+  @media (max-width: 780px) {
+    display: block;
+    font-weight: 500;
+    color: var(--color-text-2);
+    font-size: 1.63rem;
+    text-align: center;
+  }
+  @media (max-width: 480px) {
+    text-align: left;
   }
 `;
 

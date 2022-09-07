@@ -3,12 +3,12 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 
 import { useWindowSize } from "../../../hooks/useWindowSize";
-import { iconMotion, numberMotion } from "../animation";
+import { iconMotion, numberMotion, titleMotion } from "../animation";
 import { SpendingItemStyles } from "./styles";
 
 interface ISPENDINGPROPS {
   value: string;
-  theme: unknown;
+  theme: object;
   title: string;
   icon: React.ReactNode;
 }
@@ -60,20 +60,8 @@ export function SpendingItem({ ...props }: ISPENDINGPROPS) {
             </motion.strong>
             <motion.span
               layout
-              initial={{
-                transform: "translate(-10.54rem, 0rem)",
-                textAlign: "start",
-                width: "3.4ch",
-                overflow: "hidden",
-              }}
-              animate={{
-                transform: isOpen
-                  ? "translate(0rem,0rem)"
-                  : "translate(-10.54rem, 0rem)",
-                width: isOpen ? "18ch" : "3.4ch",
-                overflow: isOpen ? "auto" : "hidden",
-                textAlign: isOpen ? "end" : "start",
-              }}
+              animate={isOpen ? "active" : "inactive"}
+              variants={titleMotion}
             >
               {title}
             </motion.span>
