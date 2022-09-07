@@ -56,8 +56,14 @@ export const SpendingItemStyles = styled(motion.li)`
         margin-top: 0.38rem;
         position: absolute;
         white-space: nowrap;
+        text-align: end;
         overflow: hidden;
         bottom: 1rem;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
     }
   }

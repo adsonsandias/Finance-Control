@@ -23,3 +23,16 @@ export const numberMotion = {
     transition: { type: "spring", stiffness: 700, damping: 30, delay: 0 },
   },
 };
+
+export const titleMotion = {
+  active: {
+    width: "18ch",
+    transform: "translate(0rem,0rem)",
+    overflow: "hidden",
+  },
+  inactive: {
+    width: "3.4ch",
+    transform: "translate(-10.54rem, 0rem)",
+    overflow: "auto",
+  },
+};
