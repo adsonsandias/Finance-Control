@@ -58,8 +58,6 @@ All states will be managed by the Redux toolkit, giving me more control over the
 
 #### Interface elements
 
-##### Card Component
-![Cards](https://user-images.githubusercontent.com/27157739/181994918-21d39e53-c566-4130-ab5a-fd7c211a4982.png)
 
 
 ##### Modal Component with hover and focus active
