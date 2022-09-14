@@ -36,9 +36,10 @@ export const Context = styled(motion.section)`
           span {
             margin-left: 1rem;
             font-size: 1.63rem;
+            font-weight: 600;
             color: var(--color-text-2);
             @media (max-width: 480px) {
-              font-size: 1.38rem;
+              font-size: 1rem;
             }
           }
         }
@@ -62,6 +63,7 @@ export const Context = styled(motion.section)`
   }
   @media (max-width: 480px) {
     padding: 1.63rem 1.25rem;
+    margin-top: -6rem;
   }
 `;
 
@@ -100,8 +102,8 @@ export const Container = styled.section`
         font-size: 3rem;
       }
 
-      @media (max-width: 359px) {
-        font-size: 1.75rem;
+      @media (max-width: 480px) {
+        font-size: 1.63rem;
       }
     }
 
@@ -114,8 +116,9 @@ export const Container = styled.section`
         font-size: 1rem;
       }
 
-      @media (max-width: 359px) {
-        font-size: 0.63rem;
+      @media (max-width: 480px) {
+        font-size: 0.75rem;
+        font-weight: 500;
       }
     }
   }

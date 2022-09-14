@@ -36,3 +36,23 @@ export const titleMotion = {
     overflow: "auto",
   },
 };
+
+export const bgWhiteMotion = {
+  open: {
+    width: "100%",
+  },
+  close: {
+    width: "2.63rem",
+  },
+};
+
+export const bgGradientMotion = {
+  open: {
+    width: "16rem",
+    transition: { type: "linear", delay: 0 },
+  },
+  close: {
+    width: "3.63rem",
+    transition: { type: "linear", delay: 0 },
+  },
+};

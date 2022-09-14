@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const SpendingItemStyles = styled(motion.li)`
   background: var(--gradient-first);
-  padding: 0.63rem;
+  padding: 0.5rem;
   width: 16rem;
   height: 6.25rem;
   border-radius: 1.75rem;
@@ -14,8 +14,8 @@ export const SpendingItemStyles = styled(motion.li)`
     align-items: center;
     flex: 1;
     background-color: #f0f2f5;
-    border-radius: 1.13rem;
-    box-shadow: 0 0 0 0.5rem #ffffff;
+    border-radius: 1.25rem;
+    box-shadow: 0 0 0 0.38rem #ffffff;
     position: relative;
 
     & > div:first-child {

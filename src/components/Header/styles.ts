@@ -5,13 +5,18 @@ export const Container = styled.header`
 `;
 
 export const Content = styled.div`
-  max-width: 1120px;
+  max-width: 70rem;
   margin: 0 auto;
   padding: 2rem 1rem 10rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 2rem 1rem 8rem;
+    max-height: 12.5rem;
+  }
 `;
 
 export const Logo = styled.div`
@@ -21,13 +26,17 @@ export const Logo = styled.div`
   img {
     max-width: 4rem;
     @media (max-width: 480px) {
-      max-width: 3rem;
+      max-width: 2.63rem;
     }
   }
   div {
     display: flex;
     flex-direction: column;
     margin-left: 1rem;
+
+    @media (max-width: 480px) {
+      margin-left: 0.75rem;
+    }
   }
   div span {
     font-weight: 600;
@@ -92,8 +101,8 @@ export const User = styled.div`
     background-position: center center;
     border-radius: 50%;
     @media (max-width: 480px) {
-      max-width: 3rem;
-      height: 3rem;
+      max-width: 2.5rem;
+      height: 2.5rem;
     }
   }
 `;

@@ -1,4 +1,7 @@
+import React from "react";
+
 import { ReactComponent as ArrowIcon } from "../../../assets/arrow-icon.svg";
+import { accodionButtonMotion, accodionContainerMotion } from "./animation";
 import {
   AccordionContainer,
   AccordionContent,
@@ -6,9 +9,7 @@ import {
 } from "./styles";
 
 type AccordionProps = {
-  setActive: React.Dispatch<React.SetStateAction<string>>;
   title: string;
-  active: string;
   contents: string;
 };
 
@@ -22,24 +23,29 @@ const item = {
 };
 
 export function Accordion({ ...props }: AccordionProps) {
-  const { title, setActive, active, contents } = props;
-
-  console.log(active === title);
+  const { title, contents } = props;
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <AccordionContainer variants={item} isActive={active === title}>
+    <AccordionContainer variants={item} isActive={isOpen}>
       <h2>
         <AccordionButton
-          isActive={active === title}
+          layout
+          animate={isOpen ? "open" : "close"}
+          variants={accodionButtonMotion}
           type="button"
-          onClick={() => setActive(title)}
+          onClick={() => setIsOpen(!isOpen)}
         >
           <p>{title}</p>
         </AccordionButton>
         <ArrowIcon />
       </h2>
 
-      <AccordionContent isActive={active === title}>
+      <AccordionContent
+        layout
+        animate={isOpen ? "open" : "close"}
+        variants={accodionContainerMotion}
+      >
         <div>
           <p>{contents}</p>
         </div>

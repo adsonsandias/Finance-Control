@@ -10,10 +10,15 @@ export const Container = styled.nav`
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  bottom: 6rem;
+  bottom: 1.88rem;
+  height: 74px;
   position: fixed;
   right: 0;
   left: 0;
+  @media (max-width: 480px) {
+    bottom: 1rem;
+    height: 64px;
+  }
 
   ul {
     display: flex;
@@ -25,8 +30,12 @@ export const Container = styled.nav`
     box-shadow: var(--box-shadow);
     border-radius: 1.56rem;
     gap: 12px;
-    padding: 0.6rem 1rem;
+    padding: 0.63rem 1rem;
     position: absolute;
+
+    @media (max-width: 480px) {
+      border-radius: 1.25rem;
+    }
   }
 `;
 
@@ -39,6 +48,17 @@ export const Button = styled(motion.button)<ISACTIVE>`
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
   border: none;
+  @media (max-width: 480px) {
+    padding: 0.25rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  & svg {
+    @media (max-width: 480px) {
+      width: 32px;
+      height: 32px;
+    }
+  }
 
   & svg path {
     fill-opacity: ${(props) => (props.isActive ? "1" : "0.8")};

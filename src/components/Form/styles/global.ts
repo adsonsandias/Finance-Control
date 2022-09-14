@@ -10,6 +10,9 @@ export const Container = styled.section`
     gap: 2rem;
     align-items: start;
   }
+  @media (max-width: 480px) {
+    gap: 1.38rem;
+  }
 `;
 
 export const ContentBackground = styled.div`
@@ -32,6 +35,9 @@ export const ContentBackground = styled.div`
     min-height: 12.5rem;
     box-shadow: initial;
   }
+  @media (max-width: 480px) {
+    min-height: 12rem;
+  }
 
   div {
     position: absolute;
@@ -48,6 +54,9 @@ export const ContentBackground = styled.div`
     @media (max-width: 1100px) {
       flex-direction: row;
     }
+    @media (max-width: 480px) {
+      grid-column: -1/1;
+    }
 
     svg {
       margin: 0 auto;
@@ -58,8 +67,8 @@ export const ContentBackground = styled.div`
         margin: 0;
       }
       @media (max-width: 460px) {
-        height: 3rem;
-        width: 3.25rem;
+        height: 2.75rem;
+        width: 2.19rem;
       }
     }
 
@@ -143,10 +152,21 @@ export const ContentForm = styled.div`
     }
   }
 
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    margin: 0 0.75rem;
+    grid-column: -1/1;
+  }
+
   h1 {
     padding-bottom: 2rem;
     align-self: flex-start;
     color: var(--color-text-2);
+
+    @media (max-width: 480px) {
+      font-size: 1.25rem;
+      padding-bottom: 1.5rem;
+    }
   }
 
   span {
