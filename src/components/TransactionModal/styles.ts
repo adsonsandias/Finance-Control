@@ -6,13 +6,17 @@ export const Container = styled.form`
   padding: 3rem;
   border-radius: 0.9rem;
   @media (max-width: 480px) {
-    padding: 2rem;
+    padding: 1.5rem;
   }
 
   h2 {
     color: var(--color-text-2);
     font-size: 1.5rem;
     margin-bottom: 2rem;
+
+    @media (max-width: 480px) {
+      font-size: 1.25rem;
+    }
   }
 
   input {
@@ -26,6 +30,10 @@ export const Container = styled.form`
     background: #e7e7e7;
     font-weight: 400;
     font-size: 1rem;
+    @media (max-width: 480px) {
+      height: 3.5rem;
+      font-size: 0.88rem;
+    }
 
     &::placeholder {
       color: var(--color-text-3);
@@ -56,8 +64,11 @@ export const BtnCadastrar = styled.button`
   border: none;
   font-size: 1rem;
   margin-top: 1.5rem;
-
   transition: box-shadow ease 0.3s;
+  @media (max-width: 480px) {
+    height: 3.5rem;
+    font-size: 0.88rem;
+  }
 
   &:focus,
   &:hover {
@@ -137,8 +148,10 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
   border: 1px solid #d7d7d7;
   border-radius: 0.94rem;
   height: 4rem;
-
   transition: box-shadow ease 0.3s;
+  @media (max-width: 480px) {
+    height: 3.5rem;
+  }
 
   &:first-child {
     background: ${(props) =>
@@ -223,6 +236,10 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
     margin-left: 1rem;
     font-size: 1rem;
     color: var(--color-text-2);
+
+    @media (max-width: 480px) {
+      font-size: 0.88rem;
+    }
   }
 `;
 

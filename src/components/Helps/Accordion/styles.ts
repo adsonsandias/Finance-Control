@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 interface ISACTIVE {
   isActive: boolean;
-  title?: string | undefined;
 }
 
 export const AccordionContainer = styled(motion.div)<ISACTIVE>`
@@ -28,7 +27,7 @@ export const AccordionItem = styled.div`
   padding: 2px;
 `;
 
-export const AccordionButton = styled.button<ISACTIVE>`
+export const AccordionButton = styled(motion.button)`
   background: #f0f2f5;
   border: none;
 
@@ -38,8 +37,6 @@ export const AccordionButton = styled.button<ISACTIVE>`
   padding: 1rem 2rem;
   flex: 1;
   border-radius: 0.63rem;
-  border-radius: ${(props) =>
-    props.isActive === true ? "0.63rem 0.63rem 0 0" : "0.63rem"};
 
   p {
     text-align: start;
@@ -51,18 +48,17 @@ export const AccordionButton = styled.button<ISACTIVE>`
   }
 `;
 
-export const AccordionContent = styled.div<ISACTIVE>`
+export const AccordionContent = styled(motion.div)`
   background: #f0f2f5;
   color: var(--color-text-2);
-  padding: ${(props) => (props.isActive === true ? "1rem 2rem" : "0rem")};
   overflow: auto;
-  transition: all 0.3s ease;
-  height: ${(props) => (props.isActive === true ? "250px" : "0px")};
-  opacity: ${(props) => (props.isActive === true ? "1" : "0")};
-  border-radius: ${(props) =>
-    props.isActive === true ? "0 0 0.63rem 0.63rem " : "0rem"};
+  height: 0px;
+  opacity: 0;
+  border-radius: 0rem;
 
-  @media (max-width: 480px) {
-    padding: ${(props) => (props.isActive === true ? ".5rem 1rem" : "0rem")};
+  p {
+    @media (max-width: 480px) {
+      font-size: 0.88rem;
+    }
   }
 `;

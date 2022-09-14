@@ -30,6 +30,10 @@ export const Container = styled(motion.section)`
     margin-left: 1rem;
     margin-right: 1rem;
   }
+
+  @media (max-width: 480px) {
+    margin-top: -6rem;
+  }
 `;
 
 export const UserInfor = styled(motion.div)`
@@ -67,8 +71,8 @@ export const UserInfor = styled(motion.div)`
     box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
       -5px -2px 25px rgba(255, 230, 100, 0.25);
     @media (max-width: 480px) {
-      width: 6rem;
-      height: 6rem;
+      width: 5rem;
+      height: 5rem;
       margin-bottom: 1rem;
     }
   }
@@ -79,13 +83,17 @@ export const UserInfor = styled(motion.div)`
     color: var(--color-text-2);
     @media (max-width: 480px) {
       margin-bottom: 0.5rem;
-      font-size: 1.38rem;
+      font-size: 1.13rem;
     }
   }
 
   span {
     font-size: 1rem;
     color: var(--color-text-3);
+
+    @media (max-width: 480px) {
+      font-size: 0.75rem;
+    }
   }
 `;
 
@@ -124,6 +132,10 @@ export const Config = styled.div`
       svg:first-child {
         grid-area: span 2;
         margin-right: 2rem;
+
+        @media (max-width: 480px) {
+          margin-right: 1.5rem;
+        }
       }
 
       svg:last-child {
@@ -141,6 +153,10 @@ export const Config = styled.div`
         font-size: 0.88rem;
         color: var(--color-text-3);
         grid-area: 2/2;
+
+        @media (max-width: 480px) {
+          font-size: 0.75rem;
+        }
       }
     }
     li + li {

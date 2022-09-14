@@ -8,10 +8,6 @@ import { containerLeft, item } from "../../../Helps/FrameMotion";
 import { Context, Container, AccordionListStyle } from "./styles";
 
 export function HelpDetails() {
-  const [active, setActive] = React.useState(
-    "Por que não posso altera as informação ?"
-  );
-
   return (
     <Context
       className="container"
@@ -39,8 +35,6 @@ export function HelpDetails() {
         <AccordionListStyle>
           <Accordion
             title="Por que não posso altera as informação ?"
-            active={active}
-            setActive={setActive}
             contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
             nesciunt quas iusto earum placeat, eos est similique, quibusdam
             neque debitis amet veritatis sit architecto obcaecati atque autem
@@ -51,8 +45,6 @@ export function HelpDetails() {
           />
           <Accordion
             title="Posso logar com a conta google ?"
-            active={active}
-            setActive={setActive}
             contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
             nesciunt quas iusto earum placeat, eos est similique, quibusdam
             neque debitis amet veritatis sit architecto obcaecati atque autem
@@ -63,8 +55,6 @@ export function HelpDetails() {
           />
           <Accordion
             title="Por que o login com Github não funciona ?"
-            active={active}
-            setActive={setActive}
             contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
             nesciunt quas iusto earum placeat, eos est similique, quibusdam
             neque debitis amet veritatis sit architecto obcaecati atque autem
@@ -76,8 +66,6 @@ export function HelpDetails() {
           <Accordion
             title="Porque não posso alterar meu
             nome de usuario ?"
-            active={active}
-            setActive={setActive}
             contents="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe harum
             nesciunt quas iusto earum placeat, eos est similique, quibusdam
             neque debitis amet veritatis sit architecto obcaecati atque autem

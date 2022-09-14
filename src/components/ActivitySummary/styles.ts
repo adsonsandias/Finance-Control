@@ -55,7 +55,7 @@ export const CartVirtual = styled.div`
     justify-content: center;
   }
   @media (max-width: 480px) {
-    padding-top: 0rem;
+    padding-top: 1rem;
     padding-bottom: 1rem;
   }
 
@@ -97,7 +97,6 @@ export const CardContent = styled.div`
 
   @media (max-width: 480px) {
     width: 100%;
-    height: 14rem;
   }
 
   & > div {
@@ -124,7 +123,6 @@ export const CardHeader = styled.div`
 
   span {
     font-size: 0.88rem;
-    /* font-size: 1rem; */
     text-transform: uppercase;
     color: var(--color-text-3);
   }
@@ -189,6 +187,10 @@ export const Spending = styled.div`
   & > div {
     margin-top: 1rem;
     margin-bottom: 1rem;
+
+    @media (max-width: 480px) {
+      margin-top: 0.38rem;
+    }
   }
 
   ul {
@@ -224,6 +226,7 @@ export const TitleMobile = styled.h1`
   }
   @media (max-width: 480px) {
     text-align: left;
+    font-size: 1.25rem;
   }
 `;
 

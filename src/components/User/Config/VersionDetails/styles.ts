@@ -36,9 +36,10 @@ export const Context = styled(motion.section)`
           span {
             margin-left: 1rem;
             font-size: 1.63rem;
+            font-weight: 600;
             color: var(--color-text-2);
             @media (max-width: 480px) {
-              font-size: 1.38rem;
+              font-size: 1rem;
             }
           }
         }
@@ -62,6 +63,7 @@ export const Context = styled(motion.section)`
   }
   @media (max-width: 480px) {
     padding: 1.63rem 1.25rem;
+    margin-top: -6rem;
   }
 `;
 
@@ -77,6 +79,7 @@ export const DeveloperInfor = styled.div`
     justify-content: center;
     align-items: center;
     align-content: center;
+    margin-top: 2.63rem;
   }
 
   div:first-child {
@@ -100,8 +103,8 @@ export const DeveloperInfor = styled.div`
         font-size: 3rem;
       }
 
-      @media (max-width: 359px) {
-        font-size: 1.75rem;
+      @media (max-width: 480px) {
+        font-size: 1.63rem;
       }
     }
 
@@ -114,8 +117,9 @@ export const DeveloperInfor = styled.div`
         font-size: 1rem;
       }
 
-      @media (max-width: 359px) {
-        font-size: 0.63rem;
+      @media (max-width: 480px) {
+        font-size: 0.75rem;
+        font-weight: 500;
       }
     }
   }
@@ -136,29 +140,41 @@ export const DeveloperInfor = styled.div`
       }
 
       @media (max-width: 480px) {
-        font-size: 1.38rem;
+        font-size: 1.13rem;
       }
 
       @media (max-width: 359px) {
-        font-size: 1rem;
+        font-size: 0.75rem;
       }
     }
 
     img {
       margin-top: 2rem;
       max-width: 10rem;
+
+      @media (max-width: 480px) {
+        max-width: 5rem;
+      }
     }
 
     strong {
       font-size: 1.5rem;
       color: var(--color-text-2);
       margin-top: 1rem;
+
+      @media (max-width: 480px) {
+        font-size: 1.13rem;
+      }
     }
 
     span {
       font-size: 0.88rem;
       color: var(--color-text-3);
       margin-top: 0.25rem;
+
+      @media (max-width: 480px) {
+        font-size: 0.75rem;
+      }
     }
 
     ul {
@@ -175,6 +191,10 @@ export const DeveloperInfor = styled.div`
           box-sizing: border-box;
           background: #f0f2f5;
           border-radius: 0.63rem;
+
+          @media (max-width: 480px) {
+            padding: 0.63rem;
+          }
         }
 
         & + li {

@@ -11,6 +11,10 @@ export const InputStyle = styled.input`
   font-size: 1rem;
   height: 4rem;
   display: block;
+  @media (max-width: 480px) {
+    height: 3.5rem;
+    font-size: 0.88rem;
+  }
 
   &::placeholder {
     color: var(--color-text-3);

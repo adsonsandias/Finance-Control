@@ -3,7 +3,13 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 
 import { useWindowSize } from "../../../hooks/useWindowSize";
-import { iconMotion, numberMotion, titleMotion } from "../animation";
+import {
+  bgGradientMotion,
+  bgWhiteMotion,
+  iconMotion,
+  numberMotion,
+  titleMotion,
+} from "../animation";
 import { SpendingItemStyles } from "./styles";
 
 interface ISPENDINGPROPS {
@@ -30,18 +36,15 @@ export function SpendingItem({ ...props }: ISPENDINGPROPS) {
     <ThemeProvider theme={theme}>
       <SpendingItemStyles
         layout
-        initial={{ width: "3.88rem" }}
-        animate={{ width: isOpen ? "16rem" : "3.88rem" }}
-        transition={{ type: "linear" }}
+        animate={isOpen ? "open" : "close"}
+        variants={bgGradientMotion}
         theme={theme}
         onClick={() => setIsOpen(!isOpen)}
       >
         <motion.div
           layout
-          initial={{ width: "2.63rem" }}
-          animate={{
-            widows: isOpen ? "100%" : "2.63rem",
-          }}
+          animate={isOpen ? "open" : "close"}
+          variants={bgWhiteMotion}
         >
           <motion.div
             layout
