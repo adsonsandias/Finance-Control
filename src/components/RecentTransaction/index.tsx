@@ -9,10 +9,10 @@ export function RecentTransaction() {
   return (
     <>
       <RecentTransactionItemStyles>
-        <h1>Recent Transaction</h1>
-        <TransactionItem />
-        <TransactionItem />
-        <TransactionItem />
+        <h1>Recentes Transações</h1>
+        <TransactionItem type="productivity" category="deposit" />
+        <TransactionItem type="food" category="withdraw" />
+        <TransactionItem type="shopping" category="withdraw" />
       </RecentTransactionItemStyles>
       <MonthTransactionItemStyles>
         <MonthTransaction />

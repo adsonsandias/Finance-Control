@@ -1,7 +1,14 @@
 import { ReactComponent as IconCart } from "../../../assets/shopping-cart.svg";
 import { Container } from "./styles";
 
-export function TransactionItem() {
+interface ICATEGORY {
+  category: string;
+  type: string;
+}
+
+export function TransactionItem({ ...props }: ICATEGORY) {
+  const { category, type } = props;
+
   return (
     <Container>
       <div>
