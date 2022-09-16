@@ -12,8 +12,10 @@ export const BitcoinQuoteStyles = styled.div`
     font-size: 1.63rem;
     margin-bottom: 2rem;
     color: var(--color-text-2);
-    position: absolute;
-    left: 2rem;
+    @media (max-width: 630px) {
+      position: absolute;
+      left: 2rem;
+    }
 
     @media (max-width: 480px) {
       font-size: 1.25rem;
