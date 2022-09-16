@@ -63,6 +63,7 @@ export const CartVirtual = styled.div`
     font-weight: 500;
     font-size: 1.63rem;
     margin-bottom: 2rem;
+    color: var(--color-text-2);
 
     @media (max-width: 780px) {
       display: none;
