@@ -20,6 +20,9 @@ export const Container = styled(motion.section)`
   @media (max-width: 1180px) {
     width: initial;
   }
+  @media (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
   @media (max-width: 830px) {
     width: initial;
     padding: 2rem;
@@ -27,8 +30,9 @@ export const Container = styled(motion.section)`
 
   @media (max-width: 780px) {
     width: initial;
-    padding: 0rem;
-    grid-template-columns: 1fr;
+  }
+  @media (max-width: 630px) {
+    position: relative;
   }
 
   @media (max-width: 480px) {
