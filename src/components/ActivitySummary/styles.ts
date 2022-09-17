@@ -24,13 +24,11 @@ export const Container = styled(motion.section)`
     width: initial;
     padding: 2rem;
   }
-
   @media (max-width: 780px) {
     width: initial;
     padding: 0rem;
     grid-template-columns: 1fr;
   }
-
   @media (max-width: 480px) {
     width: initial;
     padding: 0rem;
@@ -38,6 +36,7 @@ export const Container = styled(motion.section)`
     box-shadow: initial;
     margin-left: 0rem;
     margin-right: 0rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -211,7 +210,8 @@ export const Spending = styled.div`
     }
 
     @media (max-width: 480px) {
-      justify-items: start;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 `;

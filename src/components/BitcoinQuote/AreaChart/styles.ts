@@ -7,13 +7,15 @@ export const AreaChartStyles = styled.div`
   padding: 0.13rem;
   @media (max-width: 480px) {
     padding: 0rem;
+    background: var(--background-white);
   }
 
   & > div {
     background-color: #fff;
     border-radius: 24px;
     padding: 0.88rem;
-    @media (max-width: 480px) {
+
+    @media (max-width: 390px) {
       padding: 0.75rem;
       border-radius: 15px;
     }
@@ -24,7 +26,7 @@ export const AreaChartStyles = styled.div`
       img {
         margin-right: 0.5rem;
 
-        @media (max-width: 480px) {
+        @media (max-width: 390px) {
           max-width: 1.13rem;
           max-height: 1.13rem;
         }
@@ -41,7 +43,7 @@ export const AreaChartStyles = styled.div`
           font-size: 0.88rem;
           color: var(--color-text-2);
 
-          @media (max-width: 480px) {
+          @media (max-width: 390px) {
             font-size: 0.63rem;
             line-height: initial;
           }
@@ -52,7 +54,7 @@ export const AreaChartStyles = styled.div`
           font-size: 0.75rem;
           color: var(--color-text-3);
 
-          @media (max-width: 480px) {
+          @media (max-width: 390px) {
             font-size: 0.5rem;
             line-height: initial;
           }
@@ -62,17 +64,20 @@ export const AreaChartStyles = styled.div`
 
     & > div:nth-child(2),
     & > div:nth-child(2) svg {
-      @media (max-width: 480px) {
+      @media (max-width: 390px) {
         margin-top: 0.13rem;
         width: 76px !important;
         height: 34px !important;
       }
     }
     strong {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: var(--success);
+      margin-top: 0.5rem;
 
-      @media (max-width: 480px) {
+      @media (max-width: 390px) {
         font-size: 12px;
       }
     }

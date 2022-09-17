@@ -34,6 +34,12 @@ export const BitcoinQuoteStyles = styled.div`
       margin-top: 4rem;
       margin-bottom: 1rem;
     }
+    @media (max-width: 480px) {
+      margin-top: 2.88rem;
+      margin-bottom: 1rem;
+      align-self: initial;
+      justify-content: space-between;
+    }
 
     & > div + div {
       margin-left: 1.5rem;

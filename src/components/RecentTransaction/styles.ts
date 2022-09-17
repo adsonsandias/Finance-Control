@@ -19,7 +19,8 @@ export const RecentTransactionItemStyles = styled.div`
     }
 
     @media (max-width: 480px) {
-      margin-top: 1.75rem;
+      margin-top: 1rem;
+      margin-bottom: 1.38rem;
       font-size: 1.25rem;
     }
   }
@@ -62,6 +63,7 @@ export const MonthTransactionItemStyles = styled.div`
 
   @media (max-width: 980px) {
     grid-column: initial;
+    margin-bottom: 4rem;
   }
 
   @media (max-width: 480px) {
