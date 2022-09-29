@@ -81,6 +81,7 @@ All states will be managed by the Redux toolkit, giving me more control over the
 - Sigin
 - Sigup
 - Page Not Found(404)
+- New Home
 
 
 #### Loading Component :white_check_mark:
@@ -106,14 +107,16 @@ All states will be managed by the Redux toolkit, giving me more control over the
 - New transactions e theme integration item
 
 
+#### Features General :white_check_mark:
+- Credit card implementation 
+
+
 ### Under Construction :construction:
 
-- New Home
+
 - Bitcoin chart and value
-- credit card implementation
 - Rebuild the user page to get useful information
   - config sub routes will be added
-  
 - Handle error on login pages
 - Test and adjust if necessary
 - Adding animation in the web app
