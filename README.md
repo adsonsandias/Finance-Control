@@ -117,7 +117,7 @@ All states will be managed by the Redux toolkit, giving me more control over the
 
 
 - Bitcoin chart and value
-
+- User image update
 - Handle error on login pages
 - Test and adjust if necessary
 - Adding animation in the web app
