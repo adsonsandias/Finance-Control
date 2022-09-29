@@ -34,6 +34,7 @@ export const SpendingItemStyles = styled(motion.li)`
       align-items: flex-end;
       margin-right: 1rem;
       flex: 1;
+      min-width: 146px;
 
       strong {
         color: var(--color-text-2);
