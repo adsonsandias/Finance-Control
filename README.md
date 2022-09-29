@@ -103,13 +103,13 @@ All states will be managed by the Redux toolkit, giving me more control over the
 #### General Adjustment :white_check_mark:
 
 - Redesign Login Page Mobile
+- New transactions e theme integration item
 
 
 ### Under Construction :construction:
 
 - New Home
 - Bitcoin chart and value
-- new transations
 - credit card implementation
 - Rebuild the user page to get useful information
   - config sub routes will be added
