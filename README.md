@@ -105,6 +105,8 @@ All states will be managed by the Redux toolkit, giving me more control over the
 
 - Redesign Login Page Mobile
 - New transactions e theme integration item
+- Rebuild the user page to get useful information
+  - config sub routes will be added
 
 
 #### Features General :white_check_mark:
@@ -115,8 +117,7 @@ All states will be managed by the Redux toolkit, giving me more control over the
 
 
 - Bitcoin chart and value
-- Rebuild the user page to get useful information
-  - config sub routes will be added
+
 - Handle error on login pages
 - Test and adjust if necessary
 - Adding animation in the web app
