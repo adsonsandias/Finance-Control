@@ -73,7 +73,7 @@ interface IAUTHCONTEXTDATA {
   password: IPASSWORDLPROPS["password"];
   loading: boolean;
   userCollection: {
-    [x: string]: any;
+    [x: string]: string | number | any;
     id: string;
   }[];
 
