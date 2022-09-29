@@ -1,26 +1,52 @@
 import styled from "styled-components";
 
 export const RecentTransactionItemStyles = styled.div`
+  overflow: auto;
+  height: 400px;
+  padding-right: 1rem;
+
   @media (max-width: 1100px) {
     grid-column: span 2;
   }
   @media (max-width: 980px) {
     grid-column: initial;
   }
+  @media (max-width: 630px) {
+    min-height: 600px;
+    height: 1000px;
+    overflow: auto;
+  }
+  @media (max-width: 480px) {
+    min-height: 600px;
+    height: 1000px;
+    overflow: auto;
+  }
 
   h1 {
     font-weight: 500;
     font-size: 1.63rem;
-    margin-bottom: 2rem;
     color: var(--color-text-2);
+    position: sticky;
+    top: 0;
+    background: linear-gradient(
+      180deg,
+      #ffffff 69.77%,
+      rgba(255, 255, 255, 0) 96.51%
+    );
+    padding-bottom: 2rem;
+    z-index: 3;
 
     @media (max-width: 780px) {
       font-size: 1.5rem;
     }
 
     @media (max-width: 480px) {
-      margin-top: 1rem;
-      margin-bottom: 1.38rem;
+      background: linear-gradient(
+        180deg,
+        var(--background) 69.77%,
+        rgba(255, 255, 255, 0) 96.51%
+      );
+      padding-top: 1rem;
       font-size: 1.25rem;
     }
   }

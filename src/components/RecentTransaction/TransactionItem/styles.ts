@@ -101,68 +101,80 @@ export const Container = styled.div`
       grid-template-columns: 1fr;
       grid-auto-flow: dense;
     }
+  }
+`;
 
-    span:first-child {
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-      font-size: 1rem;
-      line-height: 1.25rem;
-      color: var(--color-text-2);
-      margin-left: 1rem;
-      @media (max-width: 630px) {
-        color: var(--color-text-3);
-        text-align: end;
-        margin-left: initial;
-      }
-      @media (max-width: 480px) {
-        color: var(--color-text-3);
-        font-size: 0.88rem;
-        text-align: end;
-        margin-left: initial;
-      }
+// Type Item
+interface ICOLORITEM {
+  isColor: string;
+}
 
-      &::before {
-        content: "";
-        width: 0.31rem;
-        height: 0.31rem;
-        display: block;
-        border-radius: 50%;
-        margin-right: 0.5rem;
-        background: linear-gradient(93.67deg, #64d0ff -8.18%, #4174fa 112.11%);
+export const CategoryItem = styled.span<ICOLORITEM>`
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  color: var(--color-text-2);
+  margin-left: 1rem;
+  position: relative;
+  @media (max-width: 630px) {
+    color: var(--color-text-3);
+    text-align: end;
+    margin-left: initial;
+  }
+  @media (max-width: 480px) {
+    color: var(--color-text-3);
+    font-size: 0.88rem;
+    text-align: end;
+    margin-left: initial;
+  }
 
-        @media (max-width: 630px) {
-          display: none;
-          margin-right: initials;
-        }
-        @media (max-width: 480px) {
-          display: none;
-          margin-right: initials;
-        }
-      }
+  &::before {
+    content: "";
+    width: 0.31rem;
+    height: 0.31rem;
+    display: block;
+    border-radius: 50%;
+    left: -0.75rem;
+    position: absolute;
+    background: ${(props) => props.theme.bgType};
+
+    @media (max-width: 630px) {
+      display: none;
+      margin-right: initials;
     }
-
-    span:last-child {
-      text-align: end;
-      font-weight: 500;
-      font-size: 1rem;
-      line-height: 1.25rem;
-      color: var(--success);
-
-      @media (max-width: 630px) {
-        grid-row: 1;
-        text-align: start;
-        font-size: 1.25rem;
-        margin-top: 0.5rem;
-        margin-bottom: 1rem;
-      }
-      @media (max-width: 480px) {
-        grid-row: 1;
-        text-align: start;
-        font-size: 1.25rem;
-        margin-top: 0.5rem;
-        margin-bottom: 1rem;
-      }
+    @media (max-width: 480px) {
+      display: none;
+      margin-right: initials;
     }
+  }
+`;
+
+// Valeu Item
+interface IVALUEITEM {
+  isactive: boolean;
+}
+
+export const ValueItem = styled.span<IVALUEITEM>`
+  text-align: end;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  color: ${(props) => (props.isactive ? "var(--success)" : "var(--withdraw)")};
+
+  @media (max-width: 630px) {
+    grid-row: 1;
+    text-align: start;
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 480px) {
+    grid-row: 1;
+    text-align: start;
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
   }
 `;

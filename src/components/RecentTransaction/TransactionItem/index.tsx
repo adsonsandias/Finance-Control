@@ -1,25 +1,34 @@
-import { ReactComponent as IconCart } from "../../../assets/shopping-cart.svg";
-import { Container } from "./styles";
+import { ThemeProvider } from "styled-components";
+
+import { Container, CategoryItem, ValueItem } from "./styles";
+import { themeCategory } from "./themeCategory";
 
 interface ICATEGORY {
   category: string;
   type: string;
+  title: string;
+  value: string;
+  date: string;
 }
 
 export function TransactionItem({ ...props }: ICATEGORY) {
-  const { category, type } = props;
+  const { category, type, title, value, date } = props;
 
   return (
     <Container>
       <div>
-        <IconCart />
-        <strong>Desenvolvimento de site</strong>
-        <span>13/04/2021</span>
+        {themeCategory(category)?.icone}
+        <strong>{title}</strong>
+        <span>{date}</span>
       </div>
-      <div>
-        <span>Venda</span>
-        <span>R$ 12.000,00</span>
-      </div>
+      <ThemeProvider theme={{ bgType: themeCategory(category)?.item }}>
+        <div>
+          <CategoryItem isColor={category}>
+            {themeCategory(category)?.text}
+          </CategoryItem>
+          <ValueItem isactive={type === "deposit"}>{value}</ValueItem>
+        </div>
+      </ThemeProvider>
     </Container>
   );
 }
