@@ -2,11 +2,13 @@
 import React from "react";
 import Modal from "react-modal";
 
+import iconArrow from "../../assets/arrow-icon-down.svg";
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
 import { AuthContext } from "../../contexts/AuthContext";
 import { container } from "../Helps/FrameMotion";
+import { categorylist } from "./categorylist";
 import {
   BtnCadastrar,
   Container,
@@ -33,8 +35,9 @@ export function TransactionModal({
   const [category, setCategory] = React.useState("");
   const [amount, setAmount] = React.useState(0);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async function setTransactionCloudFirestore(event: any) {
+  async function setTransactionCloudFirestore(event: {
+    preventDefault: () => void;
+  }) {
     event.preventDefault();
     if (title && type && category && amount) {
       await setCloudFirestore({
@@ -106,12 +109,20 @@ export function TransactionModal({
             </BtnTypeTransition>
           </IncomeDiscountsContainer>
 
-          <input
-            type="text"
-            placeholder="Categoria"
+          <select
             value={category}
             onChange={({ target }) => setCategory(target.value)}
-          />
+            style={{ backgroundImage: `url(${iconArrow})` }}
+          >
+            <option disabled selected value="">
+              Categoria
+            </option>
+            {categorylist.map(({ value, title }) => (
+              <option key={value} value={value}>
+                {title}
+              </option>
+            ))}
+          </select>
 
           <BtnCadastrar type="submit">Cadastrar</BtnCadastrar>
         </Container>

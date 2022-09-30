@@ -19,7 +19,8 @@ export const Container = styled.form`
     }
   }
 
-  input {
+  input,
+  select {
     width: 100%;
     padding: 0 1.5rem;
     height: 4rem;
@@ -49,6 +50,13 @@ export const Container = styled.form`
       box-shadow: 0px 0px 0px 4px rgba(239, 239, 239, 0.8),
         0px 0px 0px 5px rgba(123, 123, 123, 0.5);
     }
+  }
+
+  select {
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    background-size: 1rem;
   }
 `;
 
