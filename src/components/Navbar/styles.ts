@@ -15,7 +15,7 @@ export const Container = styled.nav`
   position: fixed;
   right: 0;
   left: 0;
-  z-index: 999999;
+  z-index: 9999;
   @media (max-width: 480px) {
     bottom: 1rem;
     height: 64px;
