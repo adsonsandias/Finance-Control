@@ -6,7 +6,13 @@ import IconBitcon from "../../../assets/bitcoin.svg";
 import { dataBitcoin } from "../../../services/ApiCard";
 import { AreaChartStyles } from "./styles";
 
-export function AreaChartItem() {
+interface IAREACHARTITEM {
+  value: number | string;
+  symbol: string;
+}
+
+export function AreaChartItem({ ...props }: IAREACHARTITEM) {
+  const { value, symbol } = props;
   return (
     <AreaChartStyles>
       <div>
@@ -14,7 +20,7 @@ export function AreaChartItem() {
           <img src={IconBitcon} alt="Icone do Bitcoin " />
           <div>
             <span>Bitcon</span>
-            <span>usd</span>
+            <span>{symbol}</span>
           </div>
         </div>
         <AreaChart width={127} height={63} data={dataBitcoin}>
@@ -32,7 +38,7 @@ export function AreaChartItem() {
             fill="url(#colorPv)"
           />
         </AreaChart>
-        <strong>R$ 25416,00</strong>
+        <strong>{value}</strong>
       </div>
     </AreaChartStyles>
   );
