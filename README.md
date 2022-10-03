@@ -111,12 +111,13 @@ All states will be managed by the Redux toolkit, giving me more control over the
 
 #### Features General :white_check_mark:
 - Credit card implementation 
+- Bitcoin value
 
 
 ### Under Construction :construction:
 
 
-- Bitcoin chart and value
+- Bitcoin chart
 - User image update
 - Handle error on login pages
 - Test and adjust if necessary
