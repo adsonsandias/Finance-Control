@@ -69,27 +69,40 @@ Finance Control is a comprehensive financial management application built with m
 
 ## 🏗️ Architecture
 
-This project follows **Clean Architecture** principles with clear separation of concerns:
+This project follows **Micro Frontend Architecture** with **Clean Architecture** principles:
 
-### Frontend Architecture
+### Project Structure
 ```
-src/
-├── application/          # Application layer (use cases, services)
-│   ├── hooks/           # Custom React hooks
-│   └── services/        # Application services
-├── domain/              # Domain layer (entities, repositories)
-│   ├── entities/        # Business entities
-│   ├── repositories/    # Repository interfaces
-│   └── use-cases/       # Business use cases
-├── infrastructure/      # Infrastructure layer (API, storage)
-│   ├── api/            # API clients and repositories
-│   └── storage/        # Local storage utilities
-├── presentation/        # Presentation layer (UI components)
-│   ├── components/     # Reusable UI components
-│   ├── contexts/       # React contexts
-│   └── pages/          # Page components
-└── shared/             # Shared utilities and constants
+/
+├── backend/                  # Backend API and services
+│   ├── src/                  # Source code
+│   ├── config/               # Configuration files
+│   ├── migrations/           # Database migrations
+│   └── Dockerfile.backend    # Backend container
+├── frontend/                 # Frontend modules (micro frontends)
+│   ├── auth/                 # Authentication module
+│   │   ├── src/              # Auth-specific components
+│   │   ├── public/           # Auth public assets
+│   │   └── package.json      # Auth dependencies
+│   ├── dashboard/            # Dashboard module
+│   │   ├── src/              # Dashboard components
+│   │   ├── public/           # Dashboard public assets
+│   │   └── package.json      # Dashboard dependencies
+│   └── Dockerfile.frontend   # Frontend container
+├── shared/                   # Shared code between modules
+│   ├── types/                # TypeScript types
+│   ├── constants/            # Shared constants
+│   ├── utils/                # Utility functions
+│   └── lib/                  # Internal libraries
+└── docker-compose.yml        # Multi-container setup
 ```
+
+### Micro Frontend Benefits
+- **Independent Development**: Each module can be developed separately
+- **Technology Flexibility**: Different modules can use different versions
+- **Scalable Teams**: Teams can work on different modules independently
+- **Deployment Independence**: Modules can be deployed separately
+- **Code Isolation**: Reduces coupling between different features
 
 ### Backend Architecture
 ```
@@ -147,78 +160,86 @@ Before running this project, make sure you have the following installed:
 
 ## 🚀 Installation
 
-### Option 1: Local Development Setup
+### Prerequisites
+- Node.js 18+ and npm
+- PostgreSQL 14+
+- Git
+
+### Monorepo Development
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/finance-control.git
+   git clone https://github.com/yourusername/finance-control.git
    cd finance-control
    ```
 
-2. **Install frontend dependencies**
+2. **Install all dependencies**
    ```bash
+   # Install root dependencies and all workspace dependencies
    npm install
    ```
 
-3. **Install backend dependencies**
+3. **Environment setup**
    ```bash
-   cd backend
-   npm install
-   cd ..
-   ```
-
-4. **Set up PostgreSQL database**
-   ```bash
-   # Create database
-   createdb finance_control
-   
-   # Run database migrations
-   psql -d finance_control -f supabase/init.sql
-   ```
-
-5. **Configure environment variables**
-   
-   **Frontend (.env)**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
-   
-   **Backend (backend/.env)**
-   ```bash
+   # Copy environment files
    cp backend/.env.example backend/.env
-   # Edit backend/.env with your database credentials
+   
+   # Configure your database and JWT settings in backend/.env
    ```
 
-6. **Start the development servers**
-   
-   **Terminal 1 - Backend**
+4. **Database setup**
    ```bash
-   cd backend
+   # Run the SQL setup script in your PostgreSQL database
+   psql -U your_username -d your_database -f backend/migrations/init.sql
+   ```
+
+5. **Start development servers**
+   ```bash
+   # Start all services in development mode
    npm run dev
-   ```
    
-   **Terminal 2 - Frontend**
-   ```bash
-   npm start
+   # Or start individual modules:
+   npm run dev:auth      # Auth module only
+   npm run dev:dashboard # Dashboard module only
+   npm run dev:backend   # Backend only
    ```
 
-### Option 2: Docker Setup
+### Docker Development
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/finance-control.git
-   cd finance-control
-   ```
+```bash
+# Start all services (auth, dashboard, backend, database)
+docker-compose up -d
 
-2. **Start with Docker Compose**
-   ```bash
-   docker-compose up -d
-   ```
+# View logs
+docker-compose logs -f
+
+# Start specific services
+docker-compose up frontend-auth backend db
+
+# Stop services
+docker-compose down
+```
+
+### Module-Specific Development
+
+```bash
+# Work on authentication module
+cd frontend/auth
+npm run dev
+
+# Work on dashboard module
+cd frontend/dashboard
+npm run dev
+
+# Work on shared components
+cd shared
+npm run build
+```
 
 The application will be available at:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
+- **Auth Module**: http://localhost:3000
+- **Dashboard Module**: http://localhost:3001
+- **Backend API**: http://localhost:5000
 - **Database**: localhost:5432
 
 ## 📖 Usage
@@ -258,9 +279,10 @@ The project includes a complete Docker setup for easy deployment and development
 
 ### Services
 
-- **Frontend**: React application (port 3000)
-- **Backend**: Node.js API (port 3001)
-- **Database**: PostgreSQL 15 (port 5432)
+- **Database**: PostgreSQL 14 with automatic initialization
+- **Backend**: Node.js/Express API server
+- **Frontend Auth**: Authentication module (React)
+- **Frontend Dashboard**: Dashboard module (React)
 
 ### Quick Start with Docker
 
@@ -272,25 +294,33 @@ cd finance-control
 # Start all services
 docker-compose up -d
 
-# View logs
-docker-compose logs -f
+# Check service status
+docker-compose ps
 
-# Stop services
+# View logs
+docker-compose logs -f [service-name]
+
+# Stop all services
 docker-compose down
 ```
 
-### Development with Docker
-
-For development with hot reload:
+### Development Workflow
 
 ```bash
-# Start in development mode
-docker-compose -f docker-compose.yml up -d
+# Rebuild after code changes
+docker-compose up --build
 
-# Access the application
-# Frontend: http://localhost:3000
-# Backend: http://localhost:3001
-# Database: localhost:5432
+# Start specific modules
+docker-compose up frontend-auth backend db
+docker-compose up frontend-dashboard backend db
+
+# Access database directly
+docker-compose exec db psql -U postgres -d finance_control
+
+# Service-specific logs
+docker-compose logs -f backend
+docker-compose logs -f frontend-auth
+docker-compose logs -f frontend-dashboard
 ```
 
 ## 🧪 Testing
@@ -379,7 +409,56 @@ cd backend
 npm run build
 ```
 
-### Environment Variables
+## 🔧 Environment Variables
+
+### Security & Configuration
+This project uses a secure configuration approach:
+- **Sensitive data** is stored in `.env` files (git-ignored)
+- **Configuration templates** are provided in `.env.example` files
+- **Shared configuration** is managed in the `backend/config/` directory
+
+### Backend Configuration
+Copy and configure the backend environment:
+```bash
+cp backend/.env.example backend/.env
+```
+
+**Backend (.env)**
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=finance_control
+DB_USER=your_username
+DB_PASSWORD=your_password
+
+# JWT Configuration
+JWT_SECRET=your_super_secret_jwt_key
+JWT_EXPIRES_IN=24h
+
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:3000
+
+# Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+```
+
+### Frontend Modules
+Each frontend module can have its own environment configuration:
+```bash
+# Auth module
+cp frontend/auth/.env.example frontend/auth/.env
+
+# Dashboard module  
+cp frontend/dashboard/.env.example frontend/dashboard/.env
+```
+
+### Production Environment Variables
 
 Make sure to set the following environment variables in production:
 

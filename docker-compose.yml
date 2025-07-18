@@ -12,7 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./supabase/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - finance_network
     healthcheck:
@@ -21,20 +21,20 @@ services:
       timeout: 5s
       retries: 5
 
-  # Frontend React App
-  frontend:
+  # Frontend Auth Module
+  frontend-auth:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.frontend
-    container_name: finance_frontend
+    container_name: finance_frontend_auth
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_SUPABASE_URL=http://localhost:3001
-      - REACT_APP_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+      - REACT_APP_API_URL=http://localhost:3001/api
     volumes:
-      - ./src:/app/src
-      - ./public:/app/public
+      - ./frontend/auth/src:/app/src
+      - ./frontend/auth/public:/app/public
+      - ./shared:/app/shared
       - /app/node_modules
     networks:
       - finance_network
@@ -42,18 +42,42 @@ services:
       db:
         condition: service_healthy
 
-  # Simple Backend API (Node.js + Express)
+  # Frontend Dashboard Module
+  frontend-dashboard:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: finance_frontend_dashboard
+    ports:
+      - "3001:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001/api
+    volumes:
+      - ./frontend/dashboard/src:/app/src
+      - ./frontend/dashboard/public:/app/public
+      - ./shared:/app/shared
+      - /app/node_modules
+    networks:
+      - finance_network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Backend API (Node.js + Express)
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.backend
     container_name: finance_backend
     ports:
-      - "3001:3001"
+      - "3002:3001"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres123@db:5432/postgres
       - JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
       - PORT=3001
+    volumes:
+      - ./backend/src:/app/src
+      - ./shared:/app/shared
     networks:
       - finance_network
     depends_on:

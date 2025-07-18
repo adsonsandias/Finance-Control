@@ -1,0 +1,17 @@
+{
+  "name": "@finance-control/shared",
+  "version": "1.0.0",
+  "description": "Shared types and utilities for Finance Control",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
