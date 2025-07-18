@@ -1,20 +1,20 @@
-# Backend Dockerfile
+# Frontend Dashboard Module Dockerfile
 FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files for backend
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy backend source code
+# Copy source code
 COPY . .
 
 # Expose port
-EXPOSE 3001
+EXPOSE 3000
 
-# Start the server
+# Start development server
 CMD ["npm", "start"]

@@ -4,7 +4,7 @@
   "description": "Authentication module for Finance Control",
   "private": true,
   "dependencies": {
-    "@finance-control/shared": "^1.0.0",
+    "@finance-control/shared": "file:../../shared",
     "@lottiefiles/react-lottie-player": "^3.4.7",
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",

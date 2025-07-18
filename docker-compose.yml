@@ -24,8 +24,8 @@ services:
   # Frontend Auth Module
   frontend-auth:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile.frontend
+      context: ./frontend/auth
+      dockerfile: Dockerfile
     container_name: finance_frontend_auth
     ports:
       - "3000:3000"
@@ -45,8 +45,8 @@ services:
   # Frontend Dashboard Module
   frontend-dashboard:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile.frontend
+      context: ./frontend/dashboard
+      dockerfile: Dockerfile
     container_name: finance_frontend_dashboard
     ports:
       - "3001:3000"
