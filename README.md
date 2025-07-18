@@ -398,6 +398,46 @@ npm run test:coverage
 
 ## 🚀 Deployment
 
+### 🔒 Production Preparation
+
+**IMPORTANT**: Before deploying, run the security check:
+
+```bash
+# Run the security check script
+./security-check.sh
+```
+
+### Security Checklist
+
+- [ ] All sensitive variables are in `.env` files (not committed)
+- [ ] JWT_SECRET has at least 32 characters and is unique
+- [ ] Database passwords are strong and unique
+- [ ] NODE_ENV is set to 'production'
+- [ ] CORS is configured only for authorized domains
+- [ ] HTTPS is configured
+
+### Production Configuration
+
+1. **Configure production environment variables:**
+```bash
+# For Docker
+cp .env.docker.example .env.docker
+# Edit .env.docker with your production settings
+
+# For traditional deployment
+cp .env.production.example .env.production
+# Edit .env.production with your settings
+```
+
+2. **Generate secure secrets:**
+```bash
+# JWT Secret (at least 32 characters)
+openssl rand -base64 32
+
+# Strong database password
+openssl rand -base64 24
+```
+
 ### Production Build
 
 ```bash
@@ -407,6 +447,17 @@ npm run build
 # Build backend (if applicable)
 cd backend
 npm run build
+```
+
+### Docker Deployment
+
+```bash
+# Configure environment variables
+cp .env.docker.example .env.docker
+# Edit .env.docker with your settings
+
+# Run with production configuration
+docker-compose --env-file .env.docker up -d
 ```
 
 ## 🔧 Environment Variables

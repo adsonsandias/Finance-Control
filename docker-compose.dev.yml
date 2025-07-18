@@ -1,0 +1,36 @@
+# Docker Compose para Desenvolvimento
+# Use: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  # PostgreSQL Database - Development overrides
+  db:
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_PORT: 5432
+
+  # Backend API - Development overrides
+  backend:
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres123@db:5432/postgres
+      - JWT_SECRET=development-jwt-secret-not-for-production-use-only
+      - PORT=3001
+      - NODE_ENV=development
+      - CORS_ORIGIN=http://localhost:3000
+    volumes:
+      - ./backend:/app
+      - ./shared:/app/shared
+      - /app/node_modules
+
+  # Frontend Auth Module - Development overrides
+  frontend-auth:
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001/api
+      - NODE_ENV=development
+
+  # Frontend Dashboard Module - Development overrides
+  frontend-dashboard:
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001/api
+      - NODE_ENV=development
