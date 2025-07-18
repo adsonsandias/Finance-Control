@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import bglogin from "../../assets/bg-login.jpg";
 import { ReactComponent as IconGithub } from "../../assets/github.svg";
@@ -17,28 +17,31 @@ import { useAuthContext } from "../../presentation/contexts/AuthContext";
 
 export function Signin() {
   const { user, isLoading, signIn, checkAuthStatus } = useAuthContext();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     // Verificar status de autenticação quando a página carrega
     checkAuthStatus();
   }, [checkAuthStatus]);
 
-  const handleAuth0Login = async () => {
+  const handleLogin = async () => {
     try {
-      await signIn({ email: "", password: "" }); // Auth0 irá redirecionar
+      if (!email || !password) {
+        alert("Por favor, preencha todos os campos");
+        return;
+      }
+      await signIn({ email, password });
+      navigate("/");
     } catch (error) {
       console.error("Erro no login:", error);
+      alert("Erro ao fazer login. Verifique suas credenciais.");
     }
   };
 
-  const handleAuth0Signup = async () => {
-    try {
-      // Redirecionar para Auth0 com hint de signup
-      window.location.href =
-        "http://localhost:3001/auth/login?screen_hint=signup";
-    } catch (error) {
-      console.error("Erro no cadastro:", error);
-    }
+  const handleGoToSignup = () => {
+    navigate("/signup");
   };
 
   if (isLoading) return <Loading />;
@@ -62,7 +65,7 @@ export function Signin() {
         </ContentBackground>
         <ContentForm>
           <h1>Bem-vindo ao Finance Control</h1>
-          <p>Faça login com Auth0 para acessar sua conta de forma segura</p>
+          <p>Faça login para acessar sua conta de forma segura</p>
 
           <div
             style={{
@@ -72,48 +75,54 @@ export function Signin() {
               gap: "1rem",
             }}
           >
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem",
+              }}
+            />
+            <input
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem",
+              }}
+            />
             <Button
               isActive="sign"
-              type="button"
               name="login"
-              onClick={handleAuth0Login}
+              type="button"
+              onClick={handleLogin}
+              disabled={isLoading}
             >
-              Entrar com Auth0
+              {isLoading ? "Carregando..." : "Entrar"}
             </Button>
 
             <Button
               isActive="button"
-              type="button"
               name="signup"
-              onClick={handleAuth0Signup}
+              type="button"
+              onClick={handleGoToSignup}
+              disabled={isLoading}
             >
-              Criar Conta
+              Criar conta
             </Button>
           </div>
 
           <div style={{ marginTop: "2rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.9rem", color: "#666" }}>
-              Autenticação segura fornecida por Auth0
-            </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "1rem",
-                marginTop: "1rem",
-              }}
-            >
-              <IconGoogle
-                style={{ width: "24px", height: "24px", opacity: 0.6 }}
-              />
-              <IconGithub
-                style={{ width: "24px", height: "24px", opacity: 0.6 }}
-              />
-            </div>
-            <p
-              style={{ fontSize: "0.8rem", color: "#999", marginTop: "0.5rem" }}
-            >
-              Suporte para Google, GitHub e mais
+              Autenticação segura fornecida por Supabase
             </p>
           </div>
         </ContentForm>

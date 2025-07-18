@@ -1,37 +1,336 @@
-# Finance Control
+<div align="center">
+  <h1>💰 Finance Control</h1>
+  <p><strong>A modern, full-stack financial management application</strong></p>
+  
+  <p>
+    <img alt="Version" src="https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000" />
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+    <img alt="Node" src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg" />
+    <img alt="React" src="https://img.shields.io/badge/react-18.2.0-blue.svg" />
+  </p>
+</div>
 
-Financial control (web) application focused on accessibility and usability, transforming the experience of how you manage your finances.
+## 📋 Table of Contents
 
-The concept around the purpose of the application has been expanded, now not only can you manage your personal finances, but you can look in real time at the value of Bitcoin, in the three main currencies, Euro, Dollar, and Real, you will now have a detailed chart about your expenses, as well as credit card expenses (the active credit card in the app is not real, because it is a personal project and without a partnership or integration with banks, the objective is just to demonstrate a better usability of the experience which your credit expenses are visualized)
+- [About](#about)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Docker Setup](#docker-setup)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
 
-More technical concepts of the app
+## 🎯 About
 
-The application will have a database that is where I store the login information, profile image and user data regarding the added transactions, and for that I am using Firebase, for user authentication either by email or right login through the account Google (Github also once it's done).
+Finance Control is a comprehensive financial management application built with modern web technologies. It provides users with an intuitive interface to track their personal finances, monitor real-time Bitcoin prices, and manage transactions with detailed analytics.
 
+### Key Highlights
 
-All transactions are saved in Firestore Database, and returned instantly to the user once added, he can delete the information and update the ones that have already been added, thus closing a complete C.R.U.D made in Firebase. If you want to change your name and add a profile picture, you can do so.
+- **Full-Stack Application**: Complete frontend and backend implementation
+- **Clean Architecture**: Domain-driven design with clear separation of concerns
+- **Real-time Data**: Live Bitcoin price tracking across multiple currencies
+- **Secure Authentication**: JWT-based authentication with bcrypt password hashing
+- **Responsive Design**: Mobile-first approach with modern UI/UX
+- **Docker Support**: Containerized deployment for easy setup
 
+## ✨ Features
 
-All states will be managed by the Redux toolkit, giving me more control over the application and its triggered states.
+### 🔐 Authentication & Security
+- User registration and login with email/password
+- JWT-based authentication with refresh tokens
+- Secure password hashing with bcryptjs
+- Protected routes and middleware
+- Rate limiting and CORS protection
 
-## Preview 🚧
-## 🚧
+### 💳 Financial Management
+- Create, read, update, and delete transactions
+- Transaction categorization and filtering
+- Real-time balance calculations
+- Transaction history with detailed analytics
+- Credit card expense tracking (demo purposes)
 
-## Design System
+### 📊 Analytics & Insights
+- Transaction summary with visual charts
+- Monthly/yearly financial reports
+- Expense categorization breakdown
+- Real-time Bitcoin price monitoring (EUR, USD, BRL)
 
-### Font: Montserrat (400, 500, 600, 700)
+### 🎨 User Experience
+- Responsive design for all devices
+- Modern and intuitive interface
+- Loading animations with Lottie
+- Modal components with accessibility features
+- Dark/light theme support
 
-### Color
-| Color Order |  0% | 100% | Preview  |
-|---------------|---------------|---------------|------|
-| Primary Color | `#FFE664`  | `#FA8341` |![Primary-Color](https://user-images.githubusercontent.com/27157739/181995021-9573d4c8-36fc-4b62-9320-2e96f01617db.svg) |
-| Secondary Color | `#F0F2F5` | | ![Secondary-Color](https://user-images.githubusercontent.com/27157739/181995593-772b8894-8e45-48f1-965a-8dfd33b8dd23.svg) |
-| Primary Color Text| `#363F5F` | | ![Primary-Color-Text](https://user-images.githubusercontent.com/27157739/181995687-2e4bc773-95c7-412a-b434-c9d89c4c466d.svg) |
-| Secondary Color Text| `#969CB2` | | ![Secondary-Color-Text](https://user-images.githubusercontent.com/27157739/181995595-76335c81-7879-44cf-8243-18482d766895.svg) | 
-| Detail in green| `#7FDFBD` | `#12A454` | ![Detail-in-green](https://user-images.githubusercontent.com/27157739/181995791-f8588799-9101-4ccd-96b9-2edb17e8f0f7.svg) |
-| Detail in red| `#E52E4D` | `#F296A5` | ![Detail-in-red](https://user-images.githubusercontent.com/27157739/181995896-615fd709-8c88-4a38-a74e-f5370a1eb0c6.svg) |
-| Header title color | `#834713` | | ![Header-title-color](https://user-images.githubusercontent.com/27157739/181995922-ac8fd502-df3e-4b73-a8bd-cc740acf28ab.svg) |
-| Green | `#33CC95` | | ![Green](https://user-images.githubusercontent.com/27157739/181995934-40715750-0143-4431-bbd6-3fd6c0b7edbc.svg) |
+## 🏗️ Architecture
+
+This project follows **Clean Architecture** principles with clear separation of concerns:
+
+### Frontend Architecture
+```
+src/
+├── application/          # Application layer (use cases, services)
+│   ├── hooks/           # Custom React hooks
+│   └── services/        # Application services
+├── domain/              # Domain layer (entities, repositories)
+│   ├── entities/        # Business entities
+│   ├── repositories/    # Repository interfaces
+│   └── use-cases/       # Business use cases
+├── infrastructure/      # Infrastructure layer (API, storage)
+│   ├── api/            # API clients and repositories
+│   └── storage/        # Local storage utilities
+├── presentation/        # Presentation layer (UI components)
+│   ├── components/     # Reusable UI components
+│   ├── contexts/       # React contexts
+│   └── pages/          # Page components
+└── shared/             # Shared utilities and constants
+```
+
+### Backend Architecture
+```
+backend/src/
+├── application/         # Application layer
+│   ├── services/       # Application services
+│   ├── use-cases/      # Business use cases
+│   └── validators/     # Input validation
+├── domain/             # Domain layer
+│   └── entities/       # Business entities
+├── infrastructure/     # Infrastructure layer
+│   └── repositories/   # Data access implementations
+├── presentation/       # Presentation layer
+│   └── controllers/    # HTTP controllers
+└── config/            # Configuration and dependencies
+```
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18.2.0** - UI library with hooks and context
+- **TypeScript** - Type-safe JavaScript
+- **Styled Components** - CSS-in-JS styling
+- **React Router** - Client-side routing
+- **Framer Motion** - Animation library
+- **React Modal** - Accessible modal components
+- **Lottie React** - Animation rendering
+
+### Backend
+- **Node.js 18+** - JavaScript runtime
+- **Express.js** - Web application framework
+- **PostgreSQL** - Relational database
+- **JWT** - JSON Web Tokens for authentication
+- **bcryptjs** - Password hashing
+- **Helmet** - Security middleware
+- **CORS** - Cross-origin resource sharing
+- **Rate Limiting** - API protection
+
+### DevOps & Tools
+- **Docker & Docker Compose** - Containerization
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **Nodemon** - Development server
+- **Git** - Version control
+
+## 📋 Prerequisites
+
+Before running this project, make sure you have the following installed:
+
+- **Node.js** (version 18 or higher)
+- **npm** or **yarn**
+- **PostgreSQL** (version 15 or higher)
+- **Docker** and **Docker Compose** (optional, for containerized setup)
+- **Git**
+
+## 🚀 Installation
+
+### Option 1: Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/finance-control.git
+   cd finance-control
+   ```
+
+2. **Install frontend dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install backend dependencies**
+   ```bash
+   cd backend
+   npm install
+   cd ..
+   ```
+
+4. **Set up PostgreSQL database**
+   ```bash
+   # Create database
+   createdb finance_control
+   
+   # Run database migrations
+   psql -d finance_control -f supabase/init.sql
+   ```
+
+5. **Configure environment variables**
+   
+   **Frontend (.env)**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+   
+   **Backend (backend/.env)**
+   ```bash
+   cp backend/.env.example backend/.env
+   # Edit backend/.env with your database credentials
+   ```
+
+6. **Start the development servers**
+   
+   **Terminal 1 - Backend**
+   ```bash
+   cd backend
+   npm run dev
+   ```
+   
+   **Terminal 2 - Frontend**
+   ```bash
+   npm start
+   ```
+
+### Option 2: Docker Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/finance-control.git
+   cd finance-control
+   ```
+
+2. **Start with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+The application will be available at:
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:3001
+- **Database**: localhost:5432
+
+## 📖 Usage
+
+### Getting Started
+
+1. **Access the application** at http://localhost:3000
+2. **Create an account** using the signup form
+3. **Login** with your credentials
+4. **Start managing your finances**:
+   - Add income and expense transactions
+   - View your transaction history
+   - Monitor your balance and analytics
+   - Check real-time Bitcoin prices
+
+### API Endpoints
+
+#### Authentication
+- `POST /api/auth/signup` - User registration
+- `POST /api/auth/token` - User login
+- `POST /api/auth/logout` - User logout
+- `POST /api/auth/refresh` - Refresh access token
+- `GET /api/auth/user` - Get current user
+
+#### Transactions
+- `GET /api/transactions` - Get user transactions
+- `POST /api/transactions` - Create new transaction
+- `PUT /api/transactions/:id` - Update transaction
+- `DELETE /api/transactions/:id` - Delete transaction
+
+#### Health Check
+- `GET /api/health` - API health status
+
+## 🐳 Docker Setup
+
+The project includes a complete Docker setup for easy deployment and development.
+
+### Services
+
+- **Frontend**: React application (port 3000)
+- **Backend**: Node.js API (port 3001)
+- **Database**: PostgreSQL 15 (port 5432)
+
+### Quick Start with Docker
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/finance-control.git
+cd finance-control
+
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Development with Docker
+
+For development with hot reload:
+
+```bash
+# Start in development mode
+docker-compose -f docker-compose.yml up -d
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend: http://localhost:3001
+# Database: localhost:5432
+```
+
+## 🧪 Testing
+
+### Running Tests
+
+```bash
+# Frontend tests
+npm test
+
+# Backend tests
+cd backend
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+### Test Structure
+
+- **Unit Tests**: Testing individual components and functions
+- **Integration Tests**: Testing API endpoints and database interactions
+- **E2E Tests**: End-to-end user flow testing
+
+## 🎨 Design System
+
+### Typography
+- **Font Family**: Montserrat (400, 500, 600, 700)
+
+### Color Palette
+
+| Color | Hex Code | Usage |
+|-------|----------|-------|
+| Primary | `#FFE664` to `#FA8341` | Buttons, highlights |
+| Secondary | `#F0F2F5` | Backgrounds |
+| Text Primary | `#363F5F` | Main text |
+| Text Secondary | `#969CB2` | Secondary text |
+| Success | `#12A454` | Positive actions |
+| Error | `#E52E4D` | Error states |
+| Warning | `#FF872C` | Warning states |
 
 
 
@@ -67,86 +366,103 @@ All states will be managed by the Redux toolkit, giving me more control over the
 ![nav](https://user-images.githubusercontent.com/27157739/181994926-85dc86fb-e730-4279-9064-791d656e8fca.png)
 
 
-## Web App Final Production screens
+## 🚀 Deployment
 
-##### Responsivo Tablet/Mobile 🚧
-## 🚧
+### Production Build
 
-## Status
+```bash
+# Build frontend
+npm run build
 
-### Completed :white_check_mark:
+# Build backend (if applicable)
+cd backend
+npm run build
+```
 
-#### Pages :white_check_mark:
+### Environment Variables
 
-- Sigin
-- Sigup
-- Page Not Found(404)
-- New Home
+Make sure to set the following environment variables in production:
 
+**Frontend**
+- `REACT_APP_API_URL`: Backend API URL
 
-#### Loading Component :white_check_mark:
+**Backend**
+- `DATABASE_URL`: PostgreSQL connection string
+- `JWT_SECRET`: Secret key for JWT tokens
+- `NODE_ENV`: Set to 'production'
+- `PORT`: Server port (default: 3001)
 
-- Loading Component with lottie animation
+## 🤝 Contributing
 
+Contributions are welcome! Please follow these steps:
 
-#### Routes :white_check_mark:
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit your changes**
+   ```bash
+   git commit -m 'Add some amazing feature'
+   ```
+4. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Open a Pull Request**
 
-- Redirected Routes
-- Protected Route
+### Development Guidelines
 
-#### Context 
+- Follow the existing code style and conventions
+- Write tests for new features
+- Update documentation as needed
+- Use meaningful commit messages
+- Ensure all tests pass before submitting PR
 
-#### Firebase :white_check_mark:
+## 📄 License
 
-- Firebase Authentication with Google and Email
-- Firestore integration with unique data collection for each user 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-#### General Adjustment :white_check_mark:
+## 👨‍💻 Author
 
-- Redesign Login Page Mobile
-- New transactions e theme integration item
-- Rebuild the user page to get useful information
-  - config sub routes will be added
+**Adson Santos**
 
+- LinkedIn: [@adson-santos](https://www.linkedin.com/in/adson-santos-72ba75140/)
+- Instagram: [@adson.san.dev](https://instagram.com/adson.san.dev)
 
-#### Features General :white_check_mark:
-- Credit card implementation 
-- Bitcoin value
+## 🙏 Acknowledgments
 
+- Thanks to all contributors who have helped improve this project
+- Inspired by modern financial management applications
+- Built with love for the developer community
 
-### Under Construction :construction:
+## 📊 Project Status
 
+### ✅ Completed Features
+- User authentication and authorization
+- Transaction CRUD operations
+- Real-time Bitcoin price tracking
+- Responsive design
+- Docker containerization
+- Clean architecture implementation
 
-- Bitcoin chart
-- User image update
-- Handle error on login pages
-- Test and adjust if necessary
-- Adding animation in the web app
-- CRUD of information list and profile user 
-- implementation with redux toolkit for status management
+### 🚧 In Progress
+- Advanced analytics dashboard
+- Export functionality
+- Mobile app development
+- Additional payment integrations
 
-## Technologies used
+### 📋 Planned Features
+- Multi-currency support
+- Budget planning tools
+- Financial goal tracking
+- Social features
+- AI-powered insights
 
-<div style="display: inline_block"><br>
-  <img align="center"  alt="Figna" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg">
-  <img align="center"  alt="ReactJS" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
-  <img align="center"  alt="typescript" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg">
-  <img align="center"  alt="Html" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
-  <:nail_care:>
-   <img align="center"  alt="firebase" height="35" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain-wordmark.svg">  
-  <img align="center"  alt="babel" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg">
-  <img align="center"  alt="webpack" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg">
-  <img align="center"  alt="eslint" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg">
-  <img align="center"  alt="Frame Motion" height="30" width="30" src="https://user-images.githubusercontent.com/27157739/185726445-a7664858-4301-4e1e-852d-3ca2c7777268.png">
+---
 
- 
- 
-</div>
-
-
-### Follow me :hugs: :point_down:
-<div> 
-  <a href="https://instagram.com/adson.san.dev" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a>
-  <a href="https://www.linkedin.com/in/adson-santos-72ba75140/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/your-username">Adson Santos</a></p>
+  <p>⭐ Star this repository if you found it helpful!</p>
 </div>
 

@@ -40,11 +40,15 @@ export class AuthService {
     return this.authRepository.refreshToken();
   }
 
-  isAuthenticated(): boolean {
+  async isAuthenticated(): Promise<boolean> {
     return this.authRepository.isAuthenticated();
   }
 
-  getToken(): string | null {
+  async getToken(): Promise<string | null> {
     return this.authRepository.getToken();
+  }
+
+  async checkAuthStatus(): Promise<{ isAuthenticated: boolean; user?: User }> {
+    return this.authRepository.checkAuthStatus();
   }
 }

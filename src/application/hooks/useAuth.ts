@@ -30,7 +30,8 @@ export function useAuth(authService: AuthService): IUseAuthReturn {
 
   const loadCurrentUser = useCallback(async () => {
     try {
-      if (authService.isAuthenticated()) {
+      const isAuth = await authService.isAuthenticated();
+      if (isAuth) {
         const currentUser = await authService.getCurrentUser();
         setUser(currentUser);
       }
@@ -111,10 +112,9 @@ export function useAuth(authService: AuthService): IUseAuthReturn {
   const checkAuthStatus = useCallback(async () => {
     try {
       setIsLoading(true);
-      // Para Auth0, verificamos se há um usuário autenticado
-      const currentUser = await authService.getCurrentUser();
-      if (currentUser) {
-        setUser(currentUser);
+      const authStatus = await authService.checkAuthStatus();
+      if (authStatus.isAuthenticated && authStatus.user) {
+        setUser(authStatus.user);
       } else {
         setUser(null);
       }

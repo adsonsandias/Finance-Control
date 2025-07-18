@@ -8,5 +8,5 @@ export function PrivateRoutes() {
     return <div>Loading...</div>;
   }
 
-  return user ? <Outlet /> : <Navigate to="/login" />;
+  return user ? <Outlet /> : <Navigate to="/signin" />;
 }

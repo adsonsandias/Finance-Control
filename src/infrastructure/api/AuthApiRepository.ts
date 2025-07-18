@@ -79,11 +79,25 @@ export class AuthApiRepository implements AuthRepository {
     return response.access_token;
   }
 
-  isAuthenticated(): boolean {
+  async isAuthenticated(): Promise<boolean> {
     return !!this.apiClient.getToken();
   }
 
-  getToken(): string | null {
+  async getToken(): Promise<string | null> {
     return this.apiClient.getToken();
+  }
+
+  async checkAuthStatus(): Promise<{ isAuthenticated: boolean; user?: User }> {
+    try {
+      const user = await this.getCurrentUser();
+      return {
+        isAuthenticated: !!user,
+        user: user || undefined,
+      };
+    } catch (error) {
+      return {
+        isAuthenticated: false,
+      };
+    }
   }
 }

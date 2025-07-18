@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import bglogin from "../../assets/bg-login.jpg";
 import { ReactComponent as IconGithub } from "../../assets/github.svg";
@@ -16,29 +16,39 @@ import { Loading } from "../../components/Loading";
 import { useAuthContext } from "../../presentation/contexts/AuthContext";
 
 export function Signup() {
-  const { user, isLoading, signUp, signIn, checkAuthStatus } = useAuthContext();
+  const { user, isLoading, signUp, checkAuthStatus } = useAuthContext();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     // Verificar status de autenticação quando a página carrega
     checkAuthStatus();
   }, [checkAuthStatus]);
 
-  const handleAuth0Signup = async () => {
+  const handleSignup = async () => {
     try {
-      // Redirecionar para Auth0 com hint de signup
-      window.location.href =
-        "http://localhost:3001/auth/login?screen_hint=signup";
+      if (!email || !password || !displayName) {
+        alert("Por favor, preencha todos os campos");
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert("As senhas não coincidem");
+        return;
+      }
+      await signUp({ email, password, displayName });
+      alert("Conta criada com sucesso! Faça login para continuar.");
+      navigate("/signin");
     } catch (error) {
       console.error("Erro no cadastro:", error);
+      alert("Erro ao criar conta. Tente novamente.");
     }
   };
 
-  const handleAuth0Login = async () => {
-    try {
-      await signIn({ email: "", password: "" }); // Auth0 irá redirecionar
-    } catch (error) {
-      console.error("Erro no login:", error);
-    }
+  const handleGoToLogin = () => {
+    navigate("/signin");
   };
 
   if (isLoading) return <Loading />;
@@ -62,7 +72,7 @@ export function Signup() {
         </ContentBackground>
         <ContentForm>
           <h1>Criar Conta</h1>
-          <p>Cadastre-se com Auth0 para começar a gerenciar suas finanças</p>
+          <p>Cadastre-se para começar a gerenciar suas finanças</p>
 
           <div
             style={{
@@ -72,48 +82,78 @@ export function Signup() {
               gap: "1rem",
             }}
           >
+            <input
+              type="text"
+              placeholder="Nome completo"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem",
+              }}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem",
+              }}
+            />
+            <input
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem",
+              }}
+            />
+            <input
+              type="password"
+              placeholder="Confirmar senha"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              style={{
+                padding: "0.75rem",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                fontSize: "1rem",
+              }}
+            />
             <Button
               isActive="sign"
               name="signup"
               type="button"
-              onClick={handleAuth0Signup}
+              onClick={handleSignup}
+              disabled={isLoading}
             >
-              Criar Conta com Auth0
+              {isLoading ? "Criando..." : "Criar conta"}
             </Button>
 
             <Button
               isActive="button"
               name="login"
               type="button"
-              onClick={handleAuth0Login}
+              onClick={handleGoToLogin}
+              disabled={isLoading}
             >
-              Já tenho conta - Entrar
+              Já tenho conta
             </Button>
           </div>
 
           <div style={{ marginTop: "2rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.9rem", color: "#666" }}>
-              Autenticação segura fornecida por Auth0
-            </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "1rem",
-                marginTop: "1rem",
-              }}
-            >
-              <IconGoogle
-                style={{ width: "24px", height: "24px", opacity: 0.6 }}
-              />
-              <IconGithub
-                style={{ width: "24px", height: "24px", opacity: 0.6 }}
-              />
-            </div>
-            <p
-              style={{ fontSize: "0.8rem", color: "#999", marginTop: "0.5rem" }}
-            >
-              Suporte para Google, GitHub e mais
+              Autenticação segura fornecida por Supabase
             </p>
           </div>
         </ContentForm>

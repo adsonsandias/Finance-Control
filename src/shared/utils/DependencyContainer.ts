@@ -1,5 +1,6 @@
 import { ApiClient } from "../../infrastructure/api/ApiClient";
-import { Auth0ApiRepository } from "../../infrastructure/api/Auth0ApiRepository";
+import { AuthApiRepository } from "../../infrastructure/api/AuthApiRepository";
+import { SupabaseApiRepository } from "../../infrastructure/api/SupabaseApiRepository";
 import { TransactionApiRepository } from "../../infrastructure/api/TransactionApiRepository";
 import { AuthService } from "../../application/services/AuthService";
 import { TransactionService } from "../../application/services/TransactionService";
@@ -7,20 +8,19 @@ import { TransactionService } from "../../application/services/TransactionServic
 export class DependencyContainer {
   private static instance: DependencyContainer;
   private apiClientInstance: ApiClient;
-  private authRepositoryInstance: Auth0ApiRepository;
+  private authRepositoryInstance: AuthApiRepository;
+  private supabaseRepositoryInstance: SupabaseApiRepository;
   private transactionRepositoryInstance: TransactionApiRepository;
   private authServiceInstance: AuthService;
   private transactionServiceInstance: TransactionService;
 
   private constructor() {
-    const apiBaseUrl =
-      process.env.REACT_APP_API_URL || "http://localhost:3001/api";
-
     // Infrastructure layer
-    this.apiClientInstance = new ApiClient(apiBaseUrl);
-    this.authRepositoryInstance = new Auth0ApiRepository(
-      this.apiClientInstance
+    this.apiClientInstance = new ApiClient(
+      process.env.REACT_APP_API_URL || "http://localhost:3001/api"
     );
+    this.authRepositoryInstance = new AuthApiRepository(this.apiClientInstance);
+    this.supabaseRepositoryInstance = new SupabaseApiRepository();
     this.transactionRepositoryInstance = new TransactionApiRepository(
       this.apiClientInstance
     );
@@ -43,8 +43,12 @@ export class DependencyContainer {
     return this.apiClientInstance;
   }
 
-  get authRepository(): Auth0ApiRepository {
+  get authRepository(): AuthApiRepository {
     return this.authRepositoryInstance;
+  }
+
+  get supabaseRepository(): SupabaseApiRepository {
+    return this.supabaseRepositoryInstance;
   }
 
   get transactionRepository(): TransactionApiRepository {

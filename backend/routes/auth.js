@@ -1,25 +1,8 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { query } = require('../config/database');
+const { supabase } = require('../config/supabase');
 const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
-
-// Generate JWT token
-const generateToken = (userId, email, role = 'authenticated') => {
-  return jwt.sign(
-    { 
-      sub: userId, 
-      email, 
-      role,
-      aud: 'authenticated',
-      iss: 'finance-control-demo'
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '24h' }
-  );
-};
 
 // Sign up with email
 router.post('/signup', async (req, res) => {
@@ -28,50 +11,49 @@ router.post('/signup', async (req, res) => {
 
     if (!email || !password || !displayName) {
       return res.status(400).json({
-        error: 'Missing required fields: displayName',
+        error: 'Missing required fields',
         message: 'Email, password and displayName are required'
       });
     }
 
-    // Check if user already exists
-    const existingUser = await query(
-      'SELECT id FROM auth.users WHERE email = $1',
-      [email]
-    );
+    // Create user with Supabase Auth
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          display_name: displayName
+        }
+      }
+    });
 
-    if (existingUser.rows.length > 0) {
+    if (error) {
       return res.status(400).json({
-        error: 'User already exists',
-        message: 'An account with this email already exists'
+        error: error.message,
+        message: 'Failed to create account'
       });
     }
 
-    // Hash password
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    // Create user
-    const userResult = await query(
-      `INSERT INTO auth.users (email, encrypted_password, email_confirmed_at, created_at, updated_at, raw_user_meta_data)
-       VALUES ($1, $2, NOW(), NOW(), NOW(), $3)
-       RETURNING id, email, created_at`,
-      [email, hashedPassword, JSON.stringify({ display_name: displayName || email })]
-    );
-
-    const user = userResult.rows[0];
-    const token = generateToken(user.id, user.email);
+    if (!data.user) {
+      return res.status(400).json({
+        error: 'User creation failed',
+        message: 'Failed to create account'
+      });
+    }
 
     res.status(201).json({
       user: {
-        id: user.id,
-        email: user.email,
-        created_at: user.created_at
+        id: data.user.id,
+        email: data.user.email,
+        created_at: data.user.created_at,
+        display_name: displayName
       },
-      session: {
-        access_token: token,
+      session: data.session ? {
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
         token_type: 'bearer',
-        expires_in: 86400
-      }
+        expires_in: data.session.expires_in
+      } : null
     });
   } catch (error) {
     console.error('Signup error:', error);
@@ -87,7 +69,7 @@ router.post('/token', async (req, res) => {
   try {
     const { email, password, grant_type } = req.body;
 
-    if (grant_type !== 'password') {
+    if (grant_type && grant_type !== 'password') {
       return res.status(400).json({
         error: 'Unsupported grant type',
         message: 'Only password grant type is supported'
@@ -101,45 +83,35 @@ router.post('/token', async (req, res) => {
       });
     }
 
-    // Find user
-    const userResult = await query(
-      'SELECT id, email, encrypted_password FROM auth.users WHERE email = $1 AND deleted_at IS NULL',
-      [email]
-    );
+    // Sign in with Supabase Auth
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-    if (userResult.rows.length === 0) {
+    if (error) {
       return res.status(400).json({
         error: 'Invalid credentials',
         message: 'Invalid email or password'
       });
     }
 
-    const user = userResult.rows[0];
-
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.encrypted_password);
-    if (!isValidPassword) {
+    if (!data.user || !data.session) {
       return res.status(400).json({
-        error: 'Invalid credentials',
-        message: 'Invalid email or password'
+        error: 'Authentication failed',
+        message: 'Failed to sign in'
       });
     }
-
-    // Update last sign in
-    await query(
-      'UPDATE auth.users SET last_sign_in_at = NOW(), updated_at = NOW() WHERE id = $1',
-      [user.id]
-    );
-
-    const token = generateToken(user.id, user.email);
 
     res.json({
-      access_token: token,
+      access_token: data.session.access_token,
+      refresh_token: data.session.refresh_token,
       token_type: 'bearer',
-      expires_in: 86400,
+      expires_in: data.session.expires_in,
       user: {
-        id: user.id,
-        email: user.email
+        id: data.user.id,
+        email: data.user.email,
+        display_name: data.user.user_metadata?.display_name
       }
     });
   } catch (error) {
@@ -152,30 +124,33 @@ router.post('/token', async (req, res) => {
 });
 
 // Get current user
-router.get('/user', authenticateToken, async (req, res) => {
+router.get('/user', async (req, res) => {
   try {
-    const userResult = await query(
-      `SELECT u.id, u.email, u.created_at, u.updated_at, u.raw_user_meta_data,
-              p.display_name, p.avatar_url
-       FROM auth.users u
-       LEFT JOIN public.user_profiles p ON u.id = p.id
-       WHERE u.id = $1 AND u.deleted_at IS NULL`,
-      [req.user.id]
-    );
-
-    if (userResult.rows.length === 0) {
-      return res.status(404).json({
-        error: 'User not found',
-        message: 'User account not found'
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Missing or invalid authorization header'
       });
     }
 
-    const user = userResult.rows[0];
+    const token = authHeader.substring(7);
+    
+    // Get user from Supabase using the token
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+
+    if (error || !user) {
+      return res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Invalid or expired token'
+      });
+    }
+
     res.json({
       id: user.id,
       email: user.email,
-      display_name: user.display_name || user.raw_user_meta_data?.display_name,
-      avatar_url: user.avatar_url,
+      display_name: user.user_metadata?.display_name,
+      avatarUrl: user.user_metadata?.avatar_url,
       created_at: user.created_at,
       updated_at: user.updated_at
     });
@@ -188,22 +163,65 @@ router.get('/user', authenticateToken, async (req, res) => {
   }
 });
 
-// Sign out (client-side token invalidation)
-router.post('/logout', authenticateToken, (req, res) => {
-  // In a real implementation, you might want to blacklist the token
-  // For now, we'll just return success and let the client handle token removal
-  res.json({ message: 'Successfully signed out' });
+// Sign out
+router.post('/logout', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Missing or invalid authorization header'
+      });
+    }
+
+    const token = authHeader.substring(7);
+    
+    // Sign out with Supabase
+    const { error } = await supabase.auth.signOut(token);
+    
+    if (error) {
+      console.error('Logout error:', error);
+    }
+    
+    res.json({ message: 'Successfully signed out' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: 'Failed to sign out'
+    });
+  }
 });
 
-// Refresh token (simplified - returns new token)
-router.post('/refresh', authenticateToken, async (req, res) => {
+// Refresh token
+router.post('/refresh', async (req, res) => {
   try {
-    const token = generateToken(req.user.id, req.user.email, req.user.role);
+    const { refresh_token } = req.body;
+    
+    if (!refresh_token) {
+      return res.status(400).json({
+        error: 'Missing refresh token',
+        message: 'Refresh token is required'
+      });
+    }
+    
+    // Refresh session with Supabase
+    const { data, error } = await supabase.auth.refreshSession({
+      refresh_token
+    });
+    
+    if (error || !data.session) {
+      return res.status(401).json({
+        error: 'Invalid refresh token',
+        message: 'Failed to refresh token'
+      });
+    }
     
     res.json({
-      access_token: token,
+      access_token: data.session.access_token,
+      refresh_token: data.session.refresh_token,
       token_type: 'bearer',
-      expires_in: 86400
+      expires_in: data.session.expires_in
     });
   } catch (error) {
     console.error('Refresh token error:', error);

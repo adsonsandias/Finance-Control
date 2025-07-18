@@ -14,6 +14,7 @@ export interface SignInData {
 export interface AuthResponse {
   user: AuthUser;
   token: string;
+  refreshToken?: string;
 }
 
 export interface AuthRepository {
@@ -22,6 +23,7 @@ export interface AuthRepository {
   signOut(): Promise<void>;
   getCurrentUser(): Promise<User | null>;
   refreshToken(): Promise<string>;
-  isAuthenticated(): boolean;
-  getToken(): string | null;
+  isAuthenticated(): Promise<boolean>;
+  getToken(): Promise<string | null>;
+  checkAuthStatus(): Promise<{ isAuthenticated: boolean; user?: User }>;
 }
