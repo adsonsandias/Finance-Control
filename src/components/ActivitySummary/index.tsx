@@ -1,11 +1,13 @@
 import React from "react";
 
+import { ITransaction } from "../../domain/entities/Transaction";
 import { ReactComponent as CreditIcon } from "../../assets/credit-icon.svg";
 import { ReactComponent as DepositIcon } from "../../assets/deposit-icon.svg";
 import { ReactComponent as LogoImg } from "../../assets/logo-card.svg";
 import { ReactComponent as TotalIcon } from "../../assets/total-icon.svg";
 import { ReactComponent as WithdrawnIcon } from "../../assets/withdrawn-icon.svg";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useTransactionContext } from "../../presentation/contexts/TransactionContext";
+import { useAuthContext } from "../../presentation/contexts/AuthContext";
 import { SpendingItem } from "./SpendingItem";
 import {
   Container,
@@ -18,41 +20,49 @@ import {
 } from "./styles";
 
 export function ActivitySummary() {
-  const { userCollection } = React.useContext(AuthContext);
+  const { transactions, summary, loadSummary } = useTransactionContext();
+  const { user } = useAuthContext();
   const [dados, setDados] = React.useState({
-    deposit: 0,
-    withdraw: 0,
+    income: 0,
+    expense: 0,
     total: 0,
   });
 
   React.useEffect(() => {
-    const summary = userCollection.reduce(
-      (acc, transaction) => {
-        if (transaction.type === "deposit") {
-          acc.deposit += transaction.amount;
-          acc.total += transaction.amount;
-        } else if (transaction.type === "withdraw") {
-          acc.withdraw += transaction.amount;
-          acc.total -= transaction.amount;
-        } else {
+    loadSummary();
+  }, [loadSummary]);
+
+  React.useEffect(() => {
+    if (summary) {
+      setDados({
+        income: summary.totalIncome || 0,
+        expense: summary.totalExpense || 0,
+        total: (summary.totalIncome || 0) - (summary.totalExpense || 0),
+      });
+    } else if (transactions) {
+      const calculatedSummary = transactions.reduce(
+        (
+          acc: { income: number; expense: number; total: number },
+          transaction: ITransaction
+        ) => {
+          if (transaction.type === "income") {
+            acc.income += transaction.amount;
+            acc.total += transaction.amount;
+          } else if (transaction.type === "expense") {
+            acc.expense += transaction.amount;
+            acc.total -= transaction.amount;
+          }
           return acc;
+        },
+        {
+          income: 0,
+          expense: 0,
+          total: 0,
         }
-
-        return acc;
-      },
-      {
-        deposit: 0,
-        withdraw: 0,
-        total: 0,
-      }
-    );
-
-    setDados({
-      deposit: summary.deposit,
-      withdraw: summary.withdraw,
-      total: summary.total,
-    });
-  }, [userCollection]);
+      );
+      setDados(calculatedSummary);
+    }
+  }, [summary, transactions]);
 
   return (
     <Container>
@@ -61,7 +71,7 @@ export function ActivitySummary() {
         <CardContent>
           <div>
             <CardHeader>
-              <span>Adson Santos</span>
+              <span>{user?.displayName || user?.email || "Usuário"}</span>
               <LogoImg />
             </CardHeader>
             <span>**** **** **** 8913</span>
@@ -90,7 +100,7 @@ export function ActivitySummary() {
                 new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(dados?.deposit)
+                }).format(dados?.income)
               }
               theme={{ icon: "var(--gradient-green)" }}
               icon={<DepositIcon />}
@@ -102,7 +112,7 @@ export function ActivitySummary() {
                 new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(dados?.withdraw)
+                }).format(dados?.expense)
               }
               theme={{ icon: "var(--gradient-red)" }}
               icon={<WithdrawnIcon />}

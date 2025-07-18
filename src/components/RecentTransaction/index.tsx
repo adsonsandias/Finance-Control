@@ -1,6 +1,7 @@
 import React from "react";
 
-import { AuthContext } from "../../contexts/AuthContext";
+import { ITransaction } from "../../domain/entities/Transaction";
+import { useTransactionContext } from "../../presentation/contexts/TransactionContext";
 import { Loading } from "../Loading";
 import { MonthTransaction } from "./MonthTransaction";
 import {
@@ -10,43 +11,46 @@ import {
 import { TransactionItem } from "./TransactionItem";
 
 export function RecentTransaction() {
-  const { getCloudFirestore, userCollection, loading, setLoading } =
-    React.useContext(AuthContext);
+  const { transactions, isLoading, loadTransactions } = useTransactionContext();
 
   React.useEffect(() => {
-    async function getCloudFirestoreData() {
-      setLoading(true);
-      await getCloudFirestore();
-      setLoading(false);
-    }
-    getCloudFirestoreData();
-  }, []);
+    loadTransactions();
+  }, [loadTransactions]);
 
-  if (loading) return <Loading />;
+  if (isLoading) return <Loading />;
   return (
     <>
       <RecentTransactionItemStyles>
         <h1>Recentes Transações</h1>
-        {userCollection &&
-          userCollection.map(
-            ({ id, title, type, amount, category, createdAt }) => (
+        {transactions &&
+          transactions.map(
+            ({
+              id,
+              title,
+              type,
+              amount,
+              category,
+              createdAt,
+            }: ITransaction) => (
               <TransactionItem
                 key={id}
                 title={title}
                 type={type}
                 category={category}
                 value={
-                  amount &&
-                  new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(amount)
+                  amount
+                    ? new Intl.NumberFormat("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }).format(amount)
+                    : "R$ 0,00"
                 }
                 date={
-                  createdAt &&
-                  new Intl.DateTimeFormat("pt-BR").format(
-                    new Date(createdAt.toDate().toString())
-                  )
+                  createdAt
+                    ? new Intl.DateTimeFormat("pt-BR").format(
+                        new Date(createdAt)
+                      )
+                    : ""
                 }
               />
             )

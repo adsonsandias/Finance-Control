@@ -26,7 +26,7 @@ export function TransactionItem({ ...props }: ICATEGORY) {
           <CategoryItem isColor={category}>
             {themeCategory(category)?.text}
           </CategoryItem>
-          <ValueItem isactive={type === "deposit"}>{value}</ValueItem>
+          <ValueItem isactive={type === "income"}>{value}</ValueItem>
         </div>
       </ThemeProvider>
     </Container>

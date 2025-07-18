@@ -8,13 +8,14 @@ import { ReactComponent as LogoutIcon } from "../../../assets/logout-icon.svg";
 import fotoUser from "../../../assets/new-user.png";
 import { ReactComponent as UserIcon } from "../../../assets/user-icon.svg";
 import { ReactComponent as VersionIcon } from "../../../assets/version-icon.svg";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useAuthContext } from "../../../presentation/contexts/AuthContext";
 import { container, item } from "../../Helps/FrameMotion";
 import { Config, Container, UserInfor } from "./styles";
 
 export function UserProfile() {
-  const { signOut, user } = React.useContext(AuthContext);
-  const userLogado = JSON.parse(user as string);
+  const { signOut, user } = useAuthContext();
+
+  if (!user) return null;
 
   return (
     <Container
@@ -27,15 +28,11 @@ export function UserProfile() {
         <h1>Óla, Bem Vindo de volta 🤩</h1>
         <div
           style={{
-            backgroundImage: `url(${
-              userLogado.photoURL ? userLogado.photoURL : fotoUser
-            })`,
+            backgroundImage: `url(${user.avatarUrl || fotoUser})`,
           }}
         />
-        <h2>
-          {userLogado.displayName ? userLogado.displayName : userLogado.email}
-        </h2>
-        <span>{userLogado.email && userLogado.email}</span>
+        <h2>{user.displayName || user.email}</h2>
+        <span>{user.email}</span>
       </UserInfor>
       <Config>
         <motion.h1 variants={item}>Configuração</motion.h1>

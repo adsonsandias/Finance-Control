@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 
 import logoImg from "../../assets/logo.svg";
 import fotoUser from "../../assets/user-new.svg";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../presentation/contexts/AuthContext";
 import { Container, Content, Logo, User } from "./styles";
 
 export function Header() {
-  const { signOut, user } = React.useContext(AuthContext);
-  const userLogado = JSON.parse(user as string);
+  const { signOut, user } = useAuthContext();
   const { pathname } = useLocation();
+
+  if (!user) return null;
 
   return (
     <Container>
@@ -30,11 +31,7 @@ export function Header() {
         ) : (
           <User>
             <div>
-              <span>
-                {userLogado.displayName
-                  ? userLogado.displayName
-                  : userLogado.email}
-              </span>
+              <span>{user.displayName || user.email}</span>
               <button type="button" onClick={signOut}>
                 sair
               </button>
@@ -42,9 +39,7 @@ export function Header() {
             <Link
               to="/user"
               style={{
-                backgroundImage: `url(${
-                  userLogado.photoURL ? userLogado.photoURL : fotoUser
-                })`,
+                backgroundImage: `url(${user.avatarUrl || fotoUser})`,
               }}
             />
           </User>

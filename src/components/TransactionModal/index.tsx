@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React from "react";
 import Modal from "react-modal";
 
@@ -6,7 +5,8 @@ import iconArrow from "../../assets/arrow-icon-down.svg";
 import iconIncome from "../../assets/entrar.svg";
 import iconChose from "../../assets/fechar.svg";
 import iconDiscounts from "../../assets/saida.svg";
-import { AuthContext } from "../../contexts/AuthContext";
+import { TransactionType } from "../../domain/entities/Transaction";
+import { useTransactionContext } from "../../presentation/contexts/TransactionContext";
 import { container } from "../Helps/FrameMotion";
 import { categorylist } from "./categorylist";
 import {
@@ -27,34 +27,70 @@ export function TransactionModal({
   isOpen,
   onRequestClose,
 }: ITRANSACTIONMODALPROPS) {
-  const { setCloudFirestore, getCloudFirestore } =
-    React.useContext(AuthContext);
+  const { createTransaction, loadTransactions } = useTransactionContext();
 
   const [title, setTitle] = React.useState("");
   const [type, setType] = React.useState("");
   const [category, setCategory] = React.useState("");
   const [amount, setAmount] = React.useState(0);
 
-  async function setTransactionCloudFirestore(event: {
-    preventDefault: () => void;
-  }) {
-    event.preventDefault();
-    if (title && type && category && amount) {
-      await setCloudFirestore({
-        title,
-        type,
-        category,
-        amount,
-        createdAt: new Date(),
-      });
-      setTitle("");
-      setType("");
-      setCategory("");
-      setAmount(0);
-      await getCloudFirestore();
-    }
-    onRequestClose();
-  }
+  const handleIncomeClick = React.useCallback(() => {
+    setType(TransactionType.INCOME);
+  }, []);
+
+  const handleExpenseClick = React.useCallback(() => {
+    setType(TransactionType.EXPENSE);
+  }, []);
+
+  const handleTitleChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(event.target.value);
+    },
+    []
+  );
+
+  const handleAmountChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setAmount(Number(event.target.value));
+    },
+    []
+  );
+
+  const handleCategoryChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setCategory(event.target.value);
+    },
+    []
+  );
+
+  const handleSubmitTransaction = React.useCallback(
+    async (event: { preventDefault: () => void }) => {
+      event.preventDefault();
+      if (title && type && category && amount) {
+        await createTransaction({
+          title,
+          type: type as TransactionType,
+          category,
+          amount,
+        });
+        setTitle("");
+        setType("");
+        setCategory("");
+        setAmount(0);
+        await loadTransactions();
+      }
+      onRequestClose();
+    },
+    [
+      title,
+      type,
+      category,
+      amount,
+      createTransaction,
+      loadTransactions,
+      onRequestClose,
+    ]
+  );
 
   return (
     <Modal
@@ -73,36 +109,36 @@ export function TransactionModal({
           <img src={iconChose} alt="Fechar Modal" />
         </BtnChose>
 
-        <Container onSubmit={setTransactionCloudFirestore}>
+        <Container onSubmit={handleSubmitTransaction}>
           <h2>Cadastrar transação</h2>
 
           <input
             type="text"
             placeholder="Título"
             value={title}
-            onChange={({ target }) => setTitle(target.value)}
+            onChange={handleTitleChange}
           />
 
           <input
             type="number"
             placeholder="Valor"
             value={amount}
-            onChange={({ target }) => setAmount(Number(target.value))}
+            onChange={handleAmountChange}
           />
 
           <IncomeDiscountsContainer>
             <BtnTypeTransition
               type="button"
-              onClick={() => setType("deposit")}
-              isActive={type === "deposit"}
+              onClick={handleIncomeClick}
+              isActive={type === TransactionType.INCOME}
             >
               <img src={iconIncome} alt="Entradas" />
               <span>Entradas</span>
             </BtnTypeTransition>
             <BtnTypeTransition
               type="button"
-              onClick={() => setType("withdraw")}
-              isActive={type === "withdraw"}
+              onClick={handleExpenseClick}
+              isActive={type === TransactionType.EXPENSE}
             >
               <img src={iconDiscounts} alt="Saidas" />
               <span>Saidas</span>
@@ -111,7 +147,7 @@ export function TransactionModal({
 
           <select
             value={category}
-            onChange={({ target }) => setCategory(target.value)}
+            onChange={handleCategoryChange}
             style={{ backgroundImage: `url(${iconArrow})` }}
           >
             <option disabled selected value="">

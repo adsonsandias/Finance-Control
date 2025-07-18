@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
 import fotoUser from "../../../../assets/new-user.png";
-import { AuthContext } from "../../../../contexts/AuthContext";
+import { useAuthContext } from "../../../../presentation/contexts/AuthContext";
 import { containerLeft, item } from "../../../Helps/FrameMotion";
 import { Context, ContainerAnimation, UserInfor } from "./styles";
 
 export function LoginDetails() {
-  const { user } = React.useContext(AuthContext);
-  const userLogado = JSON.parse(user as string);
+  const { user } = useAuthContext();
+
+  if (!user) return null;
 
   return (
     <Context
@@ -34,15 +35,11 @@ export function LoginDetails() {
       <UserInfor variants={item}>
         <div
           style={{
-            backgroundImage: `url(${
-              userLogado.photoURL ? userLogado.photoURL : fotoUser
-            })`,
+            backgroundImage: `url(${user.avatarUrl || fotoUser})`,
           }}
         />
-        <h2>
-          {userLogado.displayName ? userLogado.displayName : userLogado.email}
-        </h2>
-        <span>{userLogado.email && userLogado.email}</span>
+        <h2>{user.displayName || user.email}</h2>
+        <span>{user.email}</span>
       </UserInfor>
       <ContainerAnimation variants={item}>
         <Player
