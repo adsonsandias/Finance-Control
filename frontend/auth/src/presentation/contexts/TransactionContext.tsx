@@ -1,9 +1,10 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext } from 'react'
+
 import {
-  useTransactions,
   IUseTransactionsReturn,
-} from "../../application/hooks/useTransactions";
-import { dependencyContainer } from "@shared/utils/DependencyContainer";
+  useTransactions,
+} from '../../application/hooks/useTransactions'
+import { dependencyContainer } from '../../utils/DependencyContainer'
 
 interface ITransactionProviderProps {
   children: React.ReactNode;
@@ -28,7 +29,7 @@ export const useTransactionContext = (): IUseTransactionsReturn => {
   const context = useContext(TransactionContext);
   if (!context) {
     throw new Error(
-      "useTransactionContext must be used within a TransactionProvider"
+      'useTransactionContext must be used within a TransactionProvider'
     );
   }
   return context;

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 
 interface ISACTIVE {
-  isActive?: boolean;
+  $isActive?: boolean;
 }
 
 export const Container = styled.nav`
@@ -44,7 +44,7 @@ export const Button = styled(motion.button)<ISACTIVE>`
   display: block;
   box-sizing: border-box;
   background-color: ${(props) =>
-    props.isActive ? "rgba(255, 255, 255, 0.6)" : " rgba(255, 255, 255, 0.3)"};
+    props.$isActive ? "rgba(255, 255, 255, 0.6)" : " rgba(255, 255, 255, 0.3)"};
   padding: 0.38rem 0.94rem;
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
@@ -62,10 +62,10 @@ export const Button = styled(motion.button)<ISACTIVE>`
   }
 
   & svg path {
-    fill-opacity: ${(props) => (props.isActive ? "1" : "0.8")};
+    fill-opacity: ${(props) => (props.$isActive ? "1" : "0.8")};
     transition: fill ease 0.5s;
     fill: ${(props) =>
-      props.isActive ? "var(--detail)" : "var(--background-white)"};
+      props.$isActive ? "var(--detail)" : "var(--background-white)"};
   }
   &:hover svg path {
     fill: var(--detail);

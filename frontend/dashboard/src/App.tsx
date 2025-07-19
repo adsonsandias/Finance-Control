@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
         <h1>Finance Control - Dashboard</h1>
         <p>Dashboard module is under construction</p>
         <p>This will contain:</p>
-        <ul style={{ textAlign: 'left' }}>
+        <ul style={{ textAlign: "left" }}>
           <li>Financial overview</li>
           <li>Transaction management</li>
           <li>Analytics and reports</li>

@@ -8,15 +8,15 @@
     "@lottiefiles/react-lottie-player": "^3.4.7",
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
-    "framer-motion": "^7.2.0",
+    "framer-motion": "^12.23.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.15.1",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
-    "styled-components": "^5.3.5",
     "recharts": "^2.1.14",
+    "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

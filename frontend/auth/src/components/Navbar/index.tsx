@@ -28,7 +28,7 @@ export function Navbar({ openTransactionModal }: INAVBARPROPS) {
           <Link to="/">
             <Button
               type="button"
-              isActive={pathname === "/"}
+              $isActive={pathname === "/"}
               whileHover={{ scale: 1.1, backgroundColor }}
               whileTap={{ scale: 0.9 }}
             >
@@ -50,7 +50,7 @@ export function Navbar({ openTransactionModal }: INAVBARPROPS) {
           <Link to="/user">
             <Button
               type="button"
-              isActive={pathname === "/user"}
+              $isActive={pathname === "/user"}
               whileHover={{ scale: 1.1, backgroundColor }}
               whileTap={{ scale: 0.9 }}
             >

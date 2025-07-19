@@ -1,6 +1,6 @@
-import React, { createContext, useContext } from "react";
-import { useAuth, IUseAuthReturn } from "../../application/hooks/useAuth";
-import { dependencyContainer } from "@shared/utils/DependencyContainer";
+import React, { createContext, useContext } from 'react'
+import { useAuth, IUseAuthReturn } from '../../application/hooks/useAuth'
+import { dependencyContainer } from '../../utils/DependencyContainer'
 
 interface IAuthProviderProps {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
 export const useAuthContext = (): IUseAuthReturn => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuthContext must be used within an AuthProvider");
+    throw new Error('useAuthContext must be used within an AuthProvider')
   }
   return context;
 };

@@ -1,4 +1,4 @@
-import { dependencyContainer } from '@shared/utils/DependencyContainer';
+import { dependencyContainer } from '../utils/DependencyContainer';
 import { AuthService } from '../application/services/AuthService';
 import { TransactionService } from '../application/services/TransactionService';
 import { AuthRepository, SignUpData, SignInData, AuthResponse } from '../domain/repositories/AuthRepository';
@@ -8,8 +8,37 @@ import { ITransaction, ICreateTransactionData, IUpdateTransactionData, ITransact
 
 // Mock implementation of AuthRepository
 class MockAuthRepository implements AuthRepository {
-  private currentUser: User | null = null;
-  private token: string | null = null;
+  private readonly USER_KEY = 'finance_auth_user';
+  private readonly TOKEN_KEY = 'finance_auth_token';
+
+  private get currentUser(): User | null {
+    if (typeof window === 'undefined') return null;
+    const userData = localStorage.getItem(this.USER_KEY);
+    return userData ? JSON.parse(userData) : null;
+  }
+
+  private set currentUser(user: User | null) {
+    if (typeof window === 'undefined') return;
+    if (user) {
+      localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(this.USER_KEY);
+    }
+  }
+
+  private get token(): string | null {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  private set token(token: string | null) {
+    if (typeof window === 'undefined') return;
+    if (token) {
+      localStorage.setItem(this.TOKEN_KEY, token);
+    } else {
+      localStorage.removeItem(this.TOKEN_KEY);
+    }
+  }
 
   async signUp(data: SignUpData): Promise<AuthResponse> {
     console.log('Mock signUp:', data);
@@ -48,8 +77,9 @@ class MockAuthRepository implements AuthRepository {
   }
 
   async refreshToken(): Promise<string> {
-    this.token = 'mock-refreshed-token-' + Date.now();
-    return this.token;
+    const newToken = 'mock-refreshed-token-' + Date.now();
+    this.token = newToken;
+    return newToken;
   }
 
   async isAuthenticated(): Promise<boolean> {

@@ -30,19 +30,17 @@ export function Accordion({ ...props }: AccordionProps) {
     <AccordionContainer variants={item} isActive={isOpen}>
       <h2>
         <AccordionButton
-          layout
-          animate={isOpen ? "open" : "close"}
-          variants={accodionButtonMotion}
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-        >
+        animate={isOpen ? "open" : "close"}
+        variants={accodionButtonMotion}
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+      >
           <p>{title}</p>
         </AccordionButton>
         <ArrowIcon />
       </h2>
 
       <AccordionContent
-        layout
         animate={isOpen ? "open" : "close"}
         variants={accodionContainerMotion}
       >

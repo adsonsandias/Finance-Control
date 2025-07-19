@@ -11,13 +11,13 @@ export const iconMotion = {
 
 export const numberMotion = {
   open: {
-    opacity: "1",
+    opacity: 1,
     height: "100%",
     transition: { type: "spring", stiffness: 700, damping: 30, delay: 0.25 },
     transform: "translate(0rem,0rem)",
   },
   close: {
-    opacity: "0",
+    opacity: 0,
     height: "0",
     transform: "translate(0rem,2rem)",
     transition: { type: "spring", stiffness: 700, damping: 30, delay: 0 },
@@ -49,10 +49,10 @@ export const bgWhiteMotion = {
 export const bgGradientMotion = {
   open: {
     width: "16rem",
-    transition: { type: "linear", delay: 0 },
+    transition: { type: "tween", duration: 0.3 },
   },
   close: {
     width: "3.63rem",
-    transition: { type: "linear", delay: 0 },
+    transition: { type: "tween", duration: 0.3 },
   },
 };
