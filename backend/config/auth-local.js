@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
-const { query } = require('./database');
+const { supabase } = require('./supabase');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -43,109 +43,101 @@ const comparePassword = async (password, hashedPassword) => {
 
 // Create user in auth.users table
 const createUser = async (email, password, displayName) => {
-  const userId = uuidv4();
-  const hashedPassword = await hashPassword(password);
-  
   console.log('Creating user with:', {
-    userId,
     email,
-    displayName,
-    hashedPasswordLength: hashedPassword.length
+    displayName
   });
   
-  const userQuery = `
-    INSERT INTO auth.users (
-      id, email, encrypted_password, email_confirmed_at, 
-      raw_user_meta_data, created_at, updated_at
-    ) VALUES ($1, $2, $3, NOW(), $4, NOW(), NOW())
-    RETURNING id, email, created_at
-  `;
-  
-  const metaData = { display_name: displayName };
-  
   try {
-    console.log('Executing query with params:', [
-      userId, 
-      email, 
-      '***password***', 
-      JSON.stringify(metaData)
-    ]);
+    // Criar usuário usando Supabase
+    const { data, error } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: {
+        display_name: displayName
+      }
+    });
     
-    const result = await query(userQuery, [
-      userId, 
-      email, 
-      hashedPassword, 
-      JSON.stringify(metaData)
-    ]);
+    if (error) {
+      console.error('Error creating user:', error);
+      if (error.message.includes('already exists')) {
+        throw new Error('Email already exists');
+      }
+      throw error;
+    }
     
-    console.log('User created successfully:', result.rows[0]);
-    return result.rows[0];
+    console.log('User created successfully:', data.user);
+    return {
+      id: data.user.id,
+      email: data.user.email,
+      created_at: data.user.created_at
+    };
   } catch (error) {
     console.error('Error creating user:', error);
-    if (error.code === '23505') { // Unique violation
-      throw new Error('Email already exists');
+    if (error.message === 'Email already exists') {
+      throw error;
     }
     throw error;
   }
 };
 
-// Authenticate user
+// Authenticate user with email and password
 const authenticateUser = async (email, password) => {
-  const userQuery = `
-    SELECT id, email, encrypted_password, raw_user_meta_data
-    FROM auth.users 
-    WHERE email = $1 AND deleted_at IS NULL
-  `;
-  
-  const result = await query(userQuery, [email]);
-  
-  if (result.rows.length === 0) {
-    throw new Error('Invalid email or password');
+  try {
+    // Autenticar usuário usando Supabase
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+    
+    if (error) {
+      console.error('Error authenticating user:', error);
+      throw new Error('Invalid email or password');
+    }
+    
+    if (!data.user) {
+      throw new Error('Invalid email or password');
+    }
+    
+    return {
+      id: data.user.id,
+      email: data.user.email,
+      display_name: data.user.user_metadata?.display_name || ''
+    };
+  } catch (error) {
+    console.error('Error authenticating user:', error);
+    throw error;
   }
-  
-  const user = result.rows[0];
-  const isValidPassword = await comparePassword(password, user.encrypted_password);
-  
-  if (!isValidPassword) {
-    throw new Error('Invalid email or password');
-  }
-  
-  // Update last sign in
-  await query(
-    'UPDATE auth.users SET last_sign_in_at = NOW() WHERE id = $1',
-    [user.id]
-  );
-  
-  return {
-    id: user.id,
-    email: user.email,
-    display_name: user.raw_user_meta_data?.display_name
-  };
 };
 
 // Get user by ID
 const getUserById = async (userId) => {
-  const userQuery = `
-    SELECT id, email, raw_user_meta_data, created_at, updated_at
-    FROM auth.users 
-    WHERE id = $1 AND deleted_at IS NULL
-  `;
-  
-  const result = await query(userQuery, [userId]);
-  
-  if (result.rows.length === 0) {
+  try {
+    // Buscar usuário usando Supabase
+    const { data, error } = await supabase.auth.admin.getUserById(userId);
+    
+    if (error) {
+      console.error('Error getting user by ID:', error);
+      return null;
+    }
+    
+    if (!data.user) {
+      return null;
+    }
+    
+    return {
+      id: data.user.id,
+      email: data.user.email,
+      display_name: data.user.user_metadata?.display_name,
+      avatar_url: data.user.user_metadata?.avatar_url,
+      created_at: data.user.created_at,
+      updated_at: data.user.updated_at
+    };
+  } catch (error) {
+    console.error('Error getting user by ID:', error);
     return null;
   }
-  
-  const user = result.rows[0];
-  return {
-    id: user.id,
-    email: user.email,
-    display_name: user.raw_user_meta_data?.display_name,
-    avatar_url: user.raw_user_meta_data?.avatar_url,
-    created_at: user.created_at,
-    updated_at: user.updated_at
-  };
 };
 
 module.exports = {

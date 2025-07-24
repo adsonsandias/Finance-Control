@@ -15,7 +15,7 @@ O `docker-compose.yml` inclui os seguintes serviços:
 
 - **Frontend**: Aplicação React (porta 3000)
 - **Database**: PostgreSQL 15 (porta 5432)
-- **Supabase Studio**: Interface administrativa (porta 3001)
+- **Supabase Studio**: Interface administrativa (porta 54321)
 - **Kong**: API Gateway (porta 8000)
 - **Auth**: Serviço de autenticação GoTrue
 - **REST**: API PostgREST
@@ -35,47 +35,65 @@ O `docker-compose.yml` inclui os seguintes serviços:
    cp .env.example .env
    ```
 
-3. **Inicie todos os serviços:**
+3. **Inicie todos os serviços incluindo o banco de dados:**
    ```bash
-   docker-compose up -d
+   ./backend/scripts/start-services.sh
    ```
 
 4. **Aguarde todos os serviços iniciarem** (pode levar alguns minutos na primeira vez)
 
 5. **Acesse as aplicações:**
-   - **Frontend**: http://localhost:3000
-   - **Supabase Studio**: http://localhost:3001
-   - **API Gateway**: http://localhost:8000
+   - **Frontend Auth**: http://localhost:3000
+   - **Frontend Dashboard**: http://localhost:3001
+   - **Backend API**: http://localhost:3002
+   - **Supabase Studio**: http://localhost:54321
 
 ### Comandos úteis
 
 ```bash
-# Iniciar todos os serviços
-docker-compose up -d
+# Iniciar todos os serviços incluindo o banco de dados
+./backend/scripts/start-services.sh
+
+# Parar todos os serviços
+./backend/scripts/stop-services.sh
 
 # Ver logs de todos os serviços
 docker-compose logs -f
 
 # Ver logs de um serviço específico
-docker-compose logs -f frontend
+docker-compose logs -f frontend-auth
+docker-compose logs -f frontend-dashboard
+docker-compose logs -f backend
 docker-compose logs -f db
-
-# Parar todos os serviços
-docker-compose down
 
 # Parar e remover volumes (CUIDADO: apaga dados do banco)
 docker-compose down -v
 
 # Rebuild do frontend
-docker-compose build frontend
-docker-compose up -d frontend
+docker-compose build frontend-auth
+docker-compose build frontend-dashboard
+docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d frontend-auth frontend-dashboard
 
 # Executar comandos no container do frontend
-docker-compose exec frontend npm install
-docker-compose exec frontend npm run build
+docker-compose exec frontend-auth npm install
+docker-compose exec frontend-auth npm run build
+docker-compose exec frontend-dashboard npm install
+docker-compose exec frontend-dashboard npm run build
 
 # Acessar o banco de dados
-docker-compose exec db psql -U postgres -d postgres
+docker-compose exec db psql -U postgres -d finance_control
+
+# Aplicar o schema do Supabase
+./backend/scripts/update-supabase-schema.sh
+
+# Verificar segurança antes do deploy
+./backend/scripts/security-check.sh
+
+# Fazer backup do banco de dados
+./backend/scripts/backup.sh
+
+# Restaurar backup do banco de dados
+./backend/scripts/restore.sh [nome-do-arquivo-de-backup]
 ```
 
 ### Configuração do Banco de Dados
@@ -87,11 +105,11 @@ O banco de dados é automaticamente configurado com:
 - **Database**: postgres
 - **Porta**: 5432
 
-As tabelas e políticas são criadas automaticamente através do arquivo `supabase/init.sql`.
+As tabelas e políticas são criadas automaticamente através do arquivo `backend/supabase/migrations/supabase-schema.sql`.
 
 ### Supabase Studio
 
-Acesse http://localhost:3001 para usar a interface administrativa do Supabase.
+Acesse http://localhost:54321 para usar a interface administrativa do Supabase.
 
 **Credenciais padrão:**
 - **URL**: http://localhost:8000
@@ -194,7 +212,7 @@ docker volume prune -f
 ├── .dockerignore              # Arquivos ignorados no build
 ├── .env.example               # Variáveis de ambiente
 └── supabase/
-    ├── init.sql               # Inicialização do banco
+    ├── supabase-schema.sql    # Schema completo do banco
     └── kong.yml               # Configuração do API Gateway
 ```
 
@@ -220,7 +238,7 @@ docker-compose logs -f --tail=100
 1. Execute `docker-compose up -d`
 2. Acesse http://localhost:3000
 3. Crie uma conta de teste
-4. Explore o Supabase Studio em http://localhost:3001
+4. Explore o Supabase Studio em http://localhost:54321
 5. Comece a desenvolver!
 
 Para mais informações sobre o Supabase, consulte o arquivo `SUPABASE_SETUP.md`.

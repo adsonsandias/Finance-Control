@@ -1,0 +1,1 @@
+{"status":"OK","message":"Finance Control Backend is running","timestamp":"2025-07-24T03:18:39.320Z"}

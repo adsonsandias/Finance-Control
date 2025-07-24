@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { query } = require('../config/database');
+const { supabase } = require('../config/supabase');
 
 const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -15,13 +15,10 @@ const authenticateToken = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    // Verify user still exists
-    const userResult = await query(
-      'SELECT id, email FROM auth.users WHERE id = $1 AND deleted_at IS NULL',
-      [decoded.sub]
-    );
-
-    if (userResult.rows.length === 0) {
+    // Verify user still exists using Supabase
+    const { data: user, error } = await supabase.auth.admin.getUserById(decoded.sub);
+    
+    if (error || !user || !user.user) {
       return res.status(401).json({ 
         error: 'Access denied', 
         message: 'User not found' 
@@ -30,7 +27,7 @@ const authenticateToken = async (req, res, next) => {
 
     req.user = {
       id: decoded.sub,
-      email: userResult.rows[0].email,
+      email: user.user.email,
       role: decoded.role || 'authenticated'
     };
     
@@ -56,15 +53,12 @@ const optionalAuth = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    const userResult = await query(
-      'SELECT id, email FROM auth.users WHERE id = $1 AND deleted_at IS NULL',
-      [decoded.sub]
-    );
+    const { data: user, error } = await supabase.auth.admin.getUserById(decoded.sub);
 
-    if (userResult.rows.length > 0) {
+    if (!error && user && user.user) {
       req.user = {
         id: decoded.sub,
-        email: userResult.rows[0].email,
+        email: user.user.email,
         role: decoded.role || 'authenticated'
       };
     } else {

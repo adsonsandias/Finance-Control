@@ -26,10 +26,10 @@ cp .env.docker.example .env.docker
 **Edit `.env.docker` with production values:**
 
 ```env
-# Database Configuration
-POSTGRES_DB=finance_control_prod
-POSTGRES_USER=finance_user
-POSTGRES_PASSWORD=YOUR_STRONG_PASSWORD_HERE
+# Supabase Configuration
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY_HERE
+REACT_APP_SUPABASE_ANON_KEY=YOUR_ANON_KEY_HERE
 
 # Backend Configuration
 JWT_SECRET=YOUR_JWT_SECRET_32_CHARS_HERE

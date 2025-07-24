@@ -1,5 +1,5 @@
 const express = require('express');
-const { query } = require('../config/database');
+const { supabase } = require('../config/supabase');
 const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
@@ -7,27 +7,24 @@ const router = express.Router();
 // Get current user profile
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-    const result = await query(
-      `SELECT up.id, up.user_id, up.full_name, up.avatar_url, up.created_at, up.updated_at,
-              au.email
-       FROM public.user_profiles up
-       JOIN auth.users au ON up.user_id = au.id
-       WHERE up.user_id = $1`,
-      [req.user.id]
-    );
+    // Buscar o perfil do usuário usando Supabase
+    const { data: profile, error } = await supabase
+      .from('user_profiles')
+      .select('id, email, display_name, avatar_url, created_at, updated_at')
+      .eq('id', req.user.id)
+      .single();
 
-    if (result.rows.length === 0) {
+    if (error || !profile) {
       return res.status(404).json({
         error: 'Profile not found',
         message: 'User profile not found'
       });
     }
 
-    const profile = result.rows[0];
     res.json({
-      id: profile.user_id,
+      id: profile.id,
       email: profile.email,
-      full_name: profile.full_name,
+      full_name: profile.display_name,
       avatar_url: profile.avatar_url,
       created_at: profile.created_at,
       updated_at: profile.updated_at
@@ -46,66 +43,42 @@ router.put('/profile', authenticateToken, async (req, res) => {
   try {
     const { full_name, avatar_url } = req.body;
 
-    // Build update query dynamically
-    const updates = [];
-    const params = [];
-    let paramCount = 0;
-
-    if (full_name !== undefined) {
-      paramCount++;
-      updates.push(`full_name = $${paramCount}`);
-      params.push(full_name);
-    }
-
-    if (avatar_url !== undefined) {
-      paramCount++;
-      updates.push(`avatar_url = $${paramCount}`);
-      params.push(avatar_url);
-    }
-
-    if (updates.length === 0) {
+    // Verificar se há campos para atualizar
+    if (full_name === undefined && avatar_url === undefined) {
       return res.status(400).json({
         error: 'No updates provided',
         message: 'At least one field must be provided for update'
       });
     }
 
-    updates.push('updated_at = NOW()');
-    params.push(req.user.id);
+    // Construir objeto de atualização
+    const updates = {};
+    if (full_name !== undefined) updates.display_name = full_name;
+    if (avatar_url !== undefined) updates.avatar_url = avatar_url;
 
-    const result = await query(
-      `UPDATE public.user_profiles 
-       SET ${updates.join(', ')}
-       WHERE user_id = $${paramCount + 1}
-       RETURNING id, user_id, full_name, avatar_url, created_at, updated_at`,
-      params
-    );
+    // Atualizar perfil usando Supabase
+    const { data, error } = await supabase
+      .from('user_profiles')
+      .update(updates)
+      .eq('id', req.user.id)
+      .select('id, email, display_name, avatar_url, created_at, updated_at')
+      .single();
 
-    if (result.rows.length === 0) {
+    if (error || !data) {
       return res.status(404).json({
         error: 'Profile not found',
-        message: 'User profile not found'
+        message: 'User profile not found or update failed'
       });
     }
 
-    // Get updated profile with email
-    const profileResult = await query(
-      `SELECT up.id, up.user_id, up.full_name, up.avatar_url, up.created_at, up.updated_at,
-              au.email
-       FROM public.user_profiles up
-       JOIN auth.users au ON up.user_id = au.id
-       WHERE up.user_id = $1`,
-      [req.user.id]
-    );
-
-    const profile = profileResult.rows[0];
+    // Retornar o perfil atualizado
     res.json({
-      id: profile.user_id,
-      email: profile.email,
-      full_name: profile.full_name,
-      avatar_url: profile.avatar_url,
-      created_at: profile.created_at,
-      updated_at: profile.updated_at
+      id: data.id,
+      email: data.email,
+      full_name: data.display_name,
+      avatar_url: data.avatar_url,
+      created_at: data.created_at,
+      updated_at: data.updated_at
     });
   } catch (error) {
     console.error('Update user profile error:', error);
@@ -119,38 +92,30 @@ router.put('/profile', authenticateToken, async (req, res) => {
 // Delete user account
 router.delete('/account', authenticateToken, async (req, res) => {
   try {
-    const client = await require('../config/database').getClient();
+    // Usar transação do Supabase para garantir atomicidade
     
-    try {
-      await client.query('BEGIN');
+    // 1. Excluir transações do usuário
+    const { error: transactionsError } = await supabase
+      .from('transactions')
+      .delete()
+      .eq('user_id', req.user.id);
 
-      // Delete user transactions
-      await client.query(
-        'DELETE FROM public.transactions WHERE user_id = $1',
-        [req.user.id]
-      );
+    if (transactionsError) throw transactionsError;
 
-      // Delete user profile
-      await client.query(
-        'DELETE FROM public.user_profiles WHERE user_id = $1',
-        [req.user.id]
-      );
+    // 2. Excluir perfil do usuário
+    const { error: profileError } = await supabase
+      .from('user_profiles')
+      .delete()
+      .eq('id', req.user.id);
 
-      // Delete user from auth.users
-      await client.query(
-        'DELETE FROM auth.users WHERE id = $1',
-        [req.user.id]
-      );
+    if (profileError) throw profileError;
 
-      await client.query('COMMIT');
+    // 3. Excluir usuário da autenticação
+    const { error: authError } = await supabase.auth.admin.deleteUser(req.user.id);
 
-      res.json({ message: 'Account deleted successfully' });
-    } catch (error) {
-      await client.query('ROLLBACK');
-      throw error;
-    } finally {
-      client.release();
-    }
+    if (authError) throw authError;
+
+    res.json({ message: 'Account deleted successfully' });
   } catch (error) {
     console.error('Delete user account error:', error);
     res.status(500).json({
@@ -163,79 +128,96 @@ router.delete('/account', authenticateToken, async (req, res) => {
 // Get user statistics
 router.get('/stats', authenticateToken, async (req, res) => {
   try {
-    // Get transaction counts and totals
-    const transactionStats = await query(
-      `SELECT 
-         COUNT(*) as total_transactions,
-         COUNT(CASE WHEN type = 'income' THEN 1 END) as income_count,
-         COUNT(CASE WHEN type = 'expense' THEN 1 END) as expense_count,
-         COALESCE(SUM(CASE WHEN type = 'income' THEN amount END), 0) as total_income,
-         COALESCE(SUM(CASE WHEN type = 'expense' THEN amount END), 0) as total_expenses
-       FROM public.transactions
-       WHERE user_id = $1`,
-      [req.user.id]
-    );
+    // Obter todas as transações do usuário
+    const { data: transactions, error: transactionsError } = await supabase
+      .from('transactions')
+      .select('*')
+      .eq('user_id', req.user.id);
 
-    // Get recent activity (last 30 days)
-    const recentActivity = await query(
-      `SELECT 
-         COUNT(*) as recent_transactions,
-         COALESCE(SUM(CASE WHEN type = 'income' THEN amount END), 0) as recent_income,
-         COALESCE(SUM(CASE WHEN type = 'expense' THEN amount END), 0) as recent_expenses
-       FROM public.transactions
-       WHERE user_id = $1 AND created_at >= NOW() - INTERVAL '30 days'`,
-      [req.user.id]
-    );
+    if (transactionsError) throw transactionsError;
 
-    // Get top categories
-    const topCategories = await query(
-      `SELECT 
-         category,
-         type,
-         COUNT(*) as count,
-         SUM(amount) as total
-       FROM public.transactions
-       WHERE user_id = $1
-       GROUP BY category, type
-       ORDER BY total DESC
-       LIMIT 10`,
-      [req.user.id]
-    );
+    // Calcular estatísticas de transações
+    const stats = {
+      total_transactions: transactions.length,
+      income_count: transactions.filter(t => t.type === 'income').length,
+      expense_count: transactions.filter(t => t.type === 'expense').length,
+      total_income: transactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0),
+      total_expenses: transactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0)
+    };
 
-    // Get account creation date
-    const accountInfo = await query(
-      'SELECT created_at FROM auth.users WHERE id = $1',
-      [req.user.id]
+    // Calcular atividade recente (últimos 30 dias)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const recentTransactions = transactions.filter(
+      t => new Date(t.created_at) >= thirtyDaysAgo
     );
+    
+    const recent = {
+      recent_transactions: recentTransactions.length,
+      recent_income: recentTransactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0),
+      recent_expenses: recentTransactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0)
+    };
 
-    const stats = transactionStats.rows[0];
-    const recent = recentActivity.rows[0];
+    // Calcular top categorias
+    const categoriesMap = transactions.reduce((acc, t) => {
+      const key = `${t.category}-${t.type}`;
+      if (!acc[key]) {
+        acc[key] = {
+          category: t.category,
+          type: t.type,
+          count: 0,
+          total: 0
+        };
+      }
+      acc[key].count += 1;
+      acc[key].total += parseFloat(t.amount);
+      return acc;
+    }, {});
+
+    const topCategories = Object.values(categoriesMap)
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+
+    // Obter data de criação da conta
+    const { data: user, error: userError } = await supabase.auth.admin.getUserById(req.user.id);
+    
+    if (userError) throw userError;
+    
+    const accountCreatedAt = user?.user?.created_at || new Date().toISOString();
 
     res.json({
       account: {
-        created_at: accountInfo.rows[0]?.created_at,
-        member_since_days: accountInfo.rows[0] ? 
-          Math.floor((new Date() - new Date(accountInfo.rows[0].created_at)) / (1000 * 60 * 60 * 24)) : 0
+        created_at: accountCreatedAt,
+        member_since_days: Math.floor((new Date() - new Date(accountCreatedAt)) / (1000 * 60 * 60 * 24))
       },
       transactions: {
-        total: parseInt(stats.total_transactions),
-        income_count: parseInt(stats.income_count),
-        expense_count: parseInt(stats.expense_count),
-        total_income: parseFloat(stats.total_income),
-        total_expenses: parseFloat(stats.total_expenses),
-        balance: parseFloat(stats.total_income) - parseFloat(stats.total_expenses)
+        total: stats.total_transactions,
+        income_count: stats.income_count,
+        expense_count: stats.expense_count,
+        total_income: stats.total_income,
+        total_expenses: stats.total_expenses,
+        balance: stats.total_income - stats.total_expenses
       },
       recent_activity: {
-        transactions: parseInt(recent.recent_transactions),
-        income: parseFloat(recent.recent_income),
-        expenses: parseFloat(recent.recent_expenses),
-        balance: parseFloat(recent.recent_income) - parseFloat(recent.recent_expenses)
+        transactions: recent.recent_transactions,
+        income: recent.recent_income,
+        expenses: recent.recent_expenses,
+        balance: recent.recent_income - recent.recent_expenses
       },
-      top_categories: topCategories.rows.map(row => ({
-        category: row.category,
-        type: row.type,
-        count: parseInt(row.count),
-        total: parseFloat(row.total)
+      top_categories: topCategories.map(cat => ({
+        category: cat.category,
+        type: cat.type,
+        count: cat.count,
+        total: cat.total
       }))
     });
   } catch (error) {

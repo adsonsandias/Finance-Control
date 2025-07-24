@@ -190,7 +190,7 @@ Before running this project, make sure you have the following installed:
 4. **Database setup**
    ```bash
    # Run the SQL setup script in your PostgreSQL database
-   psql -U your_username -d your_database -f backend/migrations/init.sql
+   psql -U your_username -d your_database -f backend/supabase/migrations/supabase-schema.sql
    ```
 
 5. **Start development servers**
@@ -291,8 +291,8 @@ The project includes a complete Docker setup for easy deployment and development
 git clone https://github.com/your-username/finance-control.git
 cd finance-control
 
-# Start all services
-docker-compose up -d
+# Start all services including database
+./backend/scripts/start-services.sh
 
 # Check service status
 docker-compose ps
@@ -301,23 +301,24 @@ docker-compose ps
 docker-compose logs -f [service-name]
 
 # Stop all services
-docker-compose down
+./backend/scripts/stop-services.sh
 ```
 
 ### Development Workflow
 
 ```bash
 # Rebuild after code changes
-docker-compose up --build
+docker-compose -f docker-compose.yml -f docker-compose.db.yml up --build
 
 # Start specific modules
-docker-compose up frontend-auth backend db
-docker-compose up frontend-dashboard backend db
+docker-compose -f docker-compose.yml -f docker-compose.db.yml up frontend-auth backend db
+docker-compose -f docker-compose.yml -f docker-compose.db.yml up frontend-dashboard backend db
 
 # Access database directly
 docker-compose exec db psql -U postgres -d finance_control
 
 # Service-specific logs
+docker-compose logs -f db
 docker-compose logs -f backend
 docker-compose logs -f frontend-auth
 docker-compose logs -f frontend-dashboard
@@ -517,7 +518,8 @@ Make sure to set the following environment variables in production:
 - `REACT_APP_API_URL`: Backend API URL
 
 **Backend**
-- `DATABASE_URL`: PostgreSQL connection string
+- `SUPABASE_URL`: Supabase project URL
+- `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key
 - `JWT_SECRET`: Secret key for JWT tokens
 - `NODE_ENV`: Set to 'production'
 - `PORT`: Server port (default: 3001)

@@ -22,7 +22,7 @@
 
 1. No painel do Supabase, vá para "SQL Editor"
 2. Clique em "New query"
-3. Copie todo o conteúdo do arquivo `supabase-setup.sql`
+3. Copie todo o conteúdo do arquivo `backend/supabase/migrations/supabase-schema.sql`
 4. Cole no editor e clique em "Run"
 
 ### 3. Configurar as variáveis de ambiente
@@ -80,7 +80,16 @@ npm start
    - `avatar_url` (TEXT)
    - `created_at`, `updated_at` (TIMESTAMP)
 
-2. **transactions**: Transações financeiras
+2. **transaction_categories**: Categorias de transações
+   - `id` (UUID, chave primária)
+   - `name` (TEXT)
+   - `type` (TEXT: 'income' ou 'expense')
+   - `icon` (TEXT)
+   - `color` (TEXT)
+   - `is_default` (BOOLEAN)
+   - `created_at`, `updated_at` (TIMESTAMP)
+
+3. **transactions**: Transações financeiras
    - `id` (UUID, chave primária)
    - `user_id` (UUID, referência para auth.users)
    - `title` (TEXT)
@@ -88,6 +97,14 @@ npm start
    - `category` (TEXT)
    - `amount` (DECIMAL)
    - `created_at`, `updated_at` (TIMESTAMP)
+
+### Views criadas:
+
+1. **monthly_stats**: Estatísticas mensais de transações
+   - Agrega receitas, despesas e saldo por mês para cada usuário
+
+2. **category_stats**: Estatísticas por categoria
+   - Agrega transações por categoria para cada usuário
 
 ### Políticas de segurança (RLS):
 

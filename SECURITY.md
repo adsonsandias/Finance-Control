@@ -41,7 +41,8 @@ openssl rand -base64 24
 ### Backend
 ```env
 JWT_SECRET=<strong-secret-32-chars>
-DATABASE_URL=postgresql://user:password@host:port/database
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
 NODE_ENV=production
 CORS_ORIGIN=https://your-domain.com
 ```

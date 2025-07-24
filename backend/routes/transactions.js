@@ -1,7 +1,6 @@
 const express = require('express');
-const { query } = require('../config/database');
+const { supabase } = require('../config/supabase');
 const { authenticateToken } = require('../middleware/auth');
-
 const router = express.Router();
 
 // Get all transactions for the authenticated user
@@ -10,44 +9,32 @@ router.get('/', authenticateToken, async (req, res) => {
     const { page = 1, limit = 50, type, category } = req.query;
     const offset = (page - 1) * limit;
 
-    let whereClause = 'WHERE user_id = $1';
-    let params = [req.user.id];
-    let paramCount = 1;
+    let query = supabase
+      .from('transactions')
+      .select('id, title, type, category, amount, created_at, updated_at', { count: 'exact' })
+      .eq('user_id', req.user.id);
 
     if (type && ['income', 'expense'].includes(type)) {
-      paramCount++;
-      whereClause += ` AND type = $${paramCount}`;
-      params.push(type);
+      query = query.eq('type', type);
     }
 
     if (category) {
-      paramCount++;
-      whereClause += ` AND category = $${paramCount}`;
-      params.push(category);
+      query = query.eq('category', category);
     }
 
-    const transactionsResult = await query(
-      `SELECT id, title, type, category, amount, created_at, updated_at
-       FROM public.transactions
-       ${whereClause}
-       ORDER BY created_at DESC
-       LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`,
-      [...params, limit, offset]
-    );
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
-    // Get total count
-    const countResult = await query(
-      `SELECT COUNT(*) as total FROM public.transactions ${whereClause}`,
-      params
-    );
+    if (error) throw error;
 
     res.json({
-      data: transactionsResult.rows,
+      data: data || [],
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
-        total: parseInt(countResult.rows[0].total),
-        pages: Math.ceil(countResult.rows[0].total / limit)
+        total: count || 0,
+        pages: Math.ceil((count || 0) / limit)
       }
     });
   } catch (error) {
@@ -64,21 +51,21 @@ router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await query(
-      `SELECT id, title, type, category, amount, created_at, updated_at
-       FROM public.transactions
-       WHERE id = $1 AND user_id = $2`,
-      [id, req.user.id]
-    );
+    const { data, error } = await supabase
+      .from('transactions')
+      .select('id, title, type, category, amount, created_at, updated_at')
+      .eq('id', id)
+      .eq('user_id', req.user.id)
+      .single();
 
-    if (result.rows.length === 0) {
+    if (error || !data) {
       return res.status(404).json({
         error: 'Transaction not found',
         message: 'Transaction not found or access denied'
       });
     }
 
-    res.json(result.rows[0]);
+    res.json(data);
   } catch (error) {
     console.error('Get transaction error:', error);
     res.status(500).json({
@@ -115,14 +102,21 @@ router.post('/', authenticateToken, async (req, res) => {
       });
     }
 
-    const result = await query(
-      `INSERT INTO public.transactions (user_id, title, type, category, amount, created_at, updated_at)
-       VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
-       RETURNING id, title, type, category, amount, created_at, updated_at`,
-      [req.user.id, title, type, category, amount]
-    );
+    const { data, error } = await supabase
+      .from('transactions')
+      .insert({
+        user_id: req.user.id,
+        title,
+        type,
+        category,
+        amount
+      })
+      .select('id, title, type, category, amount, created_at, updated_at')
+      .single();
 
-    res.status(201).json(result.rows[0]);
+    if (error) throw error;
+
+    res.status(201).json(data);
   } catch (error) {
     console.error('Create transaction error:', error);
     res.status(500).json({
@@ -139,12 +133,14 @@ router.put('/:id', authenticateToken, async (req, res) => {
     const { title, type, category, amount } = req.body;
 
     // Check if transaction exists and belongs to user
-    const existingResult = await query(
-      'SELECT id FROM public.transactions WHERE id = $1 AND user_id = $2',
-      [id, req.user.id]
-    );
+    const { data: existing, error: checkError } = await supabase
+      .from('transactions')
+      .select('id')
+      .eq('id', id)
+      .eq('user_id', req.user.id)
+      .single();
 
-    if (existingResult.rows.length === 0) {
+    if (checkError || !existing) {
       return res.status(404).json({
         error: 'Transaction not found',
         message: 'Transaction not found or access denied'
@@ -166,54 +162,30 @@ router.put('/:id', authenticateToken, async (req, res) => {
       });
     }
 
-    // Build update query dynamically
-    const updates = [];
-    const params = [];
-    let paramCount = 0;
+    const updates = {};
+    if (title !== undefined) updates.title = title;
+    if (type !== undefined) updates.type = type;
+    if (category !== undefined) updates.category = category;
+    if (amount !== undefined) updates.amount = amount;
 
-    if (title !== undefined) {
-      paramCount++;
-      updates.push(`title = $${paramCount}`);
-      params.push(title);
-    }
-
-    if (type !== undefined) {
-      paramCount++;
-      updates.push(`type = $${paramCount}`);
-      params.push(type);
-    }
-
-    if (category !== undefined) {
-      paramCount++;
-      updates.push(`category = $${paramCount}`);
-      params.push(category);
-    }
-
-    if (amount !== undefined) {
-      paramCount++;
-      updates.push(`amount = $${paramCount}`);
-      params.push(amount);
-    }
-
-    if (updates.length === 0) {
+    if (Object.keys(updates).length === 0) {
       return res.status(400).json({
         error: 'No updates provided',
         message: 'At least one field must be provided for update'
       });
     }
 
-    updates.push('updated_at = NOW()');
-    params.push(id, req.user.id);
+    const { data, error } = await supabase
+      .from('transactions')
+      .update(updates)
+      .eq('id', id)
+      .eq('user_id', req.user.id)
+      .select('id, title, type, category, amount, created_at, updated_at')
+      .single();
 
-    const result = await query(
-      `UPDATE public.transactions 
-       SET ${updates.join(', ')}
-       WHERE id = $${paramCount + 1} AND user_id = $${paramCount + 2}
-       RETURNING id, title, type, category, amount, created_at, updated_at`,
-      params
-    );
+    if (error) throw error;
 
-    res.json(result.rows[0]);
+    res.json(data);
   } catch (error) {
     console.error('Update transaction error:', error);
     res.status(500).json({
@@ -228,17 +200,13 @@ router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await query(
-      'DELETE FROM public.transactions WHERE id = $1 AND user_id = $2 RETURNING id',
-      [id, req.user.id]
-    );
+    const { error } = await supabase
+      .from('transactions')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', req.user.id);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
-        error: 'Transaction not found',
-        message: 'Transaction not found or access denied'
-      });
-    }
+    if (error) throw error;
 
     res.json({ message: 'Transaction deleted successfully' });
   } catch (error) {
@@ -255,39 +223,46 @@ router.get('/stats/summary', authenticateToken, async (req, res) => {
   try {
     const { period = 'month' } = req.query;
     
-    let dateFilter = '';
+    let range;
     if (period === 'week') {
-      dateFilter = "AND created_at >= NOW() - INTERVAL '7 days'";
+      range = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     } else if (period === 'month') {
-      dateFilter = "AND created_at >= NOW() - INTERVAL '30 days'";
+      range = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     } else if (period === 'year') {
-      dateFilter = "AND created_at >= NOW() - INTERVAL '365 days'";
+      range = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString();
+    } else {
+      range = null;
     }
 
-    const result = await query(
-      `SELECT 
-         type,
-         COUNT(*) as count,
-         SUM(amount) as total,
-         AVG(amount) as average
-       FROM public.transactions
-       WHERE user_id = $1 ${dateFilter}
-       GROUP BY type`,
-      [req.user.id]
-    );
+    let query = supabase
+      .from('transactions')
+      .select('type, amount', { count: 'exact' })
+      .eq('user_id', req.user.id);
+
+    if (range) {
+      query = query.gte('created_at', range);
+    }
+
+    const { data, error, count } = await query;
+
+    if (error) throw error;
 
     const summary = {
       income: { count: 0, total: 0, average: 0 },
       expense: { count: 0, total: 0, average: 0 }
     };
 
-    result.rows.forEach(row => {
-      summary[row.type] = {
-        count: parseInt(row.count),
-        total: parseFloat(row.total),
-        average: parseFloat(row.average)
-      };
+    data.forEach(transaction => {
+      summary[transaction.type].count++;
+      summary[transaction.type].total += transaction.amount;
     });
+
+    if (summary.income.count > 0) {
+      summary.income.average = summary.income.total / summary.income.count;
+    }
+    if (summary.expense.count > 0) {
+      summary.expense.average = summary.expense.total / summary.expense.count;
+    }
 
     summary.balance = summary.income.total - summary.expense.total;
 
