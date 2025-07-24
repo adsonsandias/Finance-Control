@@ -15,7 +15,7 @@ O `docker-compose.yml` inclui os seguintes serviços:
 
 - **Frontend**: Aplicação React (porta 3000)
 - **Database**: PostgreSQL 15 (porta 5432)
-- **Supabase Studio**: Interface administrativa (porta 54321)
+- **Supabase Studio**: Interface administrativa (porta 54323)
 - **Kong**: API Gateway (porta 8000)
 - **Auth**: Serviço de autenticação GoTrue
 - **REST**: API PostgREST
@@ -46,7 +46,7 @@ O `docker-compose.yml` inclui os seguintes serviços:
    - **Frontend Auth**: http://localhost:3000
    - **Frontend Dashboard**: http://localhost:3001
    - **Backend API**: http://localhost:3002
-   - **Supabase Studio**: http://localhost:54321
+   - **Supabase Studio**: http://localhost:54323
 
 ### Comandos úteis
 
@@ -109,7 +109,7 @@ As tabelas e políticas são criadas automaticamente através do arquivo `backen
 
 ### Supabase Studio
 
-Acesse http://localhost:54321 para usar a interface administrativa do Supabase.
+Acesse http://localhost:54323 para usar a interface administrativa do Supabase.
 
 **Credenciais padrão:**
 - **URL**: http://localhost:8000
@@ -238,7 +238,7 @@ docker-compose logs -f --tail=100
 1. Execute `docker-compose up -d`
 2. Acesse http://localhost:3000
 3. Crie uma conta de teste
-4. Explore o Supabase Studio em http://localhost:54321
+4. Explore o Supabase Studio em http://localhost:54323
 5. Comece a desenvolver!
 
 Para mais informações sobre o Supabase, consulte o arquivo `SUPABASE_SETUP.md`.

@@ -43,7 +43,7 @@ if [ $? -eq 0 ]; then
     echo -e "- Frontend Auth: ${GREEN}http://localhost:3000${NC}"
     echo -e "- Frontend Dashboard: ${GREEN}http://localhost:3001${NC}"
     echo -e "- Backend API: ${GREEN}http://localhost:3002${NC}"
-    echo -e "- Supabase: ${GREEN}http://localhost:54321${NC}"
+    echo -e "- Supabase: ${GREEN}http://localhost:54323${NC}"
     
     echo -e "\n🔍 Para verificar o status dos serviços, execute:"
     echo -e "  ${YELLOW}docker-compose ps${NC}"

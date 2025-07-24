@@ -5,7 +5,7 @@
 echo "🔄 Atualizando schema do Supabase..."
 
 # Verificar se o Supabase está rodando localmente
-echo "✅ Verificando se o Supabase está rodando na porta 54321..."
+echo "✅ Verificando se o Supabase está rodando na porta 54323..."
 
 # Aplicar o schema SQL ao banco de dados Supabase local
 echo "📦 Aplicando schema SQL..."
@@ -35,7 +35,7 @@ PGPASSWORD="$SUPABASE_DB_PASSWORD" psql -h "$SUPABASE_DB_HOST" -p "$SUPABASE_DB_
 echo "✅ Schema do Supabase atualizado com sucesso!"
 
 # Exibir informações de acesso
-echo "🌐 Supabase Studio disponível em: http://localhost:54321"
+echo "🌐 Supabase Studio disponível em: http://localhost:54323"
 echo "🔑 Credenciais padrão:"
 echo "   Email: admin@example.com"
 echo "   Senha: admin"

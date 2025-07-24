@@ -37,7 +37,7 @@ Este script aplicará o schema definido em `backend/supabase/migrations/supabase
 
 4. **Acessar o Supabase Studio**
 
-O Supabase Studio estará disponível em: http://localhost:54321
+O Supabase Studio estará disponível em: http://localhost:54323
 
 Credenciais padrão:
 - Email: admin@example.com
@@ -80,7 +80,7 @@ O backend já está configurado para utilizar o Supabase através do cliente Jav
 Configure as seguintes variáveis de ambiente no arquivo `.env`:
 
 ```
-SUPABASE_URL=http://localhost:54321
+SUPABASE_URL=http://localhost:54323
 SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
