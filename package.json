@@ -4,25 +4,25 @@
   "description": "A modern, full-stack financial management application with micro frontend architecture",
   "private": true,
   "workspaces": [
-    "frontend/*",
-    "backend",
-    "shared"
+    "apps/frontend/*",
+    "apps/backend",
+    "packages"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:auth\"",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:auth": "cd frontend/auth && npm start",
-    "dev:dashboard": "cd frontend/dashboard && npm start",
+    "dev:backend": "cd apps/backend && npm run dev",
+    "dev:auth": "cd apps/frontend/auth && npm start",
+    "dev:dashboard": "cd apps/frontend/dashboard && npm start",
     "build": "npm run build:auth && npm run build:dashboard && npm run build:backend",
-    "build:auth": "cd frontend/auth && npm run build",
-    "build:dashboard": "cd frontend/dashboard && npm run build",
-    "build:backend": "cd backend && npm run build",
+    "build:auth": "cd apps/frontend/auth && npm run build",
+    "build:dashboard": "cd apps/frontend/dashboard && npm run build",
+    "build:backend": "cd apps/backend && npm run build",
     "test": "npm run test:auth && npm run test:dashboard && npm run test:backend",
-    "test:auth": "cd frontend/auth && npm test",
-    "test:dashboard": "cd frontend/dashboard && npm test",
-    "test:backend": "cd backend && npm test",
+    "test:auth": "cd apps/frontend/auth && npm test",
+    "test:dashboard": "cd apps/frontend/dashboard && npm test",
+    "test:backend": "cd apps/backend && npm test",
     "install:all": "npm install && npm run install:modules",
-    "install:modules": "cd frontend/auth && npm install && cd ../dashboard && npm install && cd ../../backend && npm install"
+    "install:modules": "cd apps/frontend/auth && npm install && cd ../dashboard && npm install && cd ../../backend && npm install && cd ../../packages && npm install"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"

@@ -5,7 +5,7 @@ services:
   # Frontend Auth Module
   frontend-auth:
     build:
-      context: ./frontend/auth
+      context: ../../apps/frontend/auth
       dockerfile: Dockerfile
     container_name: finance_frontend_auth
     ports:
@@ -13,9 +13,9 @@ services:
     environment:
       - REACT_APP_API_URL=http://localhost:3001/api
     volumes:
-      - ./frontend/auth/src:/app/src
-      - ./frontend/auth/public:/app/public
-      - ./shared:/app/shared
+      - ../../apps/frontend/auth/src:/app/src
+      - ../../apps/frontend/auth/public:/app/public
+      - ../../packages:/app/shared
       - /app/node_modules
     networks:
       - finance_network
@@ -25,7 +25,7 @@ services:
   # Frontend Dashboard Module
   frontend-dashboard:
     build:
-      context: ./frontend/dashboard
+      context: ../../apps/frontend/dashboard
       dockerfile: Dockerfile
     container_name: finance_frontend_dashboard
     ports:
@@ -33,9 +33,9 @@ services:
     environment:
       - REACT_APP_API_URL=http://localhost:3001/api
     volumes:
-      - ./frontend/dashboard/src:/app/src
-      - ./frontend/dashboard/public:/app/public
-      - ./shared:/app/shared
+      - ../../apps/frontend/dashboard/src:/app/src
+      - ../../apps/frontend/dashboard/public:/app/public
+      - ../../packages:/app/shared
       - /app/node_modules
     networks:
       - finance_network
@@ -45,7 +45,7 @@ services:
   # Backend API (Node.js + Express)
   backend:
     build:
-      context: ./backend
+      context: ../../apps/backend
       dockerfile: Dockerfile.backend
     container_name: finance_backend
     ports:
@@ -58,13 +58,12 @@ services:
       - NODE_ENV=${NODE_ENV:-development}
       - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
     volumes:
-      - ./backend/src:/app/src
-      - ./shared:/app/shared
+      - ../../apps/backend/src:/app/src
+      - ../../packages:/app/shared
     networks:
       - finance_network
-    depends_on:
-      db:
-        condition: service_healthy
+    # Removed dependency on db service
+    # If you need the database, use docker-compose.db.yml together with this file
 
 volumes:
   storage_data:
@@ -72,3 +71,8 @@ volumes:
 networks:
   finance_network:
     driver: bridge
+    # Add DNS configuration to help with network connectivity
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
