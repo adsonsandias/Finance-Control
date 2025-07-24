@@ -9,7 +9,7 @@ export const container = {
       staggerChildren: 0.2,
     },
   },
-};
+}
 
 export const containerLeft = {
   hidden: { opacity: 1, x: 200 },
@@ -21,7 +21,7 @@ export const containerLeft = {
       staggerChildren: 0.2,
     },
   },
-};
+}
 
 export const item = {
   hidden: { y: 20, opacity: 0 },
@@ -29,4 +29,4 @@ export const item = {
     y: 0,
     opacity: 1,
   },
-};
+}

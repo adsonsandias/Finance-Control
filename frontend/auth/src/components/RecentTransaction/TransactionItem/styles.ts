@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: grid;
@@ -102,11 +102,11 @@ export const Container = styled.div`
       grid-auto-flow: dense;
     }
   }
-`;
+`
 
 // Type Item
 interface ICOLORITEM {
-  isColor: string;
+  isColor: string
 }
 
 export const CategoryItem = styled.span<ICOLORITEM>`
@@ -131,7 +131,7 @@ export const CategoryItem = styled.span<ICOLORITEM>`
   }
 
   &::before {
-    content: "";
+    content: '';
     width: 0.31rem;
     height: 0.31rem;
     display: block;
@@ -149,11 +149,11 @@ export const CategoryItem = styled.span<ICOLORITEM>`
       margin-right: initials;
     }
   }
-`;
+`
 
 // Valeu Item
 interface IVALUEITEM {
-  isactive: boolean;
+  isactive: boolean
 }
 
 export const ValueItem = styled.span<IVALUEITEM>`
@@ -161,7 +161,7 @@ export const ValueItem = styled.span<IVALUEITEM>`
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.25rem;
-  color: ${(props) => (props.isactive ? "var(--success)" : "var(--withdraw)")};
+  color: ${(props) => (props.isactive ? 'var(--success)' : 'var(--withdraw)')};
 
   @media (max-width: 630px) {
     grid-row: 1;
@@ -177,4 +177,4 @@ export const ValueItem = styled.span<IVALUEITEM>`
     margin-top: 0.5rem;
     margin-bottom: 1rem;
   }
-`;
+`

@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Context = styled(motion.section)`
   padding: 4rem;
@@ -65,7 +65,7 @@ export const Context = styled(motion.section)`
     padding: 1.63rem 1.25rem;
     margin-top: -6rem;
   }
-`;
+`
 
 export const Container = styled.section`
   display: grid;
@@ -128,10 +128,10 @@ export const Container = styled.section`
     flex-direction: column;
     align-items: center;
   }
-`;
+`
 
 export const AccordionListStyle = styled.div`
   div + div {
     margin-top: 0.5rem;
   }
-`;
+`

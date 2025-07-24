@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Container = styled(motion.section)`
   padding: 4rem;
@@ -14,8 +14,7 @@ export const Container = styled(motion.section)`
   margin-top: -8rem;
   margin-bottom: 1.75rem;
   border-radius: 1.56rem;
-  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25),
-    -10px -5px 25px rgba(228, 228, 228, 0.25);
+  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25), -10px -5px 25px rgba(228, 228, 228, 0.25);
 
   @media (max-width: 1180px) {
     width: initial;
@@ -38,7 +37,7 @@ export const Container = styled(motion.section)`
     margin-right: 0rem;
     margin-bottom: 1rem;
   }
-`;
+`
 
 // CartVirtual
 export const CartVirtual = styled.div`
@@ -70,7 +69,7 @@ export const CartVirtual = styled.div`
   }
 
   &::after {
-    content: "";
+    content: '';
     width: 2px;
     height: 100%;
     background: #ebecee;
@@ -82,7 +81,7 @@ export const CartVirtual = styled.div`
       display: none;
     }
   }
-`;
+`
 
 export const CardContent = styled.div`
   display: flex;
@@ -92,8 +91,7 @@ export const CardContent = styled.div`
   border-radius: 1.56rem;
   background-image: var(--gradient-first);
   padding: 0.25rem;
-  box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
-    -5px -2px 25px rgba(255, 230, 100, 0.25);
+  box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25), -5px -2px 25px rgba(255, 230, 100, 0.25);
 
   @media (max-width: 480px) {
     width: 100%;
@@ -114,7 +112,7 @@ export const CardContent = styled.div`
       color: var(--color-text-2);
     }
   }
-`;
+`
 
 export const CardHeader = styled.div`
   display: flex;
@@ -126,7 +124,7 @@ export const CardHeader = styled.div`
     text-transform: uppercase;
     color: var(--color-text-3);
   }
-`;
+`
 
 export const CardInfor = styled.div`
   display: flex;
@@ -156,7 +154,7 @@ export const CardInfor = styled.div`
       color: var(--color-text-2);
     }
   }
-`;
+`
 
 // Gastos
 export const Spending = styled.div`
@@ -214,7 +212,7 @@ export const Spending = styled.div`
       align-items: center;
     }
   }
-`;
+`
 
 export const TitleMobile = styled.h1`
   display: none;
@@ -229,10 +227,10 @@ export const TitleMobile = styled.h1`
     text-align: left;
     font-size: 1.25rem;
   }
-`;
+`
 
 Spending.defaultProps = {
   theme: {
-    icon: "var(--gradient-green)",
+    icon: 'var(--gradient-green)',
   },
-};
+}

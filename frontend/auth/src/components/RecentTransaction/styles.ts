@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const RecentTransactionItemStyles = styled.div`
   overflow: auto;
@@ -28,11 +28,7 @@ export const RecentTransactionItemStyles = styled.div`
     color: var(--color-text-2);
     position: sticky;
     top: 0;
-    background: linear-gradient(
-      180deg,
-      #ffffff 69.77%,
-      rgba(255, 255, 255, 0) 96.51%
-    );
+    background: linear-gradient(180deg, #ffffff 69.77%, rgba(255, 255, 255, 0) 96.51%);
     padding-bottom: 2rem;
     z-index: 3;
 
@@ -41,11 +37,7 @@ export const RecentTransactionItemStyles = styled.div`
     }
 
     @media (max-width: 480px) {
-      background: linear-gradient(
-        180deg,
-        var(--background) 69.77%,
-        rgba(255, 255, 255, 0) 96.51%
-      );
+      background: linear-gradient(180deg, var(--background) 69.77%, rgba(255, 255, 255, 0) 96.51%);
       padding-top: 1rem;
       font-size: 1.25rem;
     }
@@ -53,7 +45,7 @@ export const RecentTransactionItemStyles = styled.div`
   & > div + div {
     margin-top: 1rem;
   }
-`;
+`
 
 export const MonthTransactionItemStyles = styled.div`
   display: flex;
@@ -95,4 +87,4 @@ export const MonthTransactionItemStyles = styled.div`
   @media (max-width: 480px) {
     display: none;
   }
-`;
+`

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const BitcoinQuoteStyles = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ export const BitcoinQuoteStyles = styled.div`
       }
     }
   }
-`;
+`
 
 export const WalletStyles = styled.div`
   display: flex;
@@ -98,4 +98,4 @@ export const WalletStyles = styled.div`
       color: var(--color-text-2);
     }
   }
-`;
+`

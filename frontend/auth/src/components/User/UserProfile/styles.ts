@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Container = styled(motion.section)`
   padding: 4rem;
@@ -12,8 +12,7 @@ export const Container = styled(motion.section)`
   grid-template-columns: 1fr 1fr;
   margin-top: -8rem;
   margin-bottom: 7rem;
-  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25),
-    -10px -5px 25px rgba(228, 228, 228, 0.25);
+  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25), -10px -5px 25px rgba(228, 228, 228, 0.25);
   border-radius: 1.56rem;
 
   @media (max-width: 1180px) {
@@ -34,7 +33,7 @@ export const Container = styled(motion.section)`
   @media (max-width: 480px) {
     margin-top: -6rem;
   }
-`;
+`
 
 export const UserInfor = styled(motion.div)`
   display: flex;
@@ -68,8 +67,7 @@ export const UserInfor = styled(motion.div)`
     background-size: cover;
     background-position: center center;
     border-radius: 50%;
-    box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
-      -5px -2px 25px rgba(255, 230, 100, 0.25);
+    box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25), -5px -2px 25px rgba(255, 230, 100, 0.25);
     @media (max-width: 480px) {
       width: 5rem;
       height: 5rem;
@@ -95,7 +93,7 @@ export const UserInfor = styled(motion.div)`
       font-size: 0.75rem;
     }
   }
-`;
+`
 
 export const Config = styled.div`
   display: flex;
@@ -187,4 +185,4 @@ export const Config = styled.div`
       color: var(--color-text-2);
     }
   }
-`;
+`

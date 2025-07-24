@@ -1,15 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Cell, Pie, PieChart } from "recharts";
+import { Cell, Pie, PieChart } from 'recharts'
 
-import { dataWallet } from "../../../services/ApiCard";
+import { dataWallet } from '../../../services/ApiCard'
 
-const COLORS = [
-  "url(#colorGreen)",
-  "url(#colorOrange)",
-  "url(#colorBlue)",
-  "url(#colorPurple)",
-];
+const COLORS = ['url(#colorGreen)', 'url(#colorOrange)', 'url(#colorBlue)', 'url(#colorPurple)']
 
 export function PieChartItem() {
   return (
@@ -45,5 +40,5 @@ export function PieChartItem() {
         ))}
       </Pie>
     </PieChart>
-  );
+  )
 }

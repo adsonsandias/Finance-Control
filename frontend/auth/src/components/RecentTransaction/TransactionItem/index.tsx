@@ -1,18 +1,18 @@
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from 'styled-components'
 
-import { Container, CategoryItem, ValueItem } from "./styles";
-import { themeCategory } from "./themeCategory";
+import { Container, CategoryItem, ValueItem } from './styles'
+import { themeCategory } from './themeCategory'
 
 interface ICATEGORY {
-  category: string;
-  type: string;
-  title: string;
-  value: string;
-  date: string;
+  category: string
+  type: string
+  title: string
+  value: string
+  date: string
 }
 
 export function TransactionItem({ ...props }: ICATEGORY) {
-  const { category, type, title, value, date } = props;
+  const { category, type, title, value, date } = props
 
   return (
     <Container>
@@ -23,12 +23,10 @@ export function TransactionItem({ ...props }: ICATEGORY) {
       </div>
       <ThemeProvider theme={{ bgType: themeCategory(category)?.item }}>
         <div>
-          <CategoryItem isColor={category}>
-            {themeCategory(category)?.text}
-          </CategoryItem>
-          <ValueItem isactive={type === "income"}>{value}</ValueItem>
+          <CategoryItem isColor={category}>{themeCategory(category)?.text}</CategoryItem>
+          <ValueItem isactive={type === 'income'}>{value}</ValueItem>
         </div>
       </ThemeProvider>
     </Container>
-  );
+  )
 }

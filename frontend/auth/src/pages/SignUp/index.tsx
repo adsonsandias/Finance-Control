@@ -1,57 +1,57 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
-import bglogin from "../../assets/bg-login.jpg";
-import { ReactComponent as IconGithub } from "../../assets/github.svg";
-import { ReactComponent as IconGoogle } from "../../assets/google.svg";
-import { ReactComponent as LogoLogin } from "../../assets/logologin.svg";
-import { Button } from "../../components/Form/Button";
+import bglogin from '../../assets/bg-login.jpg'
+// import { ReactComponent as IconGithub } from '../../assets/github.svg'
+// import { ReactComponent as IconGoogle } from '../../assets/google.svg'
+import { ReactComponent as LogoLogin } from '../../assets/logologin.svg'
+import { Button } from '../../components/Form/Button'
 import {
   BgloginStyles,
   Container,
   ContentBackground,
   ContentForm,
-} from "../../components/Form/styles/global";
-import { Loading } from "../../components/Loading";
-import { useAuthContext } from "../../presentation/contexts/AuthContext";
+} from '../../components/Form/styles/global'
+import { Loading } from '../../components/Loading'
+import { useAuthContext } from '../../presentation/contexts/AuthContext'
 
 export function Signup() {
-  const { user, isLoading, signUp, checkAuthStatus } = useAuthContext();
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
+  const { user, isLoading, signUp, checkAuthStatus } = useAuthContext()
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [displayName, setDisplayName] = useState('')
 
   useEffect(() => {
     // Verificar status de autenticação quando a página carrega
-    checkAuthStatus();
-  }, [checkAuthStatus]);
+    checkAuthStatus()
+  }, [checkAuthStatus])
 
   const handleSignup = async () => {
     try {
       if (!email || !password || !displayName) {
-        alert("Por favor, preencha todos os campos");
-        return;
+        alert('Por favor, preencha todos os campos')
+        return
       }
       if (password !== confirmPassword) {
-        alert("As senhas não coincidem");
-        return;
+        alert('As senhas não coincidem')
+        return
       }
-      await signUp({ email, password, displayName });
-      alert("Conta criada com sucesso! Faça login para continuar.");
-      navigate("/signin");
+      await signUp({ email, password, displayName })
+      alert('Conta criada com sucesso! Faça login para continuar.')
+      navigate('/signin')
     } catch (error) {
-      console.error("Erro no cadastro:", error);
-      alert("Erro ao criar conta. Tente novamente.");
+      console.error('Erro no cadastro:', error)
+      alert('Erro ao criar conta. Tente novamente.')
     }
-  };
+  }
 
   const handleGoToLogin = () => {
-    navigate("/signin");
-  };
+    navigate('/signin')
+  }
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading />
   if (!user) {
     return (
       <Container>
@@ -76,10 +76,10 @@ export function Signup() {
 
           <div
             style={{
-              marginTop: "2rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
+              marginTop: '2rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
             }}
           >
             <input
@@ -88,10 +88,10 @@ export function Signup() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               style={{
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem",
+                padding: '0.75rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '1rem',
               }}
             />
             <input
@@ -100,10 +100,10 @@ export function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem",
+                padding: '0.75rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '1rem',
               }}
             />
             <input
@@ -112,10 +112,10 @@ export function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem",
+                padding: '0.75rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '1rem',
               }}
             />
             <input
@@ -124,10 +124,10 @@ export function Signup() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               style={{
-                padding: "0.75rem",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                fontSize: "1rem",
+                padding: '0.75rem',
+                border: '1px solid #ddd',
+                borderRadius: '4px',
+                fontSize: '1rem',
               }}
             />
             <Button
@@ -137,7 +137,7 @@ export function Signup() {
               onClick={handleSignup}
               disabled={isLoading}
             >
-              {isLoading ? "Criando..." : "Criar conta"}
+              {isLoading ? 'Criando...' : 'Criar conta'}
             </Button>
 
             <Button
@@ -151,14 +151,14 @@ export function Signup() {
             </Button>
           </div>
 
-          <div style={{ marginTop: "2rem", textAlign: "center" }}>
-            <p style={{ fontSize: "0.9rem", color: "#666" }}>
+          <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.9rem', color: '#666' }}>
               Autenticação segura fornecida por Supabase
             </p>
           </div>
         </ContentForm>
       </Container>
-    );
+    )
   }
-  return <Navigate to="/" />;
+  return <Navigate to="/" />
 }

@@ -1,29 +1,24 @@
-import { motion } from "framer-motion";
-import React from "react";
-import { Link } from "react-router-dom";
+import { motion } from 'framer-motion'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { ReactComponent as ArrowIcon } from "../../../assets/arrow-icon.svg";
-import { ReactComponent as HelpIcon } from "../../../assets/help-icon.svg";
-import { ReactComponent as LogoutIcon } from "../../../assets/logout-icon.svg";
-import fotoUser from "../../../assets/new-user.png";
-import { ReactComponent as UserIcon } from "../../../assets/user-icon.svg";
-import { ReactComponent as VersionIcon } from "../../../assets/version-icon.svg";
-import { useAuthContext } from "../../../presentation/contexts/AuthContext";
-import { container, item } from "../../Helps/FrameMotion";
-import { Config, Container, UserInfor } from "./styles";
+import { ReactComponent as ArrowIcon } from '../../../assets/arrow-icon.svg'
+import { ReactComponent as HelpIcon } from '../../../assets/help-icon.svg'
+import { ReactComponent as LogoutIcon } from '../../../assets/logout-icon.svg'
+import fotoUser from '../../../assets/new-user.png'
+import { ReactComponent as UserIcon } from '../../../assets/user-icon.svg'
+import { ReactComponent as VersionIcon } from '../../../assets/version-icon.svg'
+import { useAuthContext } from '../../../presentation/contexts/AuthContext'
+import { container, item } from '../../Helps/FrameMotion'
+import { Config, Container, UserInfor } from './styles'
 
 export function UserProfile() {
-  const { signOut, user } = useAuthContext();
+  const { signOut, user } = useAuthContext()
 
-  if (!user) return null;
+  if (!user) return null
 
   return (
-    <Container
-      className="container"
-      variants={container}
-      initial="hidden"
-      animate="visible"
-    >
+    <Container className="container" variants={container} initial="hidden" animate="visible">
       <UserInfor variants={item}>
         <h1>Óla, Bem Vindo de volta 🤩</h1>
         <div
@@ -68,5 +63,5 @@ export function UserProfile() {
         </motion.button>
       </Config>
     </Container>
-  );
+  )
 }

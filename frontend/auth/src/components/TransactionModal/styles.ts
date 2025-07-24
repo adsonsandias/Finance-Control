@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Container = styled.form`
   background: var(--background);
@@ -47,8 +47,7 @@ export const Container = styled.form`
     &:hover,
     &:focus {
       outline: none;
-      box-shadow: 0px 0px 0px 4px rgba(239, 239, 239, 0.8),
-        0px 0px 0px 5px rgba(123, 123, 123, 0.5);
+      box-shadow: 0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5);
     }
   }
 
@@ -58,7 +57,7 @@ export const Container = styled.form`
     background-position: right 1.5rem center;
     background-size: 1rem;
   }
-`;
+`
 
 export const BtnCadastrar = styled.button`
   font-weight: 700;
@@ -81,10 +80,9 @@ export const BtnCadastrar = styled.button`
   &:focus,
   &:hover {
     outline: none;
-    box-shadow: 0px 0px 0px 4px rgba(205, 255, 237, 0.8),
-      0px 0px 0px 5px rgba(26, 181, 110, 0.5);
+    box-shadow: 0px 0px 0px 4px rgba(205, 255, 237, 0.8), 0px 0px 0px 5px rgba(26, 181, 110, 0.5);
   }
-`;
+`
 
 export const BtnChose = styled.button`
   display: flex;
@@ -136,17 +134,17 @@ export const BtnChose = styled.button`
   &:focus img {
     animation-name: rotate;
   }
-`;
+`
 
 export const IncomeDiscountsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   margin: 1rem 0;
-`;
+`
 
 interface IBTNTYPETRANSITIONPROPS {
-  isActive: boolean;
+  isActive: boolean
 }
 
 export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
@@ -162,15 +160,13 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
   }
 
   &:first-child {
-    background: ${(props) =>
-      props.isActive ? "rgba(157, 216, 193, 0.3)" : "transparent"};
-    border: 1px solid ${(props) => (props.isActive ? "#63D094" : "d7d7d7")};
+    background: ${(props) => (props.isActive ? 'rgba(157, 216, 193, 0.3)' : 'transparent')};
+    border: 1px solid ${(props) => (props.isActive ? '#63D094' : 'd7d7d7')};
   }
 
   &:last-child {
-    background: ${(props) =>
-      props.isActive ? "rgba(255, 197, 206, 0.3)" : "transparent"};
-    border: 1px solid ${(props) => (props.isActive ? "#F18F9F" : "d7d7d7")};
+    background: ${(props) => (props.isActive ? 'rgba(255, 197, 206, 0.3)' : 'transparent')};
+    border: 1px solid ${(props) => (props.isActive ? '#F18F9F' : 'd7d7d7')};
   }
 
   &:last-child:hover,
@@ -178,8 +174,8 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
     outline: none;
     box-shadow: ${(props) =>
       props.isActive
-        ? " 0px 0px 0px 4px rgba(255, 219, 219, 0.5), 0px 0px 0px 5px rgba(226, 180, 180, 0.8)"
-        : "0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5)"};
+        ? ' 0px 0px 0px 4px rgba(255, 219, 219, 0.5), 0px 0px 0px 5px rgba(226, 180, 180, 0.8)'
+        : '0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5)'};
   }
 
   &:hover,
@@ -187,8 +183,8 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
     outline: none;
     box-shadow: ${(props) =>
       props.isActive
-        ? "0px 0px 0px 4px rgba(219, 255, 235, 0.5), 0px 0px 0px 5px rgba(180, 226, 201, 0.8)"
-        : "0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5)"};
+        ? '0px 0px 0px 4px rgba(219, 255, 235, 0.5), 0px 0px 0px 5px rgba(180, 226, 201, 0.8)'
+        : '0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5)'};
   }
 
   @keyframes imgJumpDown {
@@ -235,8 +231,7 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
 
   &:hover img,
   &:focus img {
-    animation-name: ${(props) =>
-      props.isActive ? "imgJumpUp" : "imgJumpDown"};
+    animation-name: ${(props) => (props.isActive ? 'imgJumpUp' : 'imgJumpDown')};
   }
 
   span {
@@ -249,7 +244,7 @@ export const BtnTypeTransition = styled.button<IBTNTYPETRANSITIONPROPS>`
       font-size: 0.88rem;
     }
   }
-`;
+`
 
 export const ModalBackground = styled(motion.div)`
   background: var(--gradient-first);
@@ -257,4 +252,4 @@ export const ModalBackground = styled(motion.div)`
   box-shadow: var(--box-shadow);
   border-radius: 0.94rem;
   position: relative;
-`;
+`

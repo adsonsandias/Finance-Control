@@ -1,5 +1,4 @@
-/*.js
 node_modules
 dist
-tsconfig.json
+backend/routes/users.js
 backend/server.js

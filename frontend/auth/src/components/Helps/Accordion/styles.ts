@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 interface ISACTIVE {
-  isActive: boolean;
+  isActive: boolean
 }
 
 export const AccordionContainer = styled(motion.div)<ISACTIVE>`
@@ -16,16 +16,15 @@ export const AccordionContainer = styled(motion.div)<ISACTIVE>`
       right: 1rem;
       max-width: 1rem;
       transition: all ease 0.3s;
-      transform: ${(props) =>
-        props.isActive === true ? "rotate(-90deg)" : "rotate(90deg)"};
+      transform: ${(props) => (props.isActive === true ? 'rotate(-90deg)' : 'rotate(90deg)')};
     }
   }
-`;
+`
 
 export const AccordionItem = styled.div`
   background: orange;
   padding: 2px;
-`;
+`
 
 export const AccordionButton = styled(motion.button)`
   background: #f0f2f5;
@@ -46,7 +45,7 @@ export const AccordionButton = styled(motion.button)`
   @media (max-width: 480px) {
     padding: 1rem;
   }
-`;
+`
 
 export const AccordionContent = styled(motion.div)`
   background: #f0f2f5;
@@ -61,4 +60,4 @@ export const AccordionContent = styled(motion.div)`
       font-size: 0.88rem;
     }
   }
-`;
+`

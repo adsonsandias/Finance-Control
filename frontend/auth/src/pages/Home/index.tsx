@@ -1,24 +1,23 @@
 /* eslint-disable react/jsx-no-bind */
-import React from "react";
-import Modal from "react-modal";
+import React from 'react'
+import Modal from 'react-modal'
 
-import { Dashboard } from "../../components/Dashboard";
-import { Header } from "../../components/Header";
-import { Navbar } from "../../components/Navbar";
-import { TransactionModal } from "../../components/TransactionModal";
+import { Dashboard } from '../../components/Dashboard'
+import { Header } from '../../components/Header'
+import { Navbar } from '../../components/Navbar'
+import { TransactionModal } from '../../components/TransactionModal'
 
-Modal.setAppElement("#root");
+Modal.setAppElement('#root')
 
 export function Homer() {
-  const [isTransactionModalOpen, setIsTransactionModalOpen] =
-    React.useState(false);
+  const [isTransactionModalOpen, setIsTransactionModalOpen] = React.useState(false)
 
   function handleOpenIsNewTransactionModal() {
-    setIsTransactionModalOpen(true);
+    setIsTransactionModalOpen(true)
   }
 
   function handleCloseIsNewTransactionModal() {
-    setIsTransactionModalOpen(false);
+    setIsTransactionModalOpen(false)
   }
   return (
     <>
@@ -30,5 +29,5 @@ export function Homer() {
       />
       <Navbar openTransactionModal={handleOpenIsNewTransactionModal} />
     </>
-  );
+  )
 }

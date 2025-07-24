@@ -1,20 +1,15 @@
-import { motion } from "framer-motion";
-import React from "react";
-import { Link } from "react-router-dom";
+import { motion } from 'framer-motion'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { ReactComponent as ArrowIcon } from "../../../../assets/arrow-icon.svg";
-import { Accordion } from "../../../Helps/Accordion";
-import { containerLeft, item } from "../../../Helps/FrameMotion";
-import { Context, Container, AccordionListStyle } from "./styles";
+import { ReactComponent as ArrowIcon } from '../../../../assets/arrow-icon.svg'
+import { Accordion } from '../../../Helps/Accordion'
+import { containerLeft, item } from '../../../Helps/FrameMotion'
+import { Context, Container, AccordionListStyle } from './styles'
 
 export function HelpDetails() {
   return (
-    <Context
-      className="container"
-      variants={containerLeft}
-      initial="hidden"
-      animate="visible"
-    >
+    <Context className="container" variants={containerLeft} initial="hidden" animate="visible">
       <header>
         <nav aria-label="Navigate to Help Details">
           <ul>
@@ -77,5 +72,5 @@ export function HelpDetails() {
         </AccordionListStyle>
       </Container>
     </Context>
-  );
+  )
 }

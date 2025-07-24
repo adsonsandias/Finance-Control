@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.header`
   background: var(--gradient-first);
-`;
+`
 
 export const Content = styled.div`
   max-width: 70rem;
@@ -17,7 +17,7 @@ export const Content = styled.div`
     padding: 2rem 1rem 8rem;
     max-height: 12.5rem;
   }
-`;
+`
 
 export const Logo = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ export const Logo = styled.div`
       }
     }
   }
-`;
+`
 
 export const User = styled.div`
   display: flex;
@@ -105,4 +105,4 @@ export const User = styled.div`
       height: 2.5rem;
     }
   }
-`;
+`

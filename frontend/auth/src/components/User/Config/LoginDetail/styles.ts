@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Context = styled(motion.section)`
   padding: 4rem;
@@ -66,7 +66,7 @@ export const Context = styled(motion.section)`
     padding: 1.63rem 1.25rem;
     margin-top: -6rem;
   }
-`;
+`
 
 export const ContainerAnimation = styled(motion.div)`
   display: flex;
@@ -108,7 +108,7 @@ export const ContainerAnimation = styled(motion.div)`
       height: 200px !important;
     }
   }
-`;
+`
 
 export const UserInfor = styled(motion.div)`
   display: flex;
@@ -130,8 +130,7 @@ export const UserInfor = styled(motion.div)`
     background-size: cover;
     background-position: center center;
     border-radius: 50%;
-    box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25),
-      -5px -2px 25px rgba(255, 230, 100, 0.25);
+    box-shadow: 4px 8px 25px rgba(250, 131, 65, 0.25), -5px -2px 25px rgba(255, 230, 100, 0.25);
     @media (max-width: 480px) {
       width: 5rem;
       height: 5rem;
@@ -159,4 +158,4 @@ export const UserInfor = styled(motion.div)`
       font-size: 0.75rem;
     }
   }
-`;
+`

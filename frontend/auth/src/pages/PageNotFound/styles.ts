@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   height: 100vh;
@@ -47,8 +47,7 @@ export const Container = styled.div`
       animation: glitch 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
     }
     &:after {
-      animation: glitch 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse
-        infinite;
+      animation: glitch 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse infinite;
     }
   }
 
@@ -93,8 +92,7 @@ export const Container = styled.div`
     border-radius: 2rem;
     max-width: 700px;
     padding-bottom: 3rem;
-    box-shadow: 10px 15px 25px rgba(150, 150, 150, 0.25),
-      -10px -5px 25px rgba(150, 150, 150, 0.25);
+    box-shadow: 10px 15px 25px rgba(150, 150, 150, 0.25), -10px -5px 25px rgba(150, 150, 150, 0.25);
     @media (max-width: 380px) {
       border-radius: 1.5rem;
       padding: 1.5rem;
@@ -148,4 +146,4 @@ export const Container = styled.div`
       }
     }
   }
-`;
+`

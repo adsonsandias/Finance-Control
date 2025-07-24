@@ -1,7 +1,7 @@
 {
   "extends": ["react-app"],
   "rules": {
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"]
+    "quotes": ["error", "single"],
+    "semi": ["error", "never"]
   }
 }

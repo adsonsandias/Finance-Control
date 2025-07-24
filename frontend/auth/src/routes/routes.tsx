@@ -11,14 +11,14 @@ export function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/signin' element={<Signin />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/' element={<PrivateRoutes />}>
-          <Route path='/' element={<Homer />} />
-          <Route path='/user/*' element={<LoggedInUser />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<PrivateRoutes />}>
+          <Route path="/" element={<Homer />} />
+          <Route path="/user/*" element={<LoggedInUser />} />
         </Route>
-        <Route path='*' element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }

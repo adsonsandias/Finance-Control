@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const AreaChartStyles = styled.div`
   background: linear-gradient(93.67deg, #ffe664 -8.18%, #fa8341 112.11%);
@@ -82,4 +82,4 @@ export const AreaChartStyles = styled.div`
       }
     }
   }
-`;
+`

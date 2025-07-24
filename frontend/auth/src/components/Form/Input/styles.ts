@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const InputStyle = styled.input`
   width: 100%;
@@ -23,7 +23,6 @@ export const InputStyle = styled.input`
   &:hover,
   &:focus {
     outline: none;
-    box-shadow: 0px 0px 0px 4px rgba(239, 239, 239, 0.8),
-      0px 0px 0px 5px rgba(123, 123, 123, 0.5);
+    box-shadow: 0px 0px 0px 4px rgba(239, 239, 239, 0.8), 0px 0px 0px 5px rgba(123, 123, 123, 0.5);
   }
-`;
+`

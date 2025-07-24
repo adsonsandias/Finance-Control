@@ -1,17 +1,17 @@
-import React from "react";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
 
-import logoImg from "../../assets/logo.svg";
-import fotoUser from "../../assets/user-new.svg";
-import { useAuthContext } from "../../presentation/contexts/AuthContext";
-import { Container, Content, Logo, User } from "./styles";
+import logoImg from '../../assets/logo.svg'
+import fotoUser from '../../assets/user-new.svg'
+import { useAuthContext } from '../../presentation/contexts/AuthContext'
+import { Container, Content, Logo, User } from './styles'
 
 export function Header() {
-  const { signOut, user } = useAuthContext();
-  const { pathname } = useLocation();
+  const { signOut, user } = useAuthContext()
+  const { pathname } = useLocation()
 
-  if (!user) return null;
+  if (!user) return null
 
   return (
     <Container>
@@ -23,11 +23,11 @@ export function Header() {
             <span>Control</span>
           </div>
         </Logo>
-        {pathname === "/user" ||
-        pathname === "/user/login-details" ||
-        pathname === "/user/help-details" ||
-        pathname === "/user/version-detail" ? (
-          ""
+        {pathname === '/user' ||
+        pathname === '/user/login-details' ||
+        pathname === '/user/help-details' ||
+        pathname === '/user/version-detail' ? (
+          ''
         ) : (
           <User>
             <div>
@@ -46,5 +46,5 @@ export function Header() {
         )}
       </Content>
     </Container>
-  );
+  )
 }

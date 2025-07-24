@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import { ReactComponent as CatIcon } from "../../assets/cat.svg";
-import { Container } from "./styles";
+import { ReactComponent as CatIcon } from '../../assets/cat.svg'
+import { Container } from './styles'
 
 export function PageNotFound() {
   return (
@@ -15,5 +15,5 @@ export function PageNotFound() {
         <Link to="/login">Login</Link>
       </div>
     </Container>
-  );
+  )
 }

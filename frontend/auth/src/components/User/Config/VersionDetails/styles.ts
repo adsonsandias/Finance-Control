@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Context = styled(motion.section)`
   padding: 4rem;
@@ -65,7 +65,7 @@ export const Context = styled(motion.section)`
     padding: 1.63rem 1.25rem;
     margin-top: -6rem;
   }
-`;
+`
 
 export const DeveloperInfor = styled.div`
   display: grid;
@@ -203,4 +203,4 @@ export const DeveloperInfor = styled.div`
       }
     }
   }
-`;
+`

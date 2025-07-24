@@ -1,14 +1,8 @@
-import * as React from "react";
+import * as React from 'react'
 
 export function IconHomer() {
   return (
-    <svg
-      width="38"
-      height="38"
-      viewBox="0 0 38 38"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_102_1229)">
         <path
           d="M19.1514 22.93C17.0594 22.93 15.3635 24.6259 15.3635 26.7179V34.2936H22.9393V26.7179C22.9393 24.6259 21.2434 22.93 19.1514 22.93Z"
@@ -28,14 +22,9 @@ export function IconHomer() {
       </g>
       <defs>
         <clipPath id="clip0_102_1229">
-          <rect
-            width="30.303"
-            height="30.303"
-            fill="white"
-            transform="translate(4 4)"
-          />
+          <rect width="30.303" height="30.303" fill="white" transform="translate(4 4)" />
         </clipPath>
       </defs>
     </svg>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import { useBitcoinSell } from "../../hooks/useBitcoinSell";
-import { AreaChartItem } from "./AreaChart";
-import { PieChartItem } from "./PieChart";
-import { BitcoinQuoteStyles, WalletStyles } from "./styles";
+import { useBitcoinSell } from '../../hooks/useBitcoinSell'
+import { AreaChartItem } from './AreaChart'
+import { PieChartItem } from './PieChart'
+import { BitcoinQuoteStyles, WalletStyles } from './styles'
 
 export function BitcoinQuote() {
-  const { bitcoinUSD, bitcoinEUR, bitcoinBRL } = useBitcoinSell();
+  const { bitcoinUSD, bitcoinEUR, bitcoinBRL } = useBitcoinSell()
 
   return (
     <>
@@ -15,9 +15,9 @@ export function BitcoinQuote() {
             symbol={bitcoinUSD.symbol}
             value={
               bitcoinUSD &&
-              new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
+              new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
               }).format(bitcoinUSD?.sell)
             }
           />
@@ -25,9 +25,9 @@ export function BitcoinQuote() {
             symbol={bitcoinEUR.symbol}
             value={
               bitcoinEUR &&
-              new Intl.NumberFormat("en-150", {
-                style: "currency",
-                currency: "EUR",
+              new Intl.NumberFormat('en-150', {
+                style: 'currency',
+                currency: 'EUR',
               }).format(bitcoinEUR?.sell)
             }
           />
@@ -35,9 +35,9 @@ export function BitcoinQuote() {
             symbol={bitcoinBRL.symbol}
             value={
               bitcoinBRL &&
-              new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
+              new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
               }).format(bitcoinBRL?.sell)
             }
           />
@@ -48,5 +48,5 @@ export function BitcoinQuote() {
         <PieChartItem />
       </WalletStyles>
     </>
-  );
+  )
 }

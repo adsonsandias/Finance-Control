@@ -1,26 +1,25 @@
 /* eslint-disable react/jsx-no-bind */
-import React from "react";
-import { Route, Routes } from "react-router";
+import React from 'react'
+import { Route, Routes } from 'react-router'
 
-import { Header } from "../../components/Header";
-import { Navbar } from "../../components/Navbar";
-import { TransactionModal } from "../../components/TransactionModal";
-import { HelpDetails } from "../../components/User/Config/HelpDetails";
-import { LoginDetails } from "../../components/User/Config/LoginDetail";
-import { VersionDetails } from "../../components/User/Config/VersionDetails";
-import { UserProfile } from "../../components/User/UserProfile";
-import { PageNotFound } from "../PageNotFound";
+import { Header } from '../../components/Header'
+import { Navbar } from '../../components/Navbar'
+import { TransactionModal } from '../../components/TransactionModal'
+import { HelpDetails } from '../../components/User/Config/HelpDetails'
+import { LoginDetails } from '../../components/User/Config/LoginDetail'
+import { VersionDetails } from '../../components/User/Config/VersionDetails'
+import { UserProfile } from '../../components/User/UserProfile'
+import { PageNotFound } from '../PageNotFound'
 
 export function LoggedInUser() {
-  const [isTransactionModalOpen, setIsTransactionModalOpen] =
-    React.useState(false);
+  const [isTransactionModalOpen, setIsTransactionModalOpen] = React.useState(false)
 
   function handleOpenIsNewTransactionModal() {
-    setIsTransactionModalOpen(true);
+    setIsTransactionModalOpen(true)
   }
 
   function handleCloseIsNewTransactionModal() {
-    setIsTransactionModalOpen(false);
+    setIsTransactionModalOpen(false)
   }
 
   return (
@@ -42,5 +41,5 @@ export function LoggedInUser() {
 
       <Navbar openTransactionModal={handleOpenIsNewTransactionModal} />
     </>
-  );
+  )
 }

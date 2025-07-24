@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Container = styled(motion.section)`
   padding: 4rem;
@@ -12,8 +12,7 @@ export const Container = styled(motion.section)`
   grid-template-columns: auto 1fr;
   gap: 1rem;
   margin-bottom: 1.75rem;
-  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25),
-    -10px -5px 25px rgba(228, 228, 228, 0.25);
+  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25), -10px -5px 25px rgba(228, 228, 228, 0.25);
   border-radius: 1.56rem;
 
   @media (max-width: 1180px) {
@@ -41,4 +40,4 @@ export const Container = styled(motion.section)`
     margin-right: 0rem;
     gap: 0;
   }
-`;
+`

@@ -1,130 +1,127 @@
-import { useState, useEffect, useCallback } from "react";
-import { AuthService } from "../services/AuthService";
-import { User } from "../../domain/entities/User";
-import {
-  SignUpData,
-  SignInData,
-} from "../../domain/repositories/AuthRepository";
+import { useState, useEffect, useCallback } from 'react'
+import { AuthService } from '../services/AuthService'
+import { User } from '../../domain/entities/User'
+import { SignUpData, SignInData } from '../../domain/repositories/AuthRepository'
 
 export interface IUseAuthReturn {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error: string | null;
-  signUp: (data: SignUpData) => Promise<void>;
-  signIn: (data: SignInData) => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
-  signOut: () => Promise<void>;
-  clearError: () => void;
-  checkAuthStatus: () => Promise<void>;
+  user: User | null
+  isAuthenticated: boolean
+  isLoading: boolean
+  error: string | null
+  signUp: (data: SignUpData) => Promise<void>
+  signIn: (data: SignInData) => Promise<void>
+  signInWithGoogle: () => Promise<void>
+  signOut: () => Promise<void>
+  clearError: () => void
+  checkAuthStatus: () => Promise<void>
 }
 
 export function useAuth(authService: AuthService): IUseAuthReturn {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const clearError = useCallback(() => {
-    setError(null);
-  }, []);
+    setError(null)
+  }, [])
 
   const loadCurrentUser = useCallback(async () => {
     try {
-      const isAuth = await authService.isAuthenticated();
+      const isAuth = await authService.isAuthenticated()
       if (isAuth) {
-        const currentUser = await authService.getCurrentUser();
-        setUser(currentUser);
+        const currentUser = await authService.getCurrentUser()
+        setUser(currentUser)
       }
     } catch (err) {
-      console.error("Erro ao carregar usuário:", err);
+      console.error('Erro ao carregar usuário:', err)
       // Se falhar ao carregar o usuário, limpar o token
-      await authService.signOut();
+      await authService.signOut()
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [authService]);
+  }, [authService])
 
   useEffect(() => {
-    loadCurrentUser();
-  }, [loadCurrentUser]);
+    loadCurrentUser()
+  }, [loadCurrentUser])
 
   const signUp = useCallback(
     async (data: SignUpData) => {
       try {
-        setIsLoading(true);
-        setError(null);
-        const response = await authService.signUp(data);
-        setUser(response.user);
+        setIsLoading(true)
+        setError(null)
+        const response = await authService.signUp(data)
+        setUser(response.user)
       } catch (err: any) {
-        setError(err.message || "Erro ao criar conta");
-        throw err;
+        setError(err.message || 'Erro ao criar conta')
+        throw err
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
     [authService]
-  );
+  )
 
   const signIn = useCallback(
     async (data: SignInData) => {
       try {
-        setIsLoading(true);
-        setError(null);
-        const response = await authService.signIn(data);
-        setUser(response.user);
+        setIsLoading(true)
+        setError(null)
+        const response = await authService.signIn(data)
+        setUser(response.user)
       } catch (err: any) {
-        setError(err.message || "Erro ao fazer login");
-        throw err;
+        setError(err.message || 'Erro ao fazer login')
+        throw err
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
     [authService]
-  );
+  )
 
   const signInWithGoogle = useCallback(async () => {
     try {
-      setIsLoading(true);
-      setError(null);
+      setIsLoading(true)
+      setError(null)
       // Por enquanto, vamos simular o login com Google
       // TODO: Implementar integração com Google OAuth
-      console.warn("Google Sign-In não implementado ainda");
-      setError("Login com Google não está disponível no momento");
+      console.warn('Google Sign-In não implementado ainda')
+      setError('Login com Google não está disponível no momento')
     } catch (err: any) {
-      setError(err.message || "Erro ao fazer login com Google");
+      setError(err.message || 'Erro ao fazer login com Google')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, []);
+  }, [])
 
   const signOut = useCallback(async () => {
     try {
-      setIsLoading(true);
-      await authService.signOut();
-      setUser(null);
+      setIsLoading(true)
+      await authService.signOut()
+      setUser(null)
     } catch (err: any) {
-      setError(err.message || "Erro ao fazer logout");
+      setError(err.message || 'Erro ao fazer logout')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [authService]);
+  }, [authService])
 
   const checkAuthStatus = useCallback(async () => {
     try {
-      setIsLoading(true);
-      const authStatus = await authService.checkAuthStatus();
+      setIsLoading(true)
+      const authStatus = await authService.checkAuthStatus()
       if (authStatus.isAuthenticated && authStatus.user) {
-        setUser(authStatus.user);
+        setUser(authStatus.user)
       } else {
-        setUser(null);
+        setUser(null)
       }
     } catch (err: any) {
-      console.error("Erro ao verificar status de autenticação:", err);
-      setUser(null);
+      console.error('Erro ao verificar status de autenticação:', err)
+      setUser(null)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [authService]);
+  }, [authService])
 
   return {
     user,
@@ -137,5 +134,5 @@ export function useAuth(authService: AuthService): IUseAuthReturn {
     signOut,
     clearError,
     checkAuthStatus,
-  };
+  }
 }

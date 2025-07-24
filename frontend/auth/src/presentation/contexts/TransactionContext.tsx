@@ -1,38 +1,29 @@
 import React, { createContext, useContext } from 'react'
 
-import {
-  IUseTransactionsReturn,
-  useTransactions,
-} from '../../application/hooks/useTransactions'
+import { IUseTransactionsReturn, useTransactions } from '../../application/hooks/useTransactions'
 import { dependencyContainer } from '../../utils/DependencyContainer'
 
 interface ITransactionProviderProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
-const TransactionContext = createContext<IUseTransactionsReturn | undefined>(
-  undefined
-);
+const TransactionContext = createContext<IUseTransactionsReturn | undefined>(undefined)
 
 function TransactionProvider({ children }: ITransactionProviderProps) {
-  const { transactionService } = dependencyContainer;
-  const transactionHook = useTransactions(transactionService);
+  const { transactionService } = dependencyContainer
+  const transactionHook = useTransactions(transactionService)
 
   return (
-    <TransactionContext.Provider value={transactionHook}>
-      {children}
-    </TransactionContext.Provider>
-  );
+    <TransactionContext.Provider value={transactionHook}>{children}</TransactionContext.Provider>
+  )
 }
 
 export const useTransactionContext = (): IUseTransactionsReturn => {
-  const context = useContext(TransactionContext);
+  const context = useContext(TransactionContext)
   if (!context) {
-    throw new Error(
-      'useTransactionContext must be used within a TransactionProvider'
-    );
+    throw new Error('useTransactionContext must be used within a TransactionProvider')
   }
-  return context;
-};
+  return context
+}
 
-export { TransactionProvider };
+export { TransactionProvider }

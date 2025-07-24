@@ -1,18 +1,18 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { AreaChart, Area } from "recharts";
+import { AreaChart, Area } from 'recharts'
 
-import IconBitcon from "../../../assets/bitcoin.svg";
-import { dataBitcoin } from "../../../services/ApiCard";
-import { AreaChartStyles } from "./styles";
+import IconBitcon from '../../../assets/bitcoin.svg'
+import { dataBitcoin } from '../../../services/ApiCard'
+import { AreaChartStyles } from './styles'
 
 interface IAREACHARTITEM {
-  value: number | string;
-  symbol: string;
+  value: number | string
+  symbol: string
 }
 
 export function AreaChartItem({ ...props }: IAREACHARTITEM) {
-  const { value, symbol } = props;
+  const { value, symbol } = props
   return (
     <AreaChartStyles>
       <div>
@@ -41,5 +41,5 @@ export function AreaChartItem({ ...props }: IAREACHARTITEM) {
         <strong>{value}</strong>
       </div>
     </AreaChartStyles>
-  );
+  )
 }

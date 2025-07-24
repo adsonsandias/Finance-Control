@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.main`
   max-width: 1120px;
@@ -11,4 +11,4 @@ export const Container = styled.main`
     padding: 1rem;
     padding-bottom: 8rem;
   }
-`;
+`

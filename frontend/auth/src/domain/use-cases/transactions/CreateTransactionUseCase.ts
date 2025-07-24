@@ -1,9 +1,5 @@
-import { ITransactionRepository } from "../../repositories/TransactionRepository";
-import {
-  ITransaction,
-  ICreateTransactionData,
-  TransactionType,
-} from "../../entities/Transaction";
+import { ITransactionRepository } from '../../repositories/TransactionRepository'
+import { ITransaction, ICreateTransactionData, TransactionType } from '../../entities/Transaction'
 
 export class CreateTransactionUseCase {
   constructor(private transactionRepository: ITransactionRepository) {}
@@ -11,19 +7,19 @@ export class CreateTransactionUseCase {
   async execute(data: ICreateTransactionData): Promise<ITransaction> {
     // Validações
     if (!data.title || data.title.trim().length === 0) {
-      throw new Error("Título é obrigatório");
+      throw new Error('Título é obrigatório')
     }
 
     if (!data.type || !Object.values(TransactionType).includes(data.type)) {
-      throw new Error("Tipo de transação inválido");
+      throw new Error('Tipo de transação inválido')
     }
 
     if (!data.category || data.category.trim().length === 0) {
-      throw new Error("Categoria é obrigatória");
+      throw new Error('Categoria é obrigatória')
     }
 
     if (!data.amount || data.amount <= 0) {
-      throw new Error("Valor deve ser maior que zero");
+      throw new Error('Valor deve ser maior que zero')
     }
 
     // Sanitizar dados
@@ -32,8 +28,8 @@ export class CreateTransactionUseCase {
       type: data.type,
       category: data.category.trim(),
       amount: Math.round(data.amount * 100) / 100, // Arredondar para 2 casas decimais
-    };
+    }
 
-    return this.transactionRepository.createTransaction(sanitizedData);
+    return this.transactionRepository.createTransaction(sanitizedData)
   }
 }

@@ -1,17 +1,13 @@
-import React from "react";
+import React from 'react'
 
-import { ReactComponent as ArrowIcon } from "../../../assets/arrow-icon.svg";
-import { accodionButtonMotion, accodionContainerMotion } from "./animation";
-import {
-  AccordionContainer,
-  AccordionContent,
-  AccordionButton,
-} from "./styles";
+import { ReactComponent as ArrowIcon } from '../../../assets/arrow-icon.svg'
+import { accodionButtonMotion, accodionContainerMotion } from './animation'
+import { AccordionContainer, AccordionContent, AccordionButton } from './styles'
 
 type AccordionProps = {
-  title: string;
-  contents: string;
-};
+  title: string
+  contents: string
+}
 
 // Animate the accordion
 const item = {
@@ -20,34 +16,31 @@ const item = {
     y: 0,
     opacity: 1,
   },
-};
+}
 
 export function Accordion({ ...props }: AccordionProps) {
-  const { title, contents } = props;
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { title, contents } = props
+  const [isOpen, setIsOpen] = React.useState(false)
 
   return (
     <AccordionContainer variants={item} isActive={isOpen}>
       <h2>
         <AccordionButton
-        animate={isOpen ? "open" : "close"}
-        variants={accodionButtonMotion}
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+          animate={isOpen ? 'open' : 'close'}
+          variants={accodionButtonMotion}
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           <p>{title}</p>
         </AccordionButton>
         <ArrowIcon />
       </h2>
 
-      <AccordionContent
-        animate={isOpen ? "open" : "close"}
-        variants={accodionContainerMotion}
-      >
+      <AccordionContent animate={isOpen ? 'open' : 'close'} variants={accodionContainerMotion}>
         <div>
           <p>{contents}</p>
         </div>
       </AccordionContent>
     </AccordionContainer>
-  );
+  )
 }

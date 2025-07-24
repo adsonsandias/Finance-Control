@@ -1,6 +1,6 @@
-import { BitcoinQuote } from "../BitcoinQuote";
-import { RecentTransaction } from "../RecentTransaction";
-import { Container } from "./styles";
+import { BitcoinQuote } from '../BitcoinQuote'
+import { RecentTransaction } from '../RecentTransaction'
+import { Container } from './styles'
 
 export function TransactionSummary() {
   return (
@@ -8,5 +8,5 @@ export function TransactionSummary() {
       <BitcoinQuote />
       <RecentTransaction />
     </Container>
-  );
+  )
 }

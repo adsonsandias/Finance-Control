@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.section`
   flex: 1;
@@ -13,12 +13,11 @@ export const Container = styled.section`
   @media (max-width: 480px) {
     gap: 1.38rem;
   }
-`;
+`
 
 export const ContentBackground = styled.div`
   background-image: linear-gradient(93.67deg, #ffe664 -8.18%, #fa8341 112.11%);
-  box-shadow: 10px 15px 25px rgba(250, 131, 65, 0.25),
-    -10px -5px 25px rgba(255, 230, 100, 0.25);
+  box-shadow: 10px 15px 25px rgba(250, 131, 65, 0.25), -10px -5px 25px rgba(255, 230, 100, 0.25);
   border-radius: 0px 2.5rem 2.5rem 0px;
   height: 100%;
   width: 100%;
@@ -105,7 +104,7 @@ export const ContentBackground = styled.div`
       }
     }
   }
-`;
+`
 
 export const BgloginStyles = styled.span`
   margin: 0 auto;
@@ -121,7 +120,7 @@ export const BgloginStyles = styled.span`
     border-radius: 0px 0px 1.8rem 1.8rem;
     background-position: center top 35%;
   }
-`;
+`
 
 export const ContentForm = styled.div`
   display: flex;
@@ -136,8 +135,7 @@ export const ContentForm = styled.div`
   padding-top: 4rem;
   padding-bottom: 4rem;
   box-sizing: border-box;
-  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25),
-    -10px -5px 25px rgba(228, 228, 228, 0.25);
+  box-shadow: 10px 15px 25px rgba(192, 192, 192, 0.25), -10px -5px 25px rgba(228, 228, 228, 0.25);
   @media (max-width: 530px) {
     margin: 0 1rem;
     padding: 1rem;
@@ -193,7 +191,7 @@ export const ContentForm = styled.div`
 
       &::after,
       &::before {
-        content: "---";
+        content: '---';
         margin-left: 0.2rem;
         margin-right: 0.2rem;
         color: var(--color-text-3);
@@ -212,4 +210,4 @@ export const ContentForm = styled.div`
       color: var(--color-text-2);
     }
   }
-`;
+`
