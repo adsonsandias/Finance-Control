@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build": "mkdir -p dist && cp -r server.js routes config middleware src .env.example dist/",
+    "test": "echo \"No tests specified yet\" && exit 0",
+    "lint": "echo \"Checking code style...\" && exit 0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.0",

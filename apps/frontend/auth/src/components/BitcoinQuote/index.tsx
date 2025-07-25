@@ -1,7 +1,7 @@
-import { useBitcoinSell } from '../../hooks/useBitcoinSell'
 import { AreaChartItem } from './AreaChart'
-import { PieChartItem } from './PieChart'
 import { BitcoinQuoteStyles, WalletStyles } from './styles'
+import { PieChartItem } from './PieChart'
+import { useBitcoinSell } from '../../hooks/useBitcoinSell'
 
 export function BitcoinQuote() {
   const { bitcoinUSD, bitcoinEUR, bitcoinBRL } = useBitcoinSell()
