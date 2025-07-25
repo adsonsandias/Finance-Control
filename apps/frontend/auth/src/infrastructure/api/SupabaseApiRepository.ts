@@ -1,10 +1,10 @@
+import { User } from '../../domain/entities/User'
 import {
   AuthRepository,
   SignUpData,
   SignInData,
   AuthResponse,
 } from '../../domain/repositories/AuthRepository'
-import { User } from '../../domain/entities/User'
 
 export class SupabaseApiRepository implements AuthRepository {
   private baseUrl: string

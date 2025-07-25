@@ -1,8 +1,8 @@
+import { ITransaction, ITransactionFilters } from '../../entities/Transaction'
 import {
   ITransactionRepository,
   IPaginatedResponse,
 } from '../../repositories/TransactionRepository'
-import { ITransaction, ITransactionFilters } from '../../entities/Transaction'
 
 export class GetTransactionsUseCase {
   constructor(private transactionRepository: ITransactionRepository) {}

@@ -17,7 +17,12 @@
       "warn",
       {
         "newlinesBetween": "always",
-        "groups": ["module", "/^@shared/", ["parent", "sibling", "index"], "/\\.scss$|\\.css$/"],
+        "groups": [
+          "module",
+          "/^@shared/",
+          ["parent", "sibling", "index"],
+          "/\\.scss$|\\.css$/"
+        ],
         "alphabetize": { "order": "asc", "ignoreCase": true }
       }
     ]

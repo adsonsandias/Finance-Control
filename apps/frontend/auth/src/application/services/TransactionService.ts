@@ -1,10 +1,3 @@
-import { GetTransactionsUseCase } from '../../domain/use-cases/transactions/GetTransactionsUseCase'
-import { CreateTransactionUseCase } from '../../domain/use-cases/transactions/CreateTransactionUseCase'
-import { DeleteTransactionUseCase } from '../../domain/use-cases/transactions/DeleteTransactionUseCase'
-import {
-  ITransactionRepository,
-  IPaginatedResponse,
-} from '../../domain/repositories/TransactionRepository'
 import {
   ITransaction,
   ICreateTransactionData,
@@ -12,6 +5,13 @@ import {
   ITransactionFilters,
   ITransactionSummary,
 } from '../../domain/entities/Transaction'
+import {
+  ITransactionRepository,
+  IPaginatedResponse,
+} from '../../domain/repositories/TransactionRepository'
+import { CreateTransactionUseCase } from '../../domain/use-cases/transactions/CreateTransactionUseCase'
+import { DeleteTransactionUseCase } from '../../domain/use-cases/transactions/DeleteTransactionUseCase'
+import { GetTransactionsUseCase } from '../../domain/use-cases/transactions/GetTransactionsUseCase'
 
 export class TransactionService {
   private getTransactionsUseCase: GetTransactionsUseCase

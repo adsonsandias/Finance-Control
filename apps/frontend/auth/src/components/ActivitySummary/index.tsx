@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { ITransaction } from '../../domain/entities/Transaction'
 import { ReactComponent as CreditIcon } from '../../assets/credit-icon.svg'
 import { ReactComponent as DepositIcon } from '../../assets/deposit-icon.svg'
 import { ReactComponent as LogoImg } from '../../assets/logo-card.svg'
 import { ReactComponent as TotalIcon } from '../../assets/total-icon.svg'
 import { ReactComponent as WithdrawnIcon } from '../../assets/withdrawn-icon.svg'
-import { useTransactionContext } from '../../presentation/contexts/TransactionContext'
+import { ITransaction } from '../../domain/entities/Transaction'
 import { useAuthContext } from '../../presentation/contexts/AuthContext'
+import { useTransactionContext } from '../../presentation/contexts/TransactionContext'
 import { SpendingItem } from './SpendingItem'
 import {
   Container,

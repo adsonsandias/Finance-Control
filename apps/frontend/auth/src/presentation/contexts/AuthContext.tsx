@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from 'react'
+
 import { useAuth, IUseAuthReturn } from '../../application/hooks/useAuth'
 import { dependencyContainer } from '../../utils/DependencyContainer'
 

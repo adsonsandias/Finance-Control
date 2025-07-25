@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { TransactionService } from '../services/TransactionService'
+
 import {
   ITransaction,
   ICreateTransactionData,
@@ -7,6 +7,7 @@ import {
   ITransactionSummary,
 } from '../../domain/entities/Transaction'
 import { IPaginatedResponse } from '../../domain/repositories/TransactionRepository'
+import { TransactionService } from '../services/TransactionService'
 
 export interface IUseTransactionsReturn {
   transactions: ITransaction[]

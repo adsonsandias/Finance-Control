@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import { AuthService } from '../services/AuthService'
+
 import { User } from '../../domain/entities/User'
 import { SignUpData, SignInData } from '../../domain/repositories/AuthRepository'
+import { AuthService } from '../services/AuthService'
 
 export interface IUseAuthReturn {
   user: User | null

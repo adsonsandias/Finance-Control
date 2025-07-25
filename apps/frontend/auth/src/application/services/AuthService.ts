@@ -1,13 +1,13 @@
-import { SignUpUseCase } from '../../domain/use-cases/auth/SignUpUseCase'
-import { SignInUseCase } from '../../domain/use-cases/auth/SignInUseCase'
-import { SignOutUseCase } from '../../domain/use-cases/auth/SignOutUseCase'
+import { User } from '../../domain/entities/User'
 import {
   AuthRepository,
   SignUpData,
   SignInData,
   AuthResponse,
 } from '../../domain/repositories/AuthRepository'
-import { User } from '../../domain/entities/User'
+import { SignInUseCase } from '../../domain/use-cases/auth/SignInUseCase'
+import { SignOutUseCase } from '../../domain/use-cases/auth/SignOutUseCase'
+import { SignUpUseCase } from '../../domain/use-cases/auth/SignUpUseCase'
 
 export class AuthService {
   private signUpUseCase: SignUpUseCase

@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
+
 import { useAuthContext } from '../presentation/contexts/AuthContext'
 
 export function PrivateRoutes() {

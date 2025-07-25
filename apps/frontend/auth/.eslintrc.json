@@ -1,5 +1,5 @@
 {
-  "extends": ["react-app"],
+  "extends": ["../../config/eslint/base.json"],
   "rules": {
     "quotes": ["error", "single"],
     "semi": ["error", "never"]
