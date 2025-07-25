@@ -22,6 +22,19 @@
 .env.test.local
 .env.production.local
 
+# Arquivos sensíveis
+.env
+*.env.local
+config/secrets/
+credentials.json
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+apps/frontend/dashboard/node_modules/
+apps/frontend/dashboard/build/
+apps/frontend/auth/node_modules/
+apps/frontend/auth/build/
+health_response.txt
+apps/backend/dist/.env.example
+apps/backend/dist/
