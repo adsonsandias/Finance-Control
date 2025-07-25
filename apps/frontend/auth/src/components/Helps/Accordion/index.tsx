@@ -27,7 +27,7 @@ export function Accordion({ ...props }: AccordionProps) {
       <h2>
         <AccordionButton
           animate={isOpen ? 'open' : 'close'}
-          variants={accodionButtonMotion}
+          variants={{ accodionButtonMotion }}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -36,7 +36,7 @@ export function Accordion({ ...props }: AccordionProps) {
         <ArrowIcon />
       </h2>
 
-      <AccordionContent animate={isOpen ? 'open' : 'close'} variants={accodionContainerMotion}>
+      <AccordionContent animate={isOpen ? 'open' : 'close'} variants={{ accodionContainerMotion }}>
         <div>
           <p>{contents}</p>
         </div>

@@ -37,16 +37,16 @@ export function SpendingItem({ ...props }: ISPENDINGPROPS) {
       <SpendingItemStyles
         layout
         animate={isOpen ? 'open' : 'close'}
-        variants={bgGradientMotion}
+        variants={{ bgGradientMotion }}
         theme={theme}
         onClick={() => setIsOpen(!isOpen)}
       >
         <motion.div layout animate={isOpen ? 'open' : 'close'} variants={bgWhiteMotion}>
-          <motion.div layout animate={isOpen ? 'open' : 'close'} variants={iconMotion}>
+          <motion.div layout animate={isOpen ? 'open' : 'close'} variants={{ iconMotion }}>
             {icon}
           </motion.div>
           <div>
-            <motion.strong layout animate={isOpen ? 'open' : 'close'} variants={numberMotion}>
+            <motion.strong layout animate={isOpen ? 'open' : 'close'} variants={{ numberMotion }}>
               {value}
             </motion.strong>
             <motion.span layout animate={isOpen ? 'active' : 'inactive'} variants={titleMotion}>

@@ -1,0 +1,98 @@
+# Docker Compose para o projeto Finance Control
+# Use: docker-compose up
+
+services:
+  # Frontend Auth Module
+  frontend-auth:
+    build:
+      context: ./apps/frontend/auth
+      dockerfile: Dockerfile
+    container_name: finance_frontend_auth
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001/api
+    volumes:
+      - ./apps/frontend/auth/src:/app/src
+      - ./apps/frontend/auth/public:/app/public
+      - ./packages:/app/shared
+      - /app/node_modules
+    networks:
+      - finance_network
+    depends_on:
+      - backend
+
+  # Frontend Dashboard Module
+  frontend-dashboard:
+    build:
+      context: ./apps/frontend/dashboard
+      dockerfile: Dockerfile
+    container_name: finance_frontend_dashboard
+    ports:
+      - "3003:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001/api
+    volumes:
+      - ./apps/frontend/dashboard/src:/app/src
+      - ./apps/frontend/dashboard/public:/app/public
+      - ./packages:/app/shared
+      - /app/node_modules
+    networks:
+      - finance_network
+    depends_on:
+      - backend
+
+  # Backend API (Node.js + Express)
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile.backend
+    container_name: finance_backend
+    ports:
+      - "3002:3001"
+    environment:
+      - SUPABASE_URL=${SUPABASE_URL:-http://localhost:8000}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU}
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-token-with-at-least-32-characters-long}
+      - PORT=${PORT:-3001}
+      - NODE_ENV=${NODE_ENV:-development}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+    volumes:
+      - ./apps/backend/src:/app/src
+      - ./packages:/app/shared
+    networks:
+      - finance_network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: finance_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=finance_control
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - finance_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  finance_network:
+    driver: bridge
+    # Add DNS configuration to help with network connectivity
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
