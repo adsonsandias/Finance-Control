@@ -8,8 +8,8 @@ set -e  # Exit on any error
 # Configurações
 BACKUP_DIR="./backups"
 CONTAINER_NAME="finance_db"
-DB_USER="${POSTGRES_USER:-finance_user}"
-DB_NAME="${POSTGRES_DB:-finance_control_prod}"
+DB_USER="postgres"
+DB_NAME="finance_control"
 
 # Cores para output
 GREEN='\033[0;32m'
@@ -52,7 +52,7 @@ echo ""
 # Verificar se o container está rodando
 if ! docker ps | grep -q "$CONTAINER_NAME"; then
     echo -e "${RED}❌ Container $CONTAINER_NAME não está rodando!${NC}"
-    echo -e "${YELLOW}💡 Execute: docker-compose up -d${NC}"
+    echo -e "${YELLOW}💡 Execute: cd infra/docker && docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d db${NC}"
     exit 1
 fi
 
@@ -75,7 +75,7 @@ echo -e "${YELLOW}🚀 Iniciando processo de restore...${NC}"
 # Fazer backup dos dados atuais antes do restore
 echo -e "${YELLOW}💾 Fazendo backup de segurança dos dados atuais...${NC}"
 SAFETY_BACKUP="safety_backup_$(date +"%Y%m%d_%H%M%S").sql"
-if docker-compose exec -T db pg_dump -U "$DB_USER" "$DB_NAME" > "$BACKUP_DIR/$SAFETY_BACKUP"; then
+if docker exec -i $CONTAINER_NAME pg_dump -U "$DB_USER" "$DB_NAME" > "$BACKUP_DIR/$SAFETY_BACKUP"; then
     echo -e "${GREEN}✅ Backup de segurança criado: $SAFETY_BACKUP${NC}"
 else
     echo -e "${RED}❌ Erro ao criar backup de segurança!${NC}"
@@ -102,11 +102,11 @@ echo -e "${GREEN}✅ Arquivo válido${NC}"
 
 # Parar aplicações que usam o banco
 echo -e "${YELLOW}⏸️  Parando aplicações...${NC}"
-docker-compose stop backend frontend-auth frontend-dashboard 2>/dev/null || true
+docker stop finance_backend finance_frontend_auth finance_frontend_dashboard 2>/dev/null || true
 
 # Desconectar usuários ativos
 echo -e "${YELLOW}🔌 Desconectando usuários ativos...${NC}"
-docker-compose exec db psql -U "$DB_USER" -d postgres -c "
+docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d postgres -c "
 SELECT pg_terminate_backend(pid) 
 FROM pg_stat_activity 
 WHERE datname = '$DB_NAME' AND pid <> pg_backend_pid();
@@ -114,21 +114,21 @@ WHERE datname = '$DB_NAME' AND pid <> pg_backend_pid();
 
 # Dropar e recriar database
 echo -e "${YELLOW}🗑️  Recriando database...${NC}"
-docker-compose exec db psql -U "$DB_USER" -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME;"
-docker-compose exec db psql -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME;"
+docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME;"
+docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME;"
 
 # Restaurar dados
 echo -e "${YELLOW}📥 Restaurando dados...${NC}"
-if docker-compose exec -T db psql -U "$DB_USER" -d "$DB_NAME" < "$RESTORE_FILE"; then
+if cat "$RESTORE_FILE" | docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d "$DB_NAME"; then
     echo -e "${GREEN}✅ Dados restaurados com sucesso!${NC}"
 else
     echo -e "${RED}❌ Erro durante o restore!${NC}"
     echo -e "${YELLOW}🔄 Tentando restaurar backup de segurança...${NC}"
     
     # Tentar restaurar backup de segurança
-    docker-compose exec db psql -U "$DB_USER" -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME;"
-    docker-compose exec db psql -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME;"
-    docker-compose exec -T db psql -U "$DB_USER" -d "$DB_NAME" < "$BACKUP_DIR/$SAFETY_BACKUP"
+    docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME;"
+     docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME;"
+     cat "$BACKUP_DIR/$SAFETY_BACKUP" | docker exec -i $CONTAINER_NAME psql -U "$DB_USER" -d "$DB_NAME"
     
     echo -e "${YELLOW}✅ Backup de segurança restaurado${NC}"
     exit 1
@@ -141,7 +141,7 @@ fi
 
 # Reiniciar aplicações
 echo -e "${YELLOW}🚀 Reiniciando aplicações...${NC}"
-docker-compose up -d
+docker start finance_backend finance_frontend_auth finance_frontend_dashboard 2>/dev/null || true
 
 # Aguardar aplicações ficarem prontas
 echo -e "${YELLOW}⏳ Aguardando aplicações ficarem prontas...${NC}"
@@ -149,16 +149,16 @@ sleep 10
 
 # Verificar se tudo está funcionando
 echo -e "${YELLOW}🔍 Verificando status das aplicações...${NC}"
-if docker-compose ps | grep -q "Up"; then
+if docker ps | grep -q "finance_backend\|finance_frontend_auth\|finance_frontend_dashboard"; then
     echo -e "${GREEN}✅ Aplicações rodando${NC}"
 else
     echo -e "${RED}❌ Algumas aplicações podem não estar funcionando${NC}"
-    docker-compose ps
+    docker ps | grep finance
 fi
 
 # Verificar conectividade do banco
 echo -e "${YELLOW}🔍 Verificando conectividade do banco...${NC}"
-if docker-compose exec db pg_isready -U "$DB_USER" > /dev/null 2>&1; then
+if docker exec -i $CONTAINER_NAME pg_isready -U "$DB_USER" > /dev/null 2>&1; then
     echo -e "${GREEN}✅ Banco de dados acessível${NC}"
 else
     echo -e "${RED}❌ Problema de conectividade com o banco${NC}"

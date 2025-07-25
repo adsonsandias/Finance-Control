@@ -1,244 +1,257 @@
 # Finance Control - Docker Setup
 
-Este projeto agora inclui uma configuração completa do Docker com Supabase local para desenvolvimento.
+This project includes a complete Docker configuration with local Supabase for development.
 
-## 🐳 Configuração com Docker
+## 🐳 Docker Configuration
 
-### Pré-requisitos
+### Prerequisites
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-### Estrutura dos Serviços
+### Service Structure
 
-O `docker-compose.yml` inclui os seguintes serviços:
+The `docker-compose.yml` includes the following services:
 
-- **Frontend**: Aplicação React (porta 3000)
-- **Database**: PostgreSQL 15 (porta 5432)
-- **Supabase Studio**: Interface administrativa (porta 54323)
-- **Kong**: API Gateway (porta 8000)
-- **Auth**: Serviço de autenticação GoTrue
-- **REST**: API PostgREST
-- **Realtime**: Serviço de tempo real
-- **Storage**: Serviço de armazenamento
-- **ImgProxy**: Processamento de imagens
+- **Frontend Auth**: React application for authentication (port 3000)
+- **Frontend Dashboard**: React application for dashboard (port 3003)
+- **Backend**: Node.js API (port 3002)
+- **Database**: PostgreSQL 15 (port 5432)
+- **Supabase Studio**: Admin interface (port 54323)
+- **Kong**: API Gateway (port 8000)
+- **Auth**: GoTrue authentication service
+- **REST**: PostgREST API
+- **Realtime**: Real-time service
+- **Storage**: Storage service
+- **ImgProxy**: Image processing
 
-### Como executar
+### How to Run
 
-1. **Clone o repositório e navegue até a pasta:**
+1. **Clone the repository and navigate to the folder:**
    ```bash
    cd Finance-Control
    ```
 
-2. **Copie o arquivo de ambiente:**
+2. **Copy the environment file:**
    ```bash
    cp .env.example .env
    ```
 
-3. **Inicie todos os serviços incluindo o banco de dados:**
+3. **Start all services including the database:**
    ```bash
-   ./backend/scripts/start-services.sh
+   ./scripts/start-local.sh
    ```
 
-4. **Aguarde todos os serviços iniciarem** (pode levar alguns minutos na primeira vez)
+4. **Wait for all services to start** (may take a few minutes on first run)
 
-5. **Acesse as aplicações:**
+5. **Access the applications:**
    - **Frontend Auth**: http://localhost:3000
-   - **Frontend Dashboard**: http://localhost:3001
-   - **Backend API**: http://localhost:3002
+   - **Frontend Dashboard**: http://localhost:3003
+   - **Backend API**: http://localhost:3001
    - **Supabase Studio**: http://localhost:54323
 
-### Comandos úteis
+### Useful Commands
 
 ```bash
-# Iniciar todos os serviços incluindo o banco de dados
-./backend/scripts/start-services.sh
+# Start all services including the database
+./scripts/start-local.sh
 
-# Parar todos os serviços
-./backend/scripts/stop-services.sh
+# Stop all services
+./scripts/cleanup.sh
 
-# Ver logs de todos os serviços
+# View logs of all services
 docker-compose logs -f
 
-# Ver logs de um serviço específico
+# View logs of a specific service
 docker-compose logs -f frontend-auth
 docker-compose logs -f frontend-dashboard
 docker-compose logs -f backend
 docker-compose logs -f db
 
-# Parar e remover volumes (CUIDADO: apaga dados do banco)
+# Stop and remove volumes (CAUTION: deletes database data)
 docker-compose down -v
 
-# Rebuild do frontend
+# Rebuild the frontend
 docker-compose build frontend-auth
 docker-compose build frontend-dashboard
 docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d frontend-auth frontend-dashboard
 
-# Executar comandos no container do frontend
+# Run commands in the frontend container
 docker-compose exec frontend-auth npm install
 docker-compose exec frontend-auth npm run build
 docker-compose exec frontend-dashboard npm install
 docker-compose exec frontend-dashboard npm run build
 
-# Acessar o banco de dados
+# Access the database
 docker-compose exec db psql -U postgres -d finance_control
 
-# Aplicar o schema do Supabase
-./backend/scripts/update-supabase-schema.sh
+# Apply the Supabase schema
+./scripts/update-supabase-schema.sh
 
-# Verificar segurança antes do deploy
-./backend/scripts/security-check.sh
+# Check security before deployment
+./scripts/security-check.sh
 
-# Fazer backup do banco de dados
-./backend/scripts/backup.sh
+# Backup the database
+./scripts/backup.sh
 
-# Restaurar backup do banco de dados
-./backend/scripts/restore.sh [nome-do-arquivo-de-backup]
+# Restore database backup
+./scripts/restore.sh [backup-file-name]
 ```
 
-### Configuração do Banco de Dados
+### Database Configuration
 
-O banco de dados é automaticamente configurado com:
+```
 
-- **Usuário**: postgres
-- **Senha**: your-super-secret-and-long-postgres-password
-- **Database**: postgres
-- **Porta**: 5432
 
-As tabelas e políticas são criadas automaticamente através do arquivo `backend/supabase/migrations/supabase-schema.sql`.
+The database is automatically configured with:
+
+- **User**: postgres
+- **Password**: postgres
+- **Database**: finance_control
+- **Port**: 5432
+
+Tables and policies are automatically created through the file `apps/backend/supabase/migrations/supabase-schema.sql`.
 
 ### Supabase Studio
 
-Acesse http://localhost:54323 para usar a interface administrativa do Supabase.
+Access http://localhost:54323 to use the Supabase administrative interface.
 
-**Credenciais padrão:**
+**Default credentials:**
 - **URL**: http://localhost:8000
 - **Anon Key**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0`
 - **Service Role Key**: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU`
 
-### Desenvolvimento
+### Development
 
-Para desenvolvimento ativo:
+For active development:
 
-1. **Modo de desenvolvimento com hot reload:**
+1. **Development mode with hot reload:**
    ```bash
-   # O frontend já está configurado para hot reload
-   # Qualquer mudança nos arquivos src/ será refletida automaticamente
+   # The frontend is already configured for hot reload
+   # Any changes to src/ files will be automatically reflected
    ```
 
-2. **Instalar novas dependências:**
+2. **Install new dependencies:**
    ```bash
-   # Pare o container
-   docker-compose stop frontend
+   # Stop the container
+   docker-compose stop frontend-auth
    
-   # Instale as dependências localmente
-   npm install nova-dependencia
+   # Install dependencies locally
+   npm install new-dependency
    
-   # Rebuild e reinicie
-   docker-compose build frontend
-   docker-compose up -d frontend
+   # Rebuild and restart
+   docker-compose build frontend-auth
+   docker-compose up -d frontend-auth
    ```
 
-### Autenticação Google (Opcional)
+### Google Authentication (Optional)
 
-Para configurar autenticação com Google:
+To configure Google authentication:
 
-1. **Configure as credenciais no Google Cloud Console**
-2. **Atualize o docker-compose.yml** nas variáveis do serviço `auth`:
+1. **Configure credentials in Google Cloud Console**
+2. **Update docker-compose.yml** in the `auth` service variables:
    ```yaml
-   GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID: "seu-client-id"
-   GOTRUE_EXTERNAL_GOOGLE_SECRET: "seu-client-secret"
+   GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID: "your-client-id"
+   GOTRUE_EXTERNAL_GOOGLE_SECRET: "your-client-secret"
    ```
-3. **Reinicie os serviços:**
+3. **Restart services:**
    ```bash
    docker-compose restart auth kong
    ```
 
 ### Troubleshooting
 
-#### Problema: Serviços não iniciam
+#### Problem: Services don't start
 ```bash
-# Verifique os logs
+# Check logs
 docker-compose logs
 
-# Verifique se as portas estão disponíveis
+# Check if ports are available
 netstat -tulpn | grep :3000
 netstat -tulpn | grep :8000
 ```
 
-#### Problema: Banco de dados não conecta
+#### Problem: Database doesn't connect
 ```bash
-# Verifique se o PostgreSQL está rodando
+# Check if PostgreSQL is running
 docker-compose ps db
 
-# Teste a conexão
+# Test connection
 docker-compose exec db pg_isready -U postgres
 ```
 
-#### Problema: Frontend não carrega
+#### Problem: Frontend doesn't load
 ```bash
-# Verifique os logs do frontend
-docker-compose logs frontend
+# Check frontend logs
+docker-compose logs frontend-auth
+docker-compose logs frontend-dashboard
 
-# Rebuild do frontend
-docker-compose build --no-cache frontend
-docker-compose up -d frontend
+# Rebuild frontend
+docker-compose build --no-cache frontend-auth
+docker-compose up -d frontend-auth
 ```
 
-#### Problema: Erro de CORS
-- Verifique se o Kong está rodando: `docker-compose ps kong`
-- Verifique a configuração em `supabase/kong.yml`
+#### Problem: CORS error
+- Check if Kong is running: `docker-compose ps kong`
+- Check configuration in `supabase/kong.yml`
 
-### Limpeza
+### Cleanup
 
-Para limpar completamente o ambiente:
+To completely clean up the environment:
 
 ```bash
-# Para todos os containers e remove volumes
+# Stop all containers and remove volumes
 docker-compose down -v
 
-# Remove imagens não utilizadas
+# Remove unused images
 docker image prune -f
 
-# Remove volumes órfãos
+# Remove orphaned volumes
 docker volume prune -f
 ```
 
-### Estrutura de Arquivos Docker
+### Docker File Structure
 
 ```
-├── docker-compose.yml          # Configuração principal
-├── Dockerfile.frontend         # Dockerfile do React
-├── .dockerignore              # Arquivos ignorados no build
-├── .env.example               # Variáveis de ambiente
-└── supabase/
-    ├── supabase-schema.sql    # Schema completo do banco
-    └── kong.yml               # Configuração do API Gateway
+├── infra/docker/
+│   ├── docker-compose.yml          # Main configuration
+│   ├── docker-compose.db.yml       # Database configuration
+│   └── docker-compose.dev.yml      # Development overrides
+├── apps/frontend/
+│   ├── auth/Dockerfile             # Auth frontend Dockerfile
+│   └── dashboard/Dockerfile        # Dashboard frontend Dockerfile
+├── apps/backend/
+│   └── Dockerfile.backend          # Backend Dockerfile
+├── .dockerignore                   # Files ignored in build
+├── .env.example                    # Environment variables
+└── apps/backend/supabase/
+    └── migrations/
+        └── supabase-schema.sql     # Complete database schema
 ```
 
-### Monitoramento
+### Monitoring
 
-Para monitorar o status dos serviços:
+To monitor the status of services:
 
 ```bash
-# Status de todos os serviços
+# Status of all services
 docker-compose ps
 
-# Uso de recursos
+# Resource usage
 docker stats
 
-# Logs em tempo real
+# Real-time logs
 docker-compose logs -f --tail=100
 ```
 
 ---
 
-## 🚀 Próximos Passos
+## 🚀 Next Steps
 
-1. Execute `docker-compose up -d`
-2. Acesse http://localhost:3000
-3. Crie uma conta de teste
-4. Explore o Supabase Studio em http://localhost:54323
-5. Comece a desenvolver!
+1. Run `docker-compose up -d`
+2. Access http://localhost:3000
+3. Create a test account
+4. Explore Supabase Studio at http://localhost:54323
+5. Start developing!
 
-Para mais informações sobre o Supabase, consulte o arquivo `SUPABASE_SETUP.md`.
+For more information about Supabase, check the `docs/development/supabase-setup.md` file.

@@ -10,8 +10,8 @@ BACKUP_DIR="./backups"
 DATE=$(date +"%Y%m%d_%H%M%S")
 BACKUP_FILE="finance_backup_${DATE}.sql"
 CONTAINER_NAME="finance_db"
-DB_USER="${POSTGRES_USER:-finance_user}"
-DB_NAME="${POSTGRES_DB:-finance_control_prod}"
+DB_USER="postgres"
+DB_NAME="finance_control"
 
 # Cores para output
 GREEN='\033[0;32m'
@@ -31,7 +31,7 @@ fi
 # Verificar se o container está rodando
 if ! docker ps | grep -q "$CONTAINER_NAME"; then
     echo -e "${RED}❌ Container $CONTAINER_NAME não está rodando!${NC}"
-    echo -e "${YELLOW}💡 Execute: docker-compose up -d${NC}"
+    echo -e "${YELLOW}💡 Execute: cd infra/docker && docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d db${NC}"
     exit 1
 fi
 
@@ -43,7 +43,7 @@ echo "Arquivo: $BACKUP_DIR/$BACKUP_FILE"
 echo "Database: $DB_NAME"
 echo "User: $DB_USER"
 
-if docker-compose exec -T db pg_dump -U "$DB_USER" "$DB_NAME" > "$BACKUP_DIR/$BACKUP_FILE"; then
+if docker exec -i $CONTAINER_NAME pg_dump -U "$DB_USER" "$DB_NAME" > "$BACKUP_DIR/$BACKUP_FILE"; then
     echo -e "${GREEN}✅ Backup criado com sucesso!${NC}"
     
     # Verificar tamanho do arquivo

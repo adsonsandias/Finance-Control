@@ -102,7 +102,12 @@ echo -e "${YELLOW}🖥️  Atualizando servidor remoto...${NC}"
 echo -e "${BLUE}💡 Para configurar o deploy remoto, edite este script e adicione os comandos SSH necessários${NC}"
 
 # Exemplo:
-# ssh usuario@seu-servidor.com "cd /caminho/para/aplicacao && git pull && docker-compose up -d"
+# ssh usuario@seu-servidor.com "cd /caminho/para/aplicacao && git pull && \
+#   docker stop finance_backend finance_frontend_auth finance_frontend_dashboard && \
+#   docker rm finance_backend finance_frontend_auth finance_frontend_dashboard && \
+#   docker run -d --name finance_backend --network finance-network finance-control-backend:latest && \
+#   docker run -d --name finance_frontend_auth --network finance-network finance-control-auth:latest && \
+#   docker run -d --name finance_frontend_dashboard --network finance-network finance-control-dashboard:latest"
 
 echo "=========================================="
 echo -e "${GREEN}✅ Deploy concluído com sucesso!${NC}"

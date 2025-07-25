@@ -72,7 +72,7 @@ cleanup() {
     kill $DASHBOARD_PID 2>/dev/null
     
     # Parar containers Docker
-    cd "$(dirname "$0")/../infra/docker" && docker-compose -f docker-compose.yml -f docker-compose.db.yml down
+    docker stop finance_db finance_meta 2>/dev/null || true
     
     echo -e "${GREEN}✅ Todos os serviços foram parados!${NC}"
     exit 0
