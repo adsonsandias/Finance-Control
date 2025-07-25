@@ -3,10 +3,11 @@
   <p><strong>A modern, full-stack financial management application</strong></p>
   
   <p>
-    <img alt="Version" src="https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000" />
+    <img alt="Version" src="https://img.shields.io/badge/version-1.4.0-blue.svg?cacheSeconds=2592000" />
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
     <img alt="Node" src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg" />
     <img alt="React" src="https://img.shields.io/badge/react-18.2.0-blue.svg" />
+    <img alt="Recharts" src="https://img.shields.io/badge/recharts-2.15.4-orange.svg" />
   </p>
 </div>
 
@@ -21,6 +22,11 @@
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
 - [Docker Setup](#docker-setup)
+  - [Services](#services)
+  - [Quick Start with Docker](#quick-start-with-docker)
+  - [Development Workflow](#development-workflow)
+  - [Accessing the Applications](#accessing-the-applications)
+  - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
@@ -55,9 +61,10 @@ Finance Control is a comprehensive financial management application built with m
 - Credit card expense tracking (demo purposes)
 
 ### 📊 Analytics & Insights
-- Transaction summary with visual charts
-- Monthly/yearly financial reports
-- Expense categorization breakdown
+- Transaction summary with visual charts using Recharts
+- Interactive area charts for balance trends
+- Pie charts for expense categorization breakdown
+- Monthly/yearly financial reports with data visualization
 - Real-time Bitcoin price monitoring (EUR, USD, BRL)
 
 ### 🎨 User Experience
@@ -127,6 +134,7 @@ backend/src/
 - **TypeScript** - Type-safe JavaScript
 - **Styled Components** - CSS-in-JS styling
 - **React Router** - Client-side routing
+- **Recharts** - Responsive charting library for data visualization
 - **Framer Motion** - Animation library
 - **React Modal** - Accessible modal components
 - **Lottie React** - Animation rendering
@@ -279,10 +287,10 @@ The project includes a complete Docker setup for easy deployment and development
 
 ### Services
 
-- **Database**: PostgreSQL 14 with automatic initialization
-- **Backend**: Node.js/Express API server
-- **Frontend Auth**: Authentication module (React)
-- **Frontend Dashboard**: Dashboard module (React)
+- **Frontend Auth**: React application for authentication (port 3000)
+- **Frontend Dashboard**: React application for dashboard (port 3003)
+- **Backend**: Node.js API (port 3002, mapped to 3001 internally)
+- **Database**: PostgreSQL 15 (port 5432)
 
 ### Quick Start with Docker
 
@@ -291,8 +299,14 @@ The project includes a complete Docker setup for easy deployment and development
 git clone https://github.com/your-username/finance-control.git
 cd finance-control
 
-# Start all services including database
-./backend/scripts/start-services.sh
+# Copy the environment file
+cp .env.example .env
+
+# Start all services using Docker Compose
+docker-compose up -d
+
+# Or use the convenience script
+./scripts/start-local.sh
 
 # Check service status
 docker-compose ps
@@ -301,21 +315,30 @@ docker-compose ps
 docker-compose logs -f [service-name]
 
 # Stop all services
-./backend/scripts/stop-services.sh
+docker-compose down
+
+# Or use the cleanup script
+./scripts/cleanup.sh
 ```
 
 ### Development Workflow
 
 ```bash
 # Rebuild after code changes
-docker-compose -f docker-compose.yml -f docker-compose.db.yml up --build
+docker-compose build
+docker-compose up -d
 
 # Start specific modules
-docker-compose -f docker-compose.yml -f docker-compose.db.yml up frontend-auth backend db
-docker-compose -f docker-compose.yml -f docker-compose.db.yml up frontend-dashboard backend db
+docker-compose up -d frontend-auth backend db
+docker-compose up -d frontend-dashboard backend db
 
 # Access database directly
 docker-compose exec db psql -U postgres -d finance_control
+
+# Install dependencies in containers
+docker-compose exec frontend-auth npm install [package-name]
+docker-compose exec frontend-dashboard npm install [package-name]
+docker-compose exec backend npm install [package-name]
 
 # Service-specific logs
 docker-compose logs -f db
@@ -323,6 +346,66 @@ docker-compose logs -f backend
 docker-compose logs -f frontend-auth
 docker-compose logs -f frontend-dashboard
 ```
+
+### Accessing the Applications
+
+After starting the services, you can access:
+
+- **Auth Frontend**: http://localhost:3000
+- **Dashboard Frontend**: http://localhost:3003
+- **Backend API**: http://localhost:3002
+- **Database**: localhost:5432 (PostgreSQL)
+
+### Troubleshooting
+
+#### Problem: Services don't start
+```bash
+# Check logs
+docker-compose logs
+
+# Check if ports are available
+netstat -tulpn | grep :3000
+netstat -tulpn | grep :8000
+```
+
+#### Problem: Database doesn't connect
+```bash
+# Check if PostgreSQL is running
+docker-compose ps db
+
+# Test connection
+docker-compose exec db pg_isready -U postgres
+```
+
+#### Problem: Frontend doesn't load
+```bash
+# Check frontend logs
+docker-compose logs frontend-auth
+docker-compose logs frontend-dashboard
+
+# Rebuild frontend
+docker-compose build --no-cache frontend-auth
+docker-compose up -d frontend-auth
+```
+
+#### Problem: Missing dependencies (e.g., 'recharts')
+```bash
+# Check for missing dependencies in logs
+docker-compose logs frontend-auth
+
+# Install missing dependency inside container
+docker-compose exec frontend-auth npm install recharts
+
+# Or add to package.json and rebuild
+# 1. Add the dependency to package.json
+# 2. Rebuild the container
+docker-compose build frontend-auth
+docker-compose up -d frontend-auth
+```
+
+#### Problem: CORS error
+- Check if Kong is running: `docker-compose ps kong`
+- Check configuration in `supabase/kong.yml`
 
 ## 🧪 Testing
 
@@ -573,14 +656,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### ✅ Completed Features
 - User authentication and authorization
 - Transaction CRUD operations
+- Data visualization with Recharts (area charts, pie charts)
 - Real-time Bitcoin price tracking
 - Responsive design
-- Docker containerization
+- Docker containerization with troubleshooting documentation
 - Clean architecture implementation
 
 ### 🚧 In Progress
-- Advanced analytics dashboard
-- Export functionality
+- Advanced analytics dashboard with additional chart types
+- Export functionality for reports and data
 - Mobile app development
 - Additional payment integrations
 
