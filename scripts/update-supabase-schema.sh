@@ -29,7 +29,7 @@ if ! command -v psql &> /dev/null; then
 fi
 
 # Check if Supabase is running locally
-echo -e "${YELLOW}✅ Checking if Supabase is running on port 54323...${NC}"
+echo -e "${YELLOW}✅ Checking if Supabase is running on port 54333...${NC}"
 
 # Apply the SQL schema to the local Supabase database
 echo -e "${YELLOW}📦 Applying SQL schema...${NC}"
@@ -53,7 +53,7 @@ echo -e "${YELLOW}🔄 Applying schema using psql...${NC}"
 
 # Get Supabase environment variables
 SUPABASE_DB_HOST="localhost"
-SUPABASE_DB_PORT="54322"
+SUPABASE_DB_PORT="54333"
 SUPABASE_DB_NAME="postgres"
 SUPABASE_DB_USER="postgres"
 SUPABASE_DB_PASSWORD="postgres"
@@ -64,7 +64,7 @@ PGPASSWORD="$SUPABASE_DB_PASSWORD" psql -h "$SUPABASE_DB_HOST" -p "$SUPABASE_DB_
 echo -e "${GREEN}✅ Supabase schema updated successfully!${NC}"
 
 # Display access information
-echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54323${NC}"
+echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54334${NC}"
 echo -e "${YELLOW}🔑 Default credentials:${NC}"
 echo -e "${BLUE}   Email: admin@example.com${NC}"
 echo -e "${BLUE}   Password: admin${NC}"

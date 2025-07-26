@@ -126,7 +126,10 @@ echo -e "${BLUE}=== Installing Project Dependencies ===${NC}"
 echo -e "${YELLOW}⏳ Installing root project dependencies...${NC}"
 cd "$PROJECT_ROOT"
 if [ ! -d "node_modules" ]; then
-    npm install
+    npm install --no-fund --no-audit || {
+        echo -e "${YELLOW}⚠️ Error installing root dependencies. Trying with --legacy-peer-deps...${NC}"
+        npm install --no-fund --no-audit --legacy-peer-deps
+    }
 fi
 echo -e "${GREEN}✅ Root project dependencies installed.${NC}"
 
@@ -134,7 +137,10 @@ echo -e "${GREEN}✅ Root project dependencies installed.${NC}"
 echo -e "${YELLOW}⏳ Installing shared package dependencies...${NC}"
 cd "$PROJECT_ROOT/packages"
 if [ ! -d "node_modules" ]; then
-    npm install
+    npm install --no-fund --no-audit || {
+        echo -e "${YELLOW}⚠️ Error installing shared package dependencies. Trying with --legacy-peer-deps...${NC}"
+        npm install --no-fund --no-audit --legacy-peer-deps
+    }
 fi
 echo -e "${GREEN}✅ Shared package dependencies installed.${NC}"
 
@@ -142,7 +148,10 @@ echo -e "${GREEN}✅ Shared package dependencies installed.${NC}"
 echo -e "${YELLOW}⏳ Installing backend dependencies...${NC}"
 cd "$PROJECT_ROOT/apps/backend"
 if [ ! -d "node_modules" ]; then
-    npm install
+    npm install --no-fund --no-audit || {
+        echo -e "${YELLOW}⚠️ Error installing backend dependencies. Trying with --legacy-peer-deps...${NC}"
+        npm install --no-fund --no-audit --legacy-peer-deps
+    }
 fi
 echo -e "${GREEN}✅ Backend dependencies installed.${NC}"
 
@@ -150,7 +159,10 @@ echo -e "${GREEN}✅ Backend dependencies installed.${NC}"
 echo -e "${YELLOW}⏳ Installing frontend auth dependencies...${NC}"
 cd "$PROJECT_ROOT/apps/frontend/auth"
 if [ ! -d "node_modules" ]; then
-    npm install
+    npm install --no-fund --no-audit || {
+        echo -e "${YELLOW}⚠️ Error installing frontend auth dependencies. Trying with --legacy-peer-deps...${NC}"
+        npm install --no-fund --no-audit --legacy-peer-deps
+    }
 fi
 echo -e "${GREEN}✅ Frontend auth dependencies installed.${NC}"
 
@@ -158,7 +170,10 @@ echo -e "${GREEN}✅ Frontend auth dependencies installed.${NC}"
 echo -e "${YELLOW}⏳ Installing frontend dashboard dependencies...${NC}"
 cd "$PROJECT_ROOT/apps/frontend/dashboard"
 if [ ! -d "node_modules" ]; then
-    npm install
+    npm install --no-fund --no-audit || {
+        echo -e "${YELLOW}⚠️ Error installing frontend dashboard dependencies. Trying with --legacy-peer-deps...${NC}"
+        npm install --no-fund --no-audit --legacy-peer-deps
+    }
 fi
 echo -e "${GREEN}✅ Frontend dashboard dependencies installed.${NC}"
 
@@ -185,17 +200,91 @@ fi
 
 # Setup Supabase
 echo -e "\n${BLUE}=== Setting Up Supabase ===${NC}"
-echo -e "${YELLOW}⏳ Running Supabase setup script...${NC}"
-"$SCRIPT_DIR/setup-supabase.sh"
+echo -e "${YELLOW}⏳ Setting up Supabase...${NC}"
+
+# Execute o script de configuração do Supabase
+echo -e "${YELLOW}⏳ Executando script de configuração do Supabase...${NC}"
+chmod +x "$PROJECT_ROOT/scripts/setup-supabase.sh"
+"$PROJECT_ROOT/scripts/setup-supabase.sh"
+
+# Verificar se o Supabase foi iniciado com sucesso
+if ! supabase status &> /dev/null; then
+    echo -e "${RED}❌ Falha ao iniciar o Supabase. Tentando novamente...${NC}"
+    
+    # Tentar parar qualquer instância existente do Supabase primeiro
+    supabase stop &> /dev/null || true
+    sleep 2
+    
+    # Iniciar o Supabase com uma porta diferente, se necessário
+    if ! supabase start; then
+        echo -e "${YELLOW}⚠️ Falha ao iniciar o Supabase com as portas padrão. Tentando com configuração personalizada...${NC}"
+        
+        # Criar um arquivo de configuração temporário com portas diferentes, se não existir
+        if [ ! -f "$PROJECT_ROOT/supabase/config.toml" ]; then
+            mkdir -p "$PROJECT_ROOT/supabase"
+            cat > "$PROJECT_ROOT/supabase/config.toml" << EOF
+[api]
+port = 54321
+[db]
+port = 54323
+[studio]
+port = 54324
+EOF
+            echo -e "${YELLOW}Criada configuração personalizada do Supabase com portas diferentes.${NC}"
+        fi
+        
+        # Tentar iniciar com a configuração personalizada
+        if ! supabase start; then
+            echo -e "${RED}❌ Falha ao iniciar o Supabase. Tente manualmente: supabase start${NC}"
+            exit 1
+        fi
+    fi
+fi
+
+# Aplicar o schema SQL e dados de exemplo
+echo -e "${YELLOW}⏳ Aplicando schema SQL e dados de exemplo...${NC}"
+
+# Caminho para os arquivos SQL
+SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
+SAMPLE_DATA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/sample-data.sql"
+
+# Verificar se os arquivos existem
+if [ ! -f "$SCHEMA_FILE" ]; then
+    echo -e "${RED}❌ Arquivo de schema não encontrado: $SCHEMA_FILE${NC}"
+    exit 1
+fi
+
+# Aplicar o schema usando psql
+echo -e "${YELLOW}🔄 Aplicando schema usando psql...${NC}"
+PGPASSWORD="postgres" psql -h "localhost" -p "54333" -d "postgres" -U "postgres" -f "$SCHEMA_FILE"
+
+# Aplicar os dados de exemplo, se o arquivo existir
+if [ -f "$SAMPLE_DATA_FILE" ]; then
+    echo -e "${YELLOW}🔄 Aplicando dados de exemplo...${NC}"
+    PGPASSWORD="postgres" psql -h "localhost" -p "54333" -d "postgres" -U "postgres" -f "$SAMPLE_DATA_FILE"
+    echo -e "${GREEN}✅ Dados de exemplo aplicados com sucesso!${NC}"
+else
+    echo -e "${YELLOW}⚠️ Arquivo de dados de exemplo não encontrado: $SAMPLE_DATA_FILE${NC}"
+fi
 
 echo -e "\n${GREEN}=== Project Setup Complete! ===${NC}"
-echo -e "${YELLOW}💡 To start the project, run:${NC}"
-echo -e "${BLUE}   ./scripts/start-local.sh${NC}"
-echo -e "\n${YELLOW}💡 Available services:${NC}"
-echo -e "${BLUE}   • Backend: http://localhost:3001${NC}"
-echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
-echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
-echo -e "${BLUE}   • Supabase Studio: http://localhost:54323${NC}"
-echo -e "${BLUE}   • PostgreSQL: localhost:5432${NC}"
 
-echo -e "\n${GREEN}✨ Happy coding! ✨${NC}"
+# Perguntar ao usuário se deseja iniciar o projeto
+echo -e "${YELLOW}Deseja iniciar o projeto agora? (s/n)${NC}"
+read -r start_project
+
+if [[ "$start_project" =~ ^[Ss]$ ]]; then
+    echo -e "${GREEN}🚀 Iniciando o projeto...${NC}"
+    "$PROJECT_ROOT/scripts/start-local.sh"
+else
+    echo -e "${YELLOW}💡 Para iniciar o projeto posteriormente, execute:${NC}"
+    echo -e "${BLUE}   ./scripts/start-local.sh${NC}"
+    echo -e "\n${YELLOW}💡 Available services:${NC}"
+    echo -e "${BLUE}   • Backend: http://localhost:3002${NC}"
+    echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
+    echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
+    echo -e "${BLUE}   • Supabase Studio: http://localhost:54334${NC}"
+    echo -e "${BLUE}   • PostgreSQL: localhost:54333${NC}"
+
+    echo -e "\n${GREEN}✨ Happy coding! ✨${NC}"
+fi

@@ -72,20 +72,57 @@ fi
 echo -e "\n${BLUE}=== Starting Supabase ===${NC}"
 echo -e "${YELLOW}🔄 Checking Supabase status...${NC}"
 
-supabase status &> /dev/null
-if [ $? -ne 0 ]; then
-    echo -e "${YELLOW}🔄 Starting Supabase locally...${NC}"
-    supabase start
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✅ Supabase started successfully!${NC}"
-        echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54323${NC}"
-    else
-        echo -e "${RED}❌ Failed to start Supabase. Try manually: supabase start${NC}"
-        exit 1
-    fi
-else
+# Check if Supabase is already running
+if supabase status 2>/dev/null | grep -q "Started"; then
     echo -e "${GREEN}✅ Supabase is already running.${NC}"
-    echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54323${NC}"
+else
+    # Try to stop any existing Supabase instance first
+    supabase stop 2>/dev/null || true
+    sleep 2
+    
+    # Start Supabase with a different port if needed
+    if ! supabase start; then
+        echo -e "${YELLOW}⚠️ Failed to start Supabase with default ports. Trying with custom configuration...${NC}"
+        
+        # Create a temporary config file with different ports if it doesn't exist
+        if [ ! -f "$PROJECT_ROOT/supabase/config.toml" ]; then
+            mkdir -p "$PROJECT_ROOT/supabase"
+            cat > "$PROJECT_ROOT/supabase/config.toml" << EOF
+[api]
+port = 54321
+[db]
+port = 54323
+[studio]
+port = 54324
+EOF
+            echo -e "${YELLOW}Created custom Supabase configuration with different ports.${NC}"
+        fi
+        
+        # Try to start with the custom config
+        if ! supabase start; then
+            echo -e "${RED}❌ Failed to start Supabase.${NC}"
+            echo -e "${YELLOW}💡 Try manually with: supabase stop && supabase start${NC}"
+            echo -e "${YELLOW}💡 Or check if ports are already in use: lsof -i :54321 -i :54322 -i :54323${NC}"
+            exit 1
+        fi
+    fi
+fi
+
+# Check if Supabase is running
+echo -e "${YELLOW}⏳ Verifying Supabase status...${NC}"
+if supabase status 2>/dev/null | grep -q "Started"; then
+    echo -e "${GREEN}✅ Supabase started successfully!${NC}"
+    
+    # Get the Supabase Studio URL from status
+    STUDIO_URL=$(supabase status | grep "Studio URL:" | awk '{print $3}')
+    if [ -z "$STUDIO_URL" ]; then
+        STUDIO_URL="http://localhost:54334"
+    fi
+    echo -e "${BLUE}🌐 Supabase Studio available at: $STUDIO_URL${NC}"
+else
+    echo -e "${RED}❌ Supabase is not running correctly.${NC}"
+    echo -e "${YELLOW}💡 You may need to manually configure Supabase.${NC}"
+    exit 1
 fi
 
 # Apply SQL schema
@@ -111,13 +148,13 @@ if [ -f "$UPDATE_SCRIPT_PATH" ]; then
         echo -e "${RED}❌ Failed to apply SQL schema via script. Trying manually...${NC}"
         if [ -f "$SCHEMA_PATH" ]; then
             echo -e "${YELLOW}🔄 Applying SQL schema manually...${NC}"
-            psql -U postgres -d postgres -h localhost -p 54322 -f "$SCHEMA_PATH"
+            psql -U postgres -d postgres -h localhost -p 54333 -f "$SCHEMA_PATH"
             if [ $? -eq 0 ]; then
                 echo -e "${GREEN}✅ SQL schema applied manually with success!${NC}"
             else
                 echo -e "${RED}❌ Failed to apply SQL schema manually.${NC}"
                 echo -e "${YELLOW}💡 Verify if the file exists and try again:${NC}"
-                echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54322 -f $SCHEMA_PATH${NC}"
+                echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54333 -f $SCHEMA_PATH${NC}"
                 exit 1
             fi
         else
@@ -129,13 +166,13 @@ else
     echo -e "${YELLOW}⚠️ Update script not found. Applying schema manually...${NC}"
     if [ -f "$SCHEMA_PATH" ]; then
         echo -e "${YELLOW}🔄 Applying SQL schema manually...${NC}"
-        psql -U postgres -d postgres -h localhost -p 54322 -f "$SCHEMA_PATH"
+        psql -U postgres -d postgres -h localhost -p 54333 -f "$SCHEMA_PATH"
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}✅ SQL schema applied manually with success!${NC}"
         else
             echo -e "${RED}❌ Failed to apply SQL schema manually.${NC}"
             echo -e "${YELLOW}💡 Verify if the file exists and try again:${NC}"
-            echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54322 -f $SCHEMA_PATH${NC}"
+            echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54333 -f $SCHEMA_PATH${NC}"
             exit 1
         fi
     else
@@ -149,7 +186,7 @@ echo -e "\n${BLUE}=== Configuring Environment Variables ===${NC}"
 echo -e "${YELLOW}🔄 Checking Supabase environment variables...${NC}"
 
 # Get Supabase URL and keys
-SUPABASE_URL="http://localhost:54321"
+SUPABASE_URL="http://localhost:54331"
 SUPABASE_ANON_KEY=$(supabase status | grep "anon key:" | awk '{print $3}')
 SUPABASE_SERVICE_ROLE_KEY=$(supabase status | grep "service_role key:" | awk '{print $3}')
 
@@ -196,7 +233,7 @@ else
 fi
 
 echo -e "\n${GREEN}=== Supabase configuration completed successfully! ===${NC}"
-echo -e "${YELLOW}💡 You can access Supabase Studio at: http://localhost:54323${NC}"
+echo -e "${YELLOW}💡 You can access Supabase Studio at: http://localhost:54334${NC}"
 echo -e "${YELLOW}💡 To start the complete project, run: ./scripts/start-local.sh${NC}"
 
 exit 0

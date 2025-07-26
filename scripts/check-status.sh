@@ -32,7 +32,7 @@ fi
 
 # Verificar se o backend está rodando
 echo -e "${YELLOW}🚀 Verificando backend...${NC}"
-if curl -s http://localhost:3001/api/health > /dev/null; then
+if curl -s http://localhost:3002/api/health > /dev/null; then
     echo -e "${GREEN}✅ Backend está rodando${NC}"
 else
     echo -e "${RED}❌ Backend não está rodando${NC}"

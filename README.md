@@ -198,6 +198,12 @@ Before running this project, make sure you have the following installed:
    - Set up environment files
    - Configure Supabase
    - Prepare the project for development
+   
+   > **Note:** If you encounter any issues during setup:
+   > - For npm installation errors, the script will automatically try with `--legacy-peer-deps`
+   > - If Supabase fails to start due to ports already in use, the script will attempt to use alternative ports
+   > - See the [Troubleshooting](#troubleshooting) section for more solutions
+   > - If you already have Supabase running locally, you may see port conflicts. Use `supabase stop` before running the setup script
 
 3. **Start the project**
    ```bash
@@ -496,8 +502,52 @@ docker-compose up -d frontend-auth
 - Check Supabase logs: `supabase logs`
 - Check if the SQL schema was correctly applied: `psql -U postgres -d postgres -h localhost -p 54322 -c "\dt"`
 
+#### Problem: Supabase ports already in use
+- Check which processes are using the Supabase ports:
+  ```bash
+  # Check ports 54321, 54322, 54323
+  lsof -i :54321 -i :54322 -i :54323
+  ```
+- Stop existing Supabase instances:
+  ```bash
+  supabase stop
+  ```
+- If ports are still in use, you can kill the processes:
+  ```bash
+  # Replace PID with the process ID from lsof command
+  kill -9 PID
+  ```
+- Create a custom configuration with different ports:
+  ```bash
+  mkdir -p ./supabase
+  cat > ./supabase/config.toml << EOF
+  [api]
+  port = 54321
+  [db]
+  port = 54323
+  [studio]
+  port = 54324
+  EOF
+  ```
+- Start Supabase with the custom configuration:
+  ```bash
+  supabase start
+  ```
+
 #### Problem: npm errors during installation
 - Clear npm cache: `npm cache clean --force`
+- Try installing with legacy peer dependencies: `npm install --legacy-peer-deps`
+- If you see `Cannot read properties of undefined (reading 'extraneous')` error:
+  ```bash
+  # Try with these flags
+  npm install --no-fund --no-audit --legacy-peer-deps
+  ```
+- Check your Node.js version: `node -v` (should be 18+)
+- Delete node_modules and package-lock.json and try again:
+  ```bash
+  rm -rf node_modules package-lock.json
+  npm install
+  ```
 - Delete node_modules and reinstall: `rm -rf node_modules && npm install`
 - Check for Node.js version compatibility: `node -v` (should be v18+)
 - Try using the setup script: `./scripts/setup-project.sh`

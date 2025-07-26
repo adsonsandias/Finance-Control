@@ -27,7 +27,7 @@ kill_process_on_port() {
 # Clear ports that will be used
 echo -e "${YELLOW}🧹 Clearing ports in use...${NC}"
 kill_process_on_port 3000  # Frontend Auth
-kill_process_on_port 3001  # Backend
+kill_process_on_port 3002  # Backend
 kill_process_on_port 3003  # Frontend Dashboard
 
 echo -e "${GREEN}🚀 Starting development environment...${NC}"
@@ -120,7 +120,7 @@ if ! supabase status | grep -q "Started"; then
     supabase stop && supabase start
 fi
 echo -e "${GREEN}✅ Supabase started successfully!${NC}"
-echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54323${NC}"
+echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54334${NC}"
 
 # Start PostgreSQL database for compatibility
 echo -e "${YELLOW}🐘 Starting PostgreSQL...${NC}"
@@ -198,10 +198,11 @@ cd "$ORIGINAL_DIR"
 echo "=========================================="
 echo -e "${GREEN}✅ All services have been started!${NC}"
 echo -e "${BLUE}📊 Available services:${NC}"
-echo -e "${BLUE}   • Backend: http://localhost:3001${NC}"
+echo -e "${BLUE}   • Backend: http://localhost:3002${NC}"
 echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
 echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
-echo -e "${BLUE}   • PostgreSQL: localhost:5432${NC}"
+echo -e "${BLUE}   • Supabase Studio: http://localhost:54334${NC}"
+echo -e "${BLUE}   • PostgreSQL: localhost:54333${NC}"
 echo ""
 echo -e "${YELLOW}💡 Press Ctrl+C to stop all services${NC}"
 
