@@ -1,5 +1,6 @@
 const path = require('path')
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
+// Removendo a dependência de ModuleScopePlugin que está causando problemas
+// const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 
 module.exports = {
   webpack: {
@@ -8,9 +9,10 @@ module.exports = {
     },
     configure: (webpackConfig) => {
       // Remove ModuleScopePlugin to allow imports outside src/
-      webpackConfig.resolve.plugins = webpackConfig.resolve.plugins.filter(
-        (plugin) => !(plugin instanceof ModuleScopePlugin)
-      )
+      // Comentando esta parte para evitar o erro com ModuleScopePlugin
+      // webpackConfig.resolve.plugins = webpackConfig.resolve.plugins.filter(
+      //   (plugin) => !(plugin instanceof ModuleScopePlugin)
+      // )
 
       // Add TypeScript loader for shared directory
       const oneOfRule = webpackConfig.module.rules.find((rule) => rule.oneOf)

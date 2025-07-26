@@ -29,6 +29,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-modal": "^3.13.1",
     "@types/styled-components": "^5.1.25",
+    "cypress": "^13.6.0",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -45,7 +46,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
+    "test:unit": "react-scripts test --passWithNoTests",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
     "eject": "react-scripts eject",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "lint": "prettier --check 'src/**/*.{js,jsx,ts,tsx}'"

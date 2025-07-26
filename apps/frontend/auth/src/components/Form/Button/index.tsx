@@ -4,15 +4,15 @@ import { ButtonStyle } from './styles'
 
 type ButtonProps = {
   onClick?: () => void
-  name: string
-  type: 'button' | 'submit' | 'reset' | undefined
+  name?: string
+  type?: 'button' | 'submit' | 'reset' | undefined
   children: React.ReactNode
   disabled?: boolean
-  isActive: 'button' | 'sign'
+  isActive?: 'button' | 'sign'
 }
 
-export function Button({ children, ...props }: ButtonProps) {
-  const { onClick, name, type, disabled, isActive } = props
+export default function Button({ children, ...props }: ButtonProps) {
+  const { onClick, name, type = 'button', disabled, isActive = 'button' } = props
 
   return (
     <ButtonStyle isActive={isActive} type={type} name={name} onClick={onClick} disabled={disabled}>

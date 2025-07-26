@@ -21,6 +21,11 @@
     "test:auth": "cd apps/frontend/auth && npm test",
     "test:dashboard": "cd apps/frontend/dashboard && npm test",
     "test:backend": "cd apps/backend && npm test",
+    "test:e2e": "concurrently \"cd apps/frontend/auth && npm run test:e2e\" \"cd apps/frontend/dashboard && npm run test:e2e\"",
+    "test:e2e:auth": "cd apps/frontend/auth && npm run test:e2e",
+    "test:e2e:dashboard": "cd apps/frontend/dashboard && npm run test:e2e",
+    "test:e2e:open": "cd apps/frontend/auth && npm run test:e2e:open",
+    "test:e2e:open:dashboard": "cd apps/frontend/dashboard && npm run test:e2e:open",
     "install:all": "npm install && npm run install:modules",
     "install:modules": "cd apps/frontend/auth && npm install && cd ../dashboard && npm install && cd ../../backend && npm install && cd ../../packages && npm install"
   },

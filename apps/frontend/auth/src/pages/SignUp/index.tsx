@@ -5,7 +5,7 @@ import bglogin from '../../assets/bg-login.jpg'
 // import { ReactComponent as IconGithub } from '../../assets/github.svg'
 // import { ReactComponent as IconGoogle } from '../../assets/google.svg'
 import { ReactComponent as LogoLogin } from '../../assets/logologin.svg'
-import { Button } from '../../components/Form/Button'
+import Button from '../../components/Form/Button'
 import {
   BgloginStyles,
   Container,
@@ -25,7 +25,9 @@ export function Signup() {
 
   useEffect(() => {
     // Verificar status de autenticação quando a página carrega
-    checkAuthStatus()
+    if (checkAuthStatus) {
+      checkAuthStatus()
+    }
   }, [checkAuthStatus])
 
   const handleSignup = async () => {
@@ -38,9 +40,14 @@ export function Signup() {
         alert('As senhas não coincidem')
         return
       }
-      await signUp({ email, password, displayName })
-      alert('Conta criada com sucesso! Faça login para continuar.')
-      navigate('/signin')
+      if (signUp) {
+        await signUp({ email, password, displayName })
+        // Após o cadastro bem-sucedido, o usuário já estará autenticado
+        // então redirecionamos para a página inicial
+        navigate('/')
+      } else {
+        throw new Error('Função de cadastro não disponível')
+      }
     } catch (error) {
       console.error('Erro no cadastro:', error)
       alert('Erro ao criar conta. Tente novamente.')

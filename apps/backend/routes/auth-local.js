@@ -105,10 +105,12 @@ router.post('/token', async (req, res) => {
     const refreshToken = generateRefreshToken(user.id)
 
     res.json({
-      access_token: accessToken,
-      refresh_token: refreshToken,
-      token_type: 'bearer',
-      expires_in: 86400, // 24 hours in seconds
+      session: {
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        token_type: 'bearer',
+        expires_in: 86400, // 24 hours in seconds
+      },
       user: {
         id: user.id,
         email: user.email,

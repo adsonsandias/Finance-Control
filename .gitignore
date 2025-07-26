@@ -38,3 +38,4 @@ apps/frontend/auth/build/
 health_response.txt
 apps/backend/dist/.env.example
 apps/backend/dist/
+apps/frontend/auth/apps/frontend/auth/node_modules/

@@ -5,7 +5,7 @@ import bglogin from '../../assets/bg-login.jpg'
 // import { ReactComponent as IconGithub } from '../../assets/github.svg'
 // import { ReactComponent as IconGoogle } from '../../assets/google.svg'
 import { ReactComponent as LogoLogin } from '../../assets/logologin.svg'
-import { Button } from '../../components/Form/Button'
+import Button from '../../components/Form/Button'
 import {
   BgloginStyles,
   Container,
@@ -23,7 +23,9 @@ export function Signin() {
 
   useEffect(() => {
     // Verificar status de autenticação quando a página carrega
-    checkAuthStatus()
+    if (checkAuthStatus) {
+      checkAuthStatus()
+    }
   }, [checkAuthStatus])
 
   const handleLogin = async () => {
