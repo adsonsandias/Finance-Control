@@ -47,11 +47,12 @@ Finance Control is a comprehensive financial management application built with m
 ## ✨ Features
 
 ### 🔐 Authentication & Security
-- User registration and login with email/password
+- User registration and login with email/password via Supabase Auth
 - JWT-based authentication with refresh tokens
-- Secure password hashing with bcryptjs
+- Secure password hashing handled by Supabase
 - Protected routes and middleware
 - Rate limiting and CORS protection
+- Row Level Security (RLS) for database access control
 
 ### 💳 Financial Management
 - Create, read, update, and delete transactions
@@ -142,9 +143,9 @@ backend/src/
 ### Backend
 - **Node.js 18+** - JavaScript runtime
 - **Express.js** - Web application framework
-- **PostgreSQL** - Relational database
+- **Supabase** - Backend-as-a-Service with authentication and database
+- **PostgreSQL** - Relational database (via Supabase)
 - **JWT** - JSON Web Tokens for authentication
-- **bcryptjs** - Password hashing
 - **Helmet** - Security middleware
 - **CORS** - Cross-origin resource sharing
 - **Rate Limiting** - API protection
@@ -170,10 +171,41 @@ Before running this project, make sure you have the following installed:
 
 ### Prerequisites
 - Node.js 18+ and npm
-- PostgreSQL 14+
+- PostgreSQL 14+ (with psql client)
+- Docker and Docker Compose
 - Git
 
-### Monorepo Development
+### Quick Setup (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/finance-control.git
+   cd finance-control
+   ```
+
+2. **Run the setup script**
+   ```bash
+   # Make the script executable
+   chmod +x ./scripts/setup-project.sh
+   
+   # Run the setup script
+   ./scripts/setup-project.sh
+   ```
+   
+   This script will:
+   - Check all system requirements
+   - Install all dependencies
+   - Set up environment files
+   - Configure Supabase
+   - Prepare the project for development
+
+3. **Start the project**
+   ```bash
+   # Start all services
+   ./scripts/start-local.sh
+   ```
+
+### Manual Setup
 
 1. **Clone the repository**
    ```bash
@@ -185,20 +217,51 @@ Before running this project, make sure you have the following installed:
    ```bash
    # Install root dependencies and all workspace dependencies
    npm install
+   
+   # Install dependencies for all modules
+   npm run install:all
    ```
 
 3. **Environment setup**
    ```bash
    # Copy environment files
-   cp backend/.env.example backend/.env
+   cp .env.example .env
+   cp apps/backend/.env.example apps/backend/.env
    
-   # Configure your database and JWT settings in backend/.env
+   # Configure your database and JWT settings in apps/backend/.env
    ```
 
-4. **Database setup**
+4. **Supabase setup**
    ```bash
-   # Run the SQL setup script in your PostgreSQL database
-   psql -U your_username -d your_database -f backend/supabase/migrations/supabase-schema.sql
+   # Run the Supabase setup script
+   ./scripts/setup-supabase.sh
+   ```
+   
+   This script will:
+   - Install Supabase CLI (if needed)
+   - Start Supabase locally
+   - Apply the SQL schema to the database
+   - Configure the necessary environment variables
+   
+   After setup, you can access Supabase Studio at http://localhost:54323
+   
+   Alternatively, you can configure manually:
+   ```bash
+   # Install Supabase CLI (if you don't have it yet)
+   # macOS
+   brew install supabase/tap/supabase
+   
+   # Linux
+   curl -s https://raw.githubusercontent.com/supabase/cli/main/install.sh | bash
+   
+   # Start Supabase locally
+   supabase start
+   
+   # Apply SQL schema to Supabase
+   ./apps/backend/scripts/update-supabase-schema.sh
+   
+   # Or manually via psql
+   psql -U postgres -d postgres -h localhost -p 54322 -f apps/backend/supabase/migrations/supabase-schema.sql
    ```
 
 5. **Start development servers**
@@ -226,6 +289,22 @@ docker-compose up frontend-auth backend db
 
 # Stop services
 docker-compose down
+```
+
+Alternatively, you can use the Docker Compose files in the infra directory:
+
+```bash
+# Navigate to the infrastructure directory
+cd infra/docker
+
+# Start all services
+docker-compose -f docker-compose.yml up -d
+
+# Start with database
+docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d
+
+# Stop services
+docker-compose -f docker-compose.yml -f docker-compose.db.yml down
 ```
 
 ### Module-Specific Development
@@ -266,11 +345,11 @@ The application will be available at:
 ### API Endpoints
 
 #### Authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/token` - User login
-- `POST /api/auth/logout` - User logout
-- `POST /api/auth/refresh` - Refresh access token
-- `GET /api/auth/user` - Get current user
+- `POST /api/auth/signup` - User registration (integrated with Supabase Auth)
+- `POST /api/auth/token` - User login (integrated with Supabase Auth)
+- `POST /api/auth/logout` - User logout (integrated with Supabase Auth)
+- `POST /api/auth/refresh` - Refresh access token (integrated with Supabase Auth)
+- `GET /api/auth/user` - Get current user (integrated with Supabase Auth)
 
 #### Transactions
 - `GET /api/transactions` - Get user transactions
@@ -289,8 +368,9 @@ The project includes a complete Docker setup for easy deployment and development
 
 - **Frontend Auth**: React application for authentication (port 3000)
 - **Frontend Dashboard**: React application for dashboard (port 3003)
-- **Backend**: Node.js API (port 3002, mapped to 3001 internally)
+- **Backend**: Node.js API integrated with Supabase (port 3002, mapped to 3001 internally)
 - **Database**: PostgreSQL 15 (port 5432)
+- **Supabase**: External service for authentication and database (configured via environment variables)
 
 ### Quick Start with Docker
 
@@ -404,8 +484,58 @@ docker-compose up -d frontend-auth
 ```
 
 #### Problem: CORS error
-- Check if Kong is running: `docker-compose ps kong`
-- Check configuration in `supabase/kong.yml`
+- Check if allowed origins are correctly configured in the `CORS_ORIGIN` variable
+- If using Supabase, check if Kong is running: `docker-compose ps kong`
+- Check the configuration in `supabase/kong.yml`
+
+#### Problem: Supabase connection error
+- Check if Supabase is running: `supabase status`
+- Check if environment variables `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `SUPABASE_ANON_KEY` are correctly configured
+- Run the Supabase setup script: `./scripts/setup-supabase.sh`
+- Try restarting Supabase: `supabase stop && supabase start`
+- Check Supabase logs: `supabase logs`
+- Check if the SQL schema was correctly applied: `psql -U postgres -d postgres -h localhost -p 54322 -c "\dt"`
+
+#### Problem: npm errors during installation
+- Clear npm cache: `npm cache clean --force`
+- Delete node_modules and reinstall: `rm -rf node_modules && npm install`
+- Check for Node.js version compatibility: `node -v` (should be v18+)
+- Try using the setup script: `./scripts/setup-project.sh`
+
+#### Problem: Port already in use
+```bash
+# Check which process is using the port (e.g., 3000)
+lsof -i :3000
+
+# Kill the process
+kill -9 <PID>
+
+# Or use the script to clear ports
+./scripts/start-local.sh
+```
+
+#### Problem: Docker container fails to start
+```bash
+# Check Docker logs
+docker logs finance_frontend_auth
+docker logs finance_backend
+
+# Check Docker container status
+docker ps -a
+
+# Restart Docker
+docker-compose down
+docker-compose up -d
+```
+
+#### Problem: Scripts not executable
+```bash
+# Make scripts executable
+chmod +x ./scripts/*.sh
+
+# Run the script
+./scripts/setup-project.sh
+```
 
 ## 🧪 Testing
 
@@ -560,19 +690,17 @@ cp backend/.env.example backend/.env
 
 **Backend (.env)**
 ```env
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=finance_control
-DB_USER=your_username
-DB_PASSWORD=your_password
+# Supabase Configuration
+SUPABASE_URL=http://localhost:54323
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+SUPABASE_ANON_KEY=your-supabase-anon-key
 
 # JWT Configuration
 JWT_SECRET=your_super_secret_jwt_key
 JWT_EXPIRES_IN=24h
 
 # Server Configuration
-PORT=5000
+PORT=3001
 NODE_ENV=development
 
 # CORS Configuration
@@ -603,9 +731,11 @@ Make sure to set the following environment variables in production:
 **Backend**
 - `SUPABASE_URL`: Supabase project URL
 - `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key
+- `SUPABASE_ANON_KEY`: Supabase anonymous key
 - `JWT_SECRET`: Secret key for JWT tokens
 - `NODE_ENV`: Set to 'production'
 - `PORT`: Server port (default: 3001)
+- `CORS_ORIGIN`: URLs allowed for CORS (e.g.: https://your-domain.com)
 
 ## 🤝 Contributing
 
@@ -654,13 +784,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📊 Project Status
 
 ### ✅ Completed Features
-- User authentication and authorization
+- User authentication and authorization with Supabase Auth
 - Transaction CRUD operations
 - Data visualization with Recharts (area charts, pie charts)
 - Real-time Bitcoin price tracking
 - Responsive design
 - Docker containerization with troubleshooting documentation
 - Clean architecture implementation
+- Complete integration with Supabase for authentication and database
+- Row Level Security (RLS) for database access control
 
 ### 🚧 In Progress
 - Advanced analytics dashboard with additional chart types

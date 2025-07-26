@@ -1,43 +1,72 @@
 #!/bin/bash
 
-# Script para atualizar o schema do Supabase local
+# Script to update the local Supabase schema
 
-echo "🔄 Atualizando schema do Supabase..."
+# Colors for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
 
-# Verificar se o Supabase está rodando localmente
-echo "✅ Verificando se o Supabase está rodando na porta 54323..."
+echo -e "${YELLOW}🔄 Updating Supabase schema...${NC}"
 
-# Aplicar o schema SQL ao banco de dados Supabase local
-echo "📦 Aplicando schema SQL..."
+# Check if Docker is running
+if ! docker info > /dev/null 2>&1; then
+    echo -e "${RED}❌ Docker is not running!${NC}"
+    echo -e "${YELLOW}💡 Start Docker and try again${NC}"
+    exit 1
+fi
 
-# Caminho para o arquivo de schema
-SCHEMA_FILE="./backend/supabase/migrations/supabase-schema.sql"
+# Check if psql command is available
+if ! command -v psql &> /dev/null; then
+    echo -e "${RED}❌ PostgreSQL client (psql) is not installed!${NC}"
+    echo -e "${YELLOW}💡 Please install PostgreSQL client:${NC}"
+    echo -e "${BLUE}   - macOS: brew install postgresql${NC}"
+    echo -e "${BLUE}   - Ubuntu/Debian: sudo apt-get install postgresql-client${NC}"
+    echo -e "${BLUE}   - Windows: Install from https://www.postgresql.org/download/windows/${NC}"
+    exit 1
+fi
 
-# Verificar se o arquivo existe
+# Check if Supabase is running locally
+echo -e "${YELLOW}✅ Checking if Supabase is running on port 54323...${NC}"
+
+# Apply the SQL schema to the local Supabase database
+echo -e "${YELLOW}📦 Applying SQL schema...${NC}"
+
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Get the project root directory (parent of scripts directory)
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Path to the schema file
+SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
+
+# Check if the file exists
 if [ ! -f "$SCHEMA_FILE" ]; then
-  echo "❌ Arquivo de schema não encontrado: $SCHEMA_FILE"
+  echo -e "${RED}❌ Schema file not found: $SCHEMA_FILE${NC}"
   exit 1
 fi
 
-# Aplicar o schema usando o cliente Supabase
-echo "🔄 Aplicando schema usando psql..."
+# Apply the schema using the Supabase client
+echo -e "${YELLOW}🔄 Applying schema using psql...${NC}"
 
-# Obter variáveis de ambiente do Supabase
+# Get Supabase environment variables
 SUPABASE_DB_HOST="localhost"
-SUPABASE_DB_PORT="5432"
+SUPABASE_DB_PORT="54322"
 SUPABASE_DB_NAME="postgres"
 SUPABASE_DB_USER="postgres"
 SUPABASE_DB_PASSWORD="postgres"
 
-# Aplicar o schema usando psql
+# Apply the schema using psql
 PGPASSWORD="$SUPABASE_DB_PASSWORD" psql -h "$SUPABASE_DB_HOST" -p "$SUPABASE_DB_PORT" -d "$SUPABASE_DB_NAME" -U "$SUPABASE_DB_USER" -f "$SCHEMA_FILE"
 
-echo "✅ Schema do Supabase atualizado com sucesso!"
+echo -e "${GREEN}✅ Supabase schema updated successfully!${NC}"
 
-# Exibir informações de acesso
-echo "🌐 Supabase Studio disponível em: http://localhost:54323"
-echo "🔑 Credenciais padrão:"
-echo "   Email: admin@example.com"
-echo "   Senha: admin"
+# Display access information
+echo -e "${BLUE}🌐 Supabase Studio available at: http://localhost:54323${NC}"
+echo -e "${YELLOW}🔑 Default credentials:${NC}"
+echo -e "${BLUE}   Email: admin@example.com${NC}"
+echo -e "${BLUE}   Password: admin${NC}"
 
-echo "✨ Pronto para usar!"
+echo -e "${GREEN}✨ Ready to use!${NC}"

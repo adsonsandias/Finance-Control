@@ -1,83 +1,87 @@
-# Migração para Supabase - Finance Control
+# Migration to Supabase - Finance Control
 
-## Visão Geral
+## Overview
 
-Este projeto foi migrado para utilizar o Supabase como banco de dados e serviço de autenticação. O Supabase é uma alternativa open-source ao Firebase, oferecendo banco de dados PostgreSQL, autenticação, armazenamento de arquivos e funções serverless.
+This project has been migrated to use Supabase as a database and authentication service. Supabase is an open-source alternative to Firebase, offering PostgreSQL database, authentication, file storage, and serverless functions.
 
-## Configuração Local
+## Local Configuration
 
-### Pré-requisitos
+### Prerequisites
 
-- Node.js instalado
-- Docker instalado (para rodar o Supabase localmente)
+- Node.js installed
+- Docker installed (to run Supabase locally)
 
-### Passos para Configuração
+### Configuration Steps
 
-1. **Instalar CLI do Supabase**
-
-```bash
-npm install -g supabase
-```
-
-2. **Iniciar Supabase localmente**
+1. **Install Supabase CLI**
 
 ```bash
-npx supabase start
+# macOS
+brew install supabase/tap/supabase
+
+# Linux
+curl -s https://raw.githubusercontent.com/supabase/cli/main/install.sh | bash
 ```
 
-Isso iniciará o Supabase localmente com PostgreSQL, Studio e outros serviços.
+2. **Start Supabase locally**
 
-3. **Aplicar o Schema**
+```bash
+supabase start
+```
+
+This will start Supabase locally with PostgreSQL, Studio, and other services.
+
+3. **Apply the Schema**
 
 ```bash
 ./backend/scripts/update-supabase-schema.sh
 ```
 
-Este script aplicará o schema definido em `backend/supabase/migrations/supabase-schema.sql`.
+This script will apply the schema defined in `backend/supabase/migrations/supabase-schema.sql`.
 
-4. **Acessar o Supabase Studio**
+4. **Access Supabase Studio**
 
-O Supabase Studio estará disponível em: http://localhost:54323
+Supabase Studio will be available at: http://localhost:54323
 
-Credenciais padrão:
+Default credentials:
 - Email: admin@example.com
-- Senha: admin
+- Password: admin
 
-## Estrutura do Banco de Dados
+## Database Structure
 
-### Tabelas
+### Tables
 
 1. **user_profiles**
-   - Perfis dos usuários vinculados às contas de autenticação
-   - Campos: id, email, display_name, avatar_url, created_at, updated_at
+   - User profiles linked to authentication accounts
+   - Fields: id, email, display_name, avatar_url, created_at, updated_at
 
 2. **transaction_categories**
-   - Categorias para transações (receitas e despesas)
-   - Campos: id, name, type, icon, color, is_default, created_at, updated_at
+   - Categories for transactions (income and expenses)
+   - Fields: id, name, type, icon, color, is_default, created_at, updated_at
 
 3. **transactions**
-   - Transações financeiras dos usuários
-   - Campos: id, user_id, title, type, category, amount, created_at, updated_at
+   - Users' financial transactions
+   - Fields: id, user_id, title, type, category, amount, created_at, updated_at
 
 ### Views
 
 1. **monthly_stats**
-   - Estatísticas mensais de transações por usuário
+   - Monthly transaction statistics by user
 
 2. **category_stats**
-   - Estatísticas de transações por categoria e usuário
+   - Transaction statistics by category and user
 
-## Segurança
+## Security
 
-O banco de dados utiliza Row Level Security (RLS) para garantir que os usuários só possam acessar seus próprios dados. As políticas de segurança estão definidas no schema SQL.
+The database uses Row Level Security (RLS) to ensure that users can only access their own data. Security policies are defined in the SQL schema.
 
-## Integração no Backend
+## Backend Integration
 
-O backend já está configurado para utilizar o Supabase através do cliente JavaScript. As rotas de transações e usuários foram atualizadas para usar o Supabase em vez de consultas SQL diretas.
+The backend is already configured to use Supabase through the JavaScript client. Transaction and user routes have been updated to use Supabase instead of direct SQL queries.
 
-### Variáveis de Ambiente
+### Environment Variables
 
-Configure as seguintes variáveis de ambiente no arquivo `.env`:
+Configure the following environment variables in the `.env` file:
 
 ```
 SUPABASE_URL=http://localhost:54323
@@ -85,32 +89,32 @@ SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-Você pode obter essas chaves após iniciar o Supabase localmente com `npx supabase start`.
+You can obtain these keys after starting Supabase locally with `supabase start`.
 
-## Integração no Frontend
+## Frontend Integration
 
-O frontend já está configurado para utilizar o Supabase para autenticação e operações de banco de dados. Os repositórios e serviços foram atualizados para usar o cliente Supabase.
+The frontend is already configured to use Supabase for authentication and database operations. Repositories and services have been updated to use the Supabase client.
 
 ## Troubleshooting
 
-### Erro de Conexão com o Supabase
+### Supabase Connection Error
 
-Se você encontrar erros de conexão, verifique se:
+If you encounter connection errors, check if:
 
-1. O Supabase está rodando localmente (`npx supabase status`)
-2. As variáveis de ambiente estão configuradas corretamente
-3. O schema foi aplicado corretamente
+1. Supabase is running locally (`supabase status`)
+2. Environment variables are correctly configured
+3. The schema was applied correctly
 
-### Erro de Autenticação
+### Authentication Error
 
-Se encontrar erros de autenticação, verifique:
+If you encounter authentication errors, check:
 
-1. Se o token está sendo enviado corretamente nos cabeçalhos
-2. Se as políticas RLS estão configuradas corretamente
-3. Se o usuário tem permissão para acessar os dados
+1. If the token is being sent correctly in the headers
+2. If RLS policies are configured correctly
+3. If the user has permission to access the data
 
-## Recursos Adicionais
+## Additional Resources
 
-- [Documentação do Supabase](https://supabase.io/docs)
+- [Supabase Documentation](https://supabase.io/docs)
 - [Supabase JavaScript Client](https://supabase.io/docs/reference/javascript/supabase-client)
 - [Supabase Auth](https://supabase.io/docs/guides/auth)
