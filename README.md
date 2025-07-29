@@ -47,6 +47,7 @@ Finance Control is a comprehensive financial management application built with m
 ## ✨ Features
 
 ### 🔐 Authentication & Security
+
 - User registration and login with email/password via Supabase Auth
 - JWT-based authentication with refresh tokens
 - Secure password hashing handled by Supabase
@@ -55,6 +56,7 @@ Finance Control is a comprehensive financial management application built with m
 - Row Level Security (RLS) for database access control
 
 ### 💳 Financial Management
+
 - Create, read, update, and delete transactions
 - Transaction categorization and filtering
 - Real-time balance calculations
@@ -62,6 +64,7 @@ Finance Control is a comprehensive financial management application built with m
 - Credit card expense tracking (demo purposes)
 
 ### 📊 Analytics & Insights
+
 - Transaction summary with visual charts using Recharts
 - Interactive area charts for balance trends
 - Pie charts for expense categorization breakdown
@@ -69,6 +72,7 @@ Finance Control is a comprehensive financial management application built with m
 - Real-time Bitcoin price monitoring (EUR, USD, BRL)
 
 ### 🎨 User Experience
+
 - Responsive design for all devices
 - Modern and intuitive interface
 - Loading animations with Lottie
@@ -80,6 +84,7 @@ Finance Control is a comprehensive financial management application built with m
 This project follows **Micro Frontend Architecture** with **Clean Architecture** principles:
 
 ### Project Structure
+
 ```
 /
 ├── backend/                  # Backend API and services
@@ -106,6 +111,7 @@ This project follows **Micro Frontend Architecture** with **Clean Architecture**
 ```
 
 ### Micro Frontend Benefits
+
 - **Independent Development**: Each module can be developed separately
 - **Technology Flexibility**: Different modules can use different versions
 - **Scalable Teams**: Teams can work on different modules independently
@@ -113,6 +119,7 @@ This project follows **Micro Frontend Architecture** with **Clean Architecture**
 - **Code Isolation**: Reduces coupling between different features
 
 ### Backend Architecture
+
 ```
 backend/src/
 ├── application/         # Application layer
@@ -131,6 +138,7 @@ backend/src/
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18.2.0** - UI library with hooks and context
 - **TypeScript** - Type-safe JavaScript
 - **Styled Components** - CSS-in-JS styling
@@ -141,6 +149,7 @@ backend/src/
 - **Lottie React** - Animation rendering
 
 ### Backend
+
 - **Node.js 18+** - JavaScript runtime
 - **Express.js** - Web application framework
 - **Supabase** - Backend-as-a-Service with authentication and database
@@ -151,6 +160,7 @@ backend/src/
 - **Rate Limiting** - API protection
 
 ### DevOps & Tools
+
 - **Docker & Docker Compose** - Containerization
 - **ESLint** - Code linting
 - **Prettier** - Code formatting
@@ -170,6 +180,7 @@ Before running this project, make sure you have the following installed:
 ## 🚀 Installation
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - PostgreSQL 14+ (with psql client)
 - Docker and Docker Compose
@@ -178,28 +189,32 @@ Before running this project, make sure you have the following installed:
 ### Quick Setup (Recommended)
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/finance-control.git
    cd finance-control
    ```
 
 2. **Run the setup script**
+
    ```bash
    # Make the script executable
    chmod +x ./scripts/setup-project.sh
-   
+
    # Run the setup script
    ./scripts/setup-project.sh
    ```
-   
+
    This script will:
+
    - Check all system requirements
    - Install all dependencies
    - Set up environment files
    - Configure Supabase
    - Prepare the project for development
-   
+
    > **Note:** If you encounter any issues during setup:
+   >
    > - For npm installation errors, the script will automatically try with `--legacy-peer-deps`
    > - If Supabase fails to start due to ports already in use, the script will attempt to use alternative ports
    > - See the [Troubleshooting](#troubleshooting) section for more solutions
@@ -214,67 +229,74 @@ Before running this project, make sure you have the following installed:
 ### Manual Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/finance-control.git
    cd finance-control
    ```
 
 2. **Install all dependencies**
+
    ```bash
    # Install root dependencies and all workspace dependencies
    npm install
-   
+
    # Install dependencies for all modules
    npm run install:all
    ```
 
 3. **Environment setup**
+
    ```bash
    # Copy environment files
    cp .env.example .env
    cp apps/backend/.env.example apps/backend/.env
-   
+
    # Configure your database and JWT settings in apps/backend/.env
    ```
 
 4. **Supabase setup**
+
    ```bash
    # Run the Supabase setup script
    ./scripts/setup-supabase.sh
    ```
-   
+
    This script will:
+
    - Install Supabase CLI (if needed)
    - Start Supabase locally
    - Apply the SQL schema to the database
    - Configure the necessary environment variables
-   
+
    After setup, you can access Supabase Studio at http://localhost:54323
-   
+
    Alternatively, you can configure manually:
+
    ```bash
    # Install Supabase CLI (if you don't have it yet)
    # macOS
    brew install supabase/tap/supabase
-   
+
    # Linux
    curl -s https://raw.githubusercontent.com/supabase/cli/main/install.sh | bash
-   
+
    # Start Supabase locally
    supabase start
-   
+
    # Apply SQL schema to Supabase
    ./apps/backend/scripts/update-supabase-schema.sh
-   
+
    # Or manually via psql
    psql -U postgres -d postgres -h localhost -p 54322 -f apps/backend/supabase/migrations/supabase-schema.sql
    ```
 
 5. **Start development servers**
+
    ```bash
    # Start all services in development mode
    npm run dev
-   
+
    # Or start individual modules:
    npm run dev:auth      # Auth module only
    npm run dev:dashboard # Dashboard module only
@@ -330,6 +352,7 @@ npm run build
 ```
 
 The application will be available at:
+
 - **Auth Module**: http://localhost:3000
 - **Dashboard Module**: http://localhost:3001
 - **Backend API**: http://localhost:5000
@@ -351,6 +374,7 @@ The application will be available at:
 ### API Endpoints
 
 #### Authentication
+
 - `POST /api/auth/signup` - User registration (integrated with Supabase Auth)
 - `POST /api/auth/token` - User login (integrated with Supabase Auth)
 - `POST /api/auth/logout` - User logout (integrated with Supabase Auth)
@@ -358,12 +382,14 @@ The application will be available at:
 - `GET /api/auth/user` - Get current user (integrated with Supabase Auth)
 
 #### Transactions
+
 - `GET /api/transactions` - Get user transactions
 - `POST /api/transactions` - Create new transaction
 - `PUT /api/transactions/:id` - Update transaction
 - `DELETE /api/transactions/:id` - Delete transaction
 
 #### Health Check
+
 - `GET /api/health` - API health status
 
 ## 🐳 Docker Setup
@@ -445,6 +471,7 @@ After starting the services, you can access:
 ### Troubleshooting
 
 #### Problem: Services don't start
+
 ```bash
 # Check logs
 docker-compose logs
@@ -455,6 +482,7 @@ netstat -tulpn | grep :8000
 ```
 
 #### Problem: Database doesn't connect
+
 ```bash
 # Check if PostgreSQL is running
 docker-compose ps db
@@ -464,6 +492,7 @@ docker-compose exec db pg_isready -U postgres
 ```
 
 #### Problem: Frontend doesn't load
+
 ```bash
 # Check frontend logs
 docker-compose logs frontend-auth
@@ -475,6 +504,7 @@ docker-compose up -d frontend-auth
 ```
 
 #### Problem: Missing dependencies (e.g., 'recharts')
+
 ```bash
 # Check for missing dependencies in logs
 docker-compose logs frontend-auth
@@ -490,11 +520,13 @@ docker-compose up -d frontend-auth
 ```
 
 #### Problem: CORS error
+
 - Check if allowed origins are correctly configured in the `CORS_ORIGIN` variable
 - If using Supabase, check if Kong is running: `docker-compose ps kong`
 - Check the configuration in `supabase/kong.yml`
 
 #### Problem: Supabase connection error
+
 - Check if Supabase is running: `supabase status`
 - Check if environment variables `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and `SUPABASE_ANON_KEY` are correctly configured
 - Run the Supabase setup script: `./scripts/setup-supabase.sh`
@@ -503,6 +535,7 @@ docker-compose up -d frontend-auth
 - Check if the SQL schema was correctly applied: `psql -U postgres -d postgres -h localhost -p 54322 -c "\dt"`
 
 #### Problem: Supabase ports already in use
+
 - Check which processes are using the Supabase ports:
   ```bash
   # Check ports 54321, 54322, 54323
@@ -526,7 +559,7 @@ docker-compose up -d frontend-auth
   [db]
   port = 54323
   [studio]
-  port = 54324
+  port = 54334
   EOF
   ```
 - Start Supabase with the custom configuration:
@@ -535,6 +568,7 @@ docker-compose up -d frontend-auth
   ```
 
 #### Problem: npm errors during installation
+
 - Clear npm cache: `npm cache clean --force`
 - Try installing with legacy peer dependencies: `npm install --legacy-peer-deps`
 - If you see `Cannot read properties of undefined (reading 'extraneous')` error:
@@ -553,6 +587,7 @@ docker-compose up -d frontend-auth
 - Try using the setup script: `./scripts/setup-project.sh`
 
 #### Problem: Port already in use
+
 ```bash
 # Check which process is using the port (e.g., 3000)
 lsof -i :3000
@@ -565,6 +600,7 @@ kill -9 <PID>
 ```
 
 #### Problem: Docker container fails to start
+
 ```bash
 # Check Docker logs
 docker logs finance_frontend_auth
@@ -579,6 +615,7 @@ docker-compose up -d
 ```
 
 #### Problem: Scripts not executable
+
 ```bash
 # Make scripts executable
 chmod +x ./scripts/*.sh
@@ -612,21 +649,20 @@ npm run test:coverage
 ## 🎨 Design System
 
 ### Typography
+
 - **Font Family**: Montserrat (400, 500, 600, 700)
 
 ### Color Palette
 
-| Color | Hex Code | Usage |
-|-------|----------|-------|
-| Primary | `#FFE664` to `#FA8341` | Buttons, highlights |
-| Secondary | `#F0F2F5` | Backgrounds |
-| Text Primary | `#363F5F` | Main text |
-| Text Secondary | `#969CB2` | Secondary text |
-| Success | `#12A454` | Positive actions |
-| Error | `#E52E4D` | Error states |
-| Warning | `#FF872C` | Warning states |
-
-
+| Color          | Hex Code               | Usage               |
+| -------------- | ---------------------- | ------------------- |
+| Primary        | `#FFE664` to `#FA8341` | Buttons, highlights |
+| Secondary      | `#F0F2F5`              | Backgrounds         |
+| Text Primary   | `#363F5F`              | Main text           |
+| Text Secondary | `#969CB2`              | Secondary text      |
+| Success        | `#12A454`              | Positive actions    |
+| Error          | `#E52E4D`              | Error states        |
+| Warning        | `#FF872C`              | Warning states      |
 
 ### Screens Figma
 
@@ -634,31 +670,30 @@ npm run test:coverage
 
 ![login](https://user-images.githubusercontent.com/27157739/183252681-fac1930f-d5c8-4b09-b6a8-c7f19826650c.png)
 
-##### UI Design Desktop 
+##### UI Design Desktop
 
 ![new Início](https://user-images.githubusercontent.com/27157739/188340669-f1b5d6bc-4ecc-47e2-8c8b-1eb203abc1ba.jpg)
 
-#### UI Design Mobile 
+#### UI Design Mobile
 
 - Login and Home
-![Home - Login](https://user-images.githubusercontent.com/27157739/188341075-5cb9c3ea-a951-46f2-9bf6-00d4e03146b2.png)
+  ![Home - Login](https://user-images.githubusercontent.com/27157739/188341075-5cb9c3ea-a951-46f2-9bf6-00d4e03146b2.png)
 
 - Transaction and User
-![User](https://user-images.githubusercontent.com/27157739/188341083-6ee0ad6a-fae3-4e76-8401-bfa99e9d933e.png)
+  ![User](https://user-images.githubusercontent.com/27157739/188341083-6ee0ad6a-fae3-4e76-8401-bfa99e9d933e.png)
 
 - F.A.Q and Version
-![dev](https://user-images.githubusercontent.com/27157739/188341090-9db8e896-fc3c-4413-a2e9-bbc156acff88.png)
+  ![dev](https://user-images.githubusercontent.com/27157739/188341090-9db8e896-fc3c-4413-a2e9-bbc156acff88.png)
 
 #### Interface elements
 
-
-
 ##### Modal Component with hover and focus active
+
 ![Modal](https://user-images.githubusercontent.com/27157739/181994924-ae62eec5-4feb-48aa-8008-72e878b46b5b.png)
 
 ##### Navigation Component
-![nav](https://user-images.githubusercontent.com/27157739/181994926-85dc86fb-e730-4279-9064-791d656e8fca.png)
 
+![nav](https://user-images.githubusercontent.com/27157739/181994926-85dc86fb-e730-4279-9064-791d656e8fca.png)
 
 ## 🚀 Deployment
 
@@ -683,6 +718,7 @@ npm run test:coverage
 ### Production Configuration
 
 1. **Configure production environment variables:**
+
 ```bash
 # For Docker
 cp .env.docker.example .env.docker
@@ -694,6 +730,7 @@ cp .env.production.example .env.production
 ```
 
 2. **Generate secure secrets:**
+
 ```bash
 # JWT Secret (at least 32 characters)
 openssl rand -base64 32
@@ -727,18 +764,23 @@ docker-compose --env-file .env.docker up -d
 ## 🔧 Environment Variables
 
 ### Security & Configuration
+
 This project uses a secure configuration approach:
+
 - **Sensitive data** is stored in `.env` files (git-ignored)
 - **Configuration templates** are provided in `.env.example` files
 - **Shared configuration** is managed in the `backend/config/` directory
 
 ### Backend Configuration
+
 Copy and configure the backend environment:
+
 ```bash
 cp backend/.env.example backend/.env
 ```
 
 **Backend (.env)**
+
 ```env
 # Supabase Configuration
 SUPABASE_URL=http://localhost:54323
@@ -762,12 +804,14 @@ RATE_LIMIT_MAX_REQUESTS=100
 ```
 
 ### Frontend Modules
+
 Each frontend module can have its own environment configuration:
+
 ```bash
 # Auth module
 cp frontend/auth/.env.example frontend/auth/.env
 
-# Dashboard module  
+# Dashboard module
 cp frontend/dashboard/.env.example frontend/dashboard/.env
 ```
 
@@ -776,9 +820,11 @@ cp frontend/dashboard/.env.example frontend/dashboard/.env
 Make sure to set the following environment variables in production:
 
 **Frontend**
+
 - `REACT_APP_API_URL`: Backend API URL
 
 **Backend**
+
 - `SUPABASE_URL`: Supabase project URL
 - `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key
 - `SUPABASE_ANON_KEY`: Supabase anonymous key
@@ -834,6 +880,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📊 Project Status
 
 ### ✅ Completed Features
+
 - User authentication and authorization with Supabase Auth
 - Transaction CRUD operations
 - Data visualization with Recharts (area charts, pie charts)
@@ -845,12 +892,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Row Level Security (RLS) for database access control
 
 ### 🚧 In Progress
+
 - Advanced analytics dashboard with additional chart types
 - Export functionality for reports and data
 - Mobile app development
 - Additional payment integrations
 
 ### 📋 Planned Features
+
 - Multi-currency support
 - Budget planning tools
 - Financial goal tracking
@@ -863,4 +912,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
   <p>Made with ❤️ by <a href="https://github.com/your-username">Adson Santos</a></p>
   <p>⭐ Star this repository if you found it helpful!</p>
 </div>
-

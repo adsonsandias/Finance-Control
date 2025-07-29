@@ -202,7 +202,7 @@ echo -e "${BLUE}   • Backend: http://localhost:3002${NC}"
 echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
 echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
 echo -e "${BLUE}   • Supabase Studio: http://localhost:54334${NC}"
-echo -e "${BLUE}   • PostgreSQL: localhost:54333${NC}"
+echo -e "${BLUE}   • PostgreSQL: localhost:54322${NC}"
 echo ""
 echo -e "${YELLOW}💡 Press Ctrl+C to stop all services${NC}"
 

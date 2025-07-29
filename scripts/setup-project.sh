@@ -228,7 +228,7 @@ port = 54321
 [db]
 port = 54323
 [studio]
-port = 54324
+port = 54334
 EOF
             echo -e "${YELLOW}Criada configuração personalizada do Supabase com portas diferentes.${NC}"
         fi
@@ -256,7 +256,9 @@ fi
 
 # Aplicar o schema usando psql
 echo -e "${YELLOW}🔄 Aplicando schema usando psql...${NC}"
-PGPASSWORD="postgres" psql -h "localhost" -p "54333" -d "postgres" -U "postgres" -f "$SCHEMA_FILE"
+PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$SCHEMA_FILE"
+PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$SAMPLE_DATA_FILE"
+echo -e "${BLUE}   • PostgreSQL: localhost:54322${NC}"
 
 # Aplicar os dados de exemplo, se o arquivo existir
 if [ -f "$SAMPLE_DATA_FILE" ]; then

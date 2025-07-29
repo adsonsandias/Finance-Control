@@ -40,7 +40,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Path to the schema file
-SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
+# SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
+SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/sample-data.sql"
 
 # Check if the file exists
 if [ ! -f "$SCHEMA_FILE" ]; then
@@ -53,7 +54,7 @@ echo -e "${YELLOW}🔄 Applying schema using psql...${NC}"
 
 # Get Supabase environment variables
 SUPABASE_DB_HOST="localhost"
-SUPABASE_DB_PORT="54333"
+SUPABASE_DB_PORT="54322"  # Alterado de 54333 para 54322
 SUPABASE_DB_NAME="postgres"
 SUPABASE_DB_USER="postgres"
 SUPABASE_DB_PASSWORD="postgres"

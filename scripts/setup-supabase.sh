@@ -93,7 +93,7 @@ port = 54321
 [db]
 port = 54323
 [studio]
-port = 54324
+port = 54334
 EOF
             echo -e "${YELLOW}Created custom Supabase configuration with different ports.${NC}"
         fi
@@ -166,15 +166,16 @@ else
     echo -e "${YELLOW}⚠️ Update script not found. Applying schema manually...${NC}"
     if [ -f "$SCHEMA_PATH" ]; then
         echo -e "${YELLOW}🔄 Applying SQL schema manually...${NC}"
-        psql -U postgres -d postgres -h localhost -p 54333 -f "$SCHEMA_PATH"
-        if [ $? -eq 0 ]; then
-            echo -e "${GREEN}✅ SQL schema applied manually with success!${NC}"
-        else
-            echo -e "${RED}❌ Failed to apply SQL schema manually.${NC}"
-            echo -e "${YELLOW}💡 Verify if the file exists and try again:${NC}"
-            echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54333 -f $SCHEMA_PATH${NC}"
-            exit 1
-        fi
+        psql -U postgres -d postgres -h localhost -p 54322 -f "$SCHEMA_PATH"
+        echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54322 -f $SCHEMA_PATH${NC}"
+            if [ $? -eq 0 ]; then
+                echo -e "${GREEN}✅ SQL schema applied manually with success!${NC}"
+            else
+                echo -e "${RED}❌ Failed to apply SQL schema manually.${NC}"
+                echo -e "${YELLOW}💡 Verify if the file exists and try again:${NC}"
+                echo -e "${BLUE}   psql -U postgres -d postgres -h localhost -p 54333 -f $SCHEMA_PATH${NC}"
+                exit 1
+            fi
     else
         echo -e "${RED}❌ SQL schema file not found: $SCHEMA_PATH${NC}"
         exit 1
@@ -186,7 +187,7 @@ echo -e "\n${BLUE}=== Configuring Environment Variables ===${NC}"
 echo -e "${YELLOW}🔄 Checking Supabase environment variables...${NC}"
 
 # Get Supabase URL and keys
-SUPABASE_URL="http://localhost:54331"
+SUPABASE_URL="http://localhost:54321"
 SUPABASE_ANON_KEY=$(supabase status | grep "anon key:" | awk '{print $3}')
 SUPABASE_SERVICE_ROLE_KEY=$(supabase status | grep "service_role key:" | awk '{print $3}')
 
