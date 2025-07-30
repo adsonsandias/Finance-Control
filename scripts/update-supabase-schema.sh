@@ -40,8 +40,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Path to the schema file
-# SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
-SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/sample-data.sql"
+SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
+# SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/sample-data.sql"
 
 # Check if the file exists
 if [ ! -f "$SCHEMA_FILE" ]; then

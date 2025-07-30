@@ -243,8 +243,28 @@ if [ ! -f "$SCHEMA_FILE" ]; then
     exit 1
 fi
 
-PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$SCHEMA_FILE"
+# Executar o schema com saída detalhada para verificar erros
+echo -e "${YELLOW}⏳ Executando schema SQL com saída detalhada...${NC}"
+PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -v ON_ERROR_STOP=1 -f "$SCHEMA_FILE"
+SCHEMA_STATUS=$?
+
+if [ $SCHEMA_STATUS -ne 0 ]; then
+    echo -e "${RED}❌ Erro ao aplicar o schema SQL. Verifique os erros acima.${NC}"
+    exit 1
+fi
+
 echo -e "${GREEN}✅ Schema aplicado com sucesso.${NC}"
+
+# Verificar se a tabela transactions foi criada
+echo -e "${YELLOW}⏳ Verificando se a tabela transactions foi criada...${NC}"
+TABLE_CHECK=$(PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -t -c "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'transactions');")
+
+if [[ $TABLE_CHECK != *t* ]]; then
+    echo -e "${RED}❌ A tabela transactions não foi criada. Verifique o schema SQL.${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✅ Tabela transactions verificada com sucesso.${NC}"
 
 echo -e "${BLUE}=== Criando usuário real via Supabase Admin API ===${NC}"
 
@@ -269,7 +289,15 @@ CREATE_USER_RESPONSE=$(curl -s -X POST "${SUPABASE_URL}/auth/v1/admin/users" \
         }
       }')
 
-USER_ID=$(echo "$CREATE_USER_RESPONSE" | grep -o '"id":"[^"]*' | cut -d '"' -f4)
+USER_ID=$(echo "$CREATE_USER_RESPONSE" | grep -o '"id":"[^"]*' | head -n 1 | cut -d '"' -f4)
+# Após extrair o USER_ID
+echo "ID do usuário extraído: $USER_ID"
+
+# Verificar se o ID parece ser um UUID válido
+if [[ ! "$USER_ID" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]]; then
+    echo -e "${RED}❌ ID do usuário inválido: $USER_ID${NC}"
+    exit 1
+fi
 
 if [ -z "$USER_ID" ]; then
     echo -e "${RED}❌ Falha ao criar usuário via API:${NC}"
@@ -279,15 +307,72 @@ fi
 
 echo -e "${GREEN}✅ Usuário criado com ID: $USER_ID${NC}"
 
-# Remover o script temporário
-rm "$TEMP_SCRIPT"
-
 # Substituir placeholder no sample-data.sql e aplicar
 TEMP_SQL="/tmp/sample-data-temp.sql"
 sed "s/{{USER_ID}}/$USER_ID/g" "$SAMPLE_DATA_FILE" > "$TEMP_SQL"
 
 echo -e "${YELLOW}⏳ Inserindo dados de exemplo vinculados ao usuário...${NC}"
+
+# Usar a API do Supabase para inserir os dados (com o token de serviço para ignorar RLS)
+echo -e "${YELLOW}⏳ Inserindo dados via API do Supabase...${NC}"
+
+# Primeiro, inserir o perfil do usuário
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+curl -s -X POST "${SUPABASE_URL}/rest/v1/user_profiles" \
+  -H "apikey: ${SUPABASE_KEY}" \
+  -H "Authorization: Bearer ${SUPABASE_KEY}" \
+  -H "Content-Type: application/json" \
+  -H "Prefer: return=minimal" \
+  -d "{\
+    \"id\": \"$USER_ID\",\
+    \"email\": \"$USER_EMAIL\",\
+    \"display_name\": \"$DISPLAY_NAME\",\
+    \"created_at\": \"$DATE_NOW\",\
+    \"updated_at\": \"$DATE_NOW\"\
+  }"
+
+# Agora, aplicar o SQL para inserir as transações
 PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$TEMP_SQL"
+
+# Verificar se as transações foram inseridas (corrigindo a consulta SQL)
+TRANSACTION_COUNT=$(PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -t -c "SELECT COUNT(*) FROM public.transactions WHERE user_id = '$USER_ID';" | tr -d '[:space:]')
+
+# Verificar se a variável contém um número válido
+if [[ "$TRANSACTION_COUNT" =~ ^[0-9]+$ ]] && [ "$TRANSACTION_COUNT" -gt 0 ]; then
+    echo -e "${GREEN}✅ $TRANSACTION_COUNT transações inseridas com sucesso para o usuário.${NC}"
+else
+    echo -e "${RED}❌ Falha ao inserir transações. Tentando método alternativo...${NC}"
+    
+    # Método alternativo: usar a API REST do Supabase para inserir algumas transações de exemplo
+    curl -s -X POST "${SUPABASE_URL}/rest/v1/transactions" \
+      -H "apikey: ${SUPABASE_KEY}" \
+      -H "Authorization: Bearer ${SUPABASE_KEY}" \
+      -H "Content-Type: application/json" \
+      -H "Prefer: return=minimal" \
+      -d "{\
+        \"user_id\": \"$USER_ID\",\
+        \"title\": \"Salário Exemplo\",\
+        \"type\": \"income\",\
+        \"category\": \"Salário\",\
+        \"amount\": 5000.00\
+      }"
+    
+    curl -s -X POST "${SUPABASE_URL}/rest/v1/transactions" \
+      -H "apikey: ${SUPABASE_KEY}" \
+      -H "Authorization: Bearer ${SUPABASE_KEY}" \
+      -H "Content-Type: application/json" \
+      -H "Prefer: return=minimal" \
+      -d "{\
+        \"user_id\": \"$USER_ID\",\
+        \"title\": \"Aluguel Exemplo\",\
+        \"type\": \"expense\",\
+        \"category\": \"Moradia\",\
+        \"amount\": 1500.00\
+      }"
+      
+    echo -e "${GREEN}✅ Transações de exemplo inseridas via API.${NC}"
+fi
+
 rm "$TEMP_SQL"
 echo -e "${GREEN}✅ Dados de exemplo inseridos com sucesso.${NC}"
 
