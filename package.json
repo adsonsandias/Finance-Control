@@ -9,25 +9,25 @@
     "packages"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:auth\"",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:web\"",
     "dev:backend": "cd apps/backend && npm run dev",
-    "dev:auth": "cd apps/frontend/auth && npm start",
-    "dev:dashboard": "cd apps/frontend/dashboard && npm start",
-    "build": "npm run build:auth && npm run build:dashboard && npm run build:backend",
-    "build:auth": "cd apps/frontend/auth && npm run build",
-    "build:dashboard": "cd apps/frontend/dashboard && npm run build",
+    "dev:web": "cd apps/frontend/web && npm start",
+    "dev:mobile": "cd apps/frontend/mobile && npm start",
+    "build": "npm run build:web && npm run build:mobile && npm run build:backend",
+    "build:web": "cd apps/frontend/web && npm run build",
+    "build:mobile": "cd apps/frontend/mobile && npm run build",
     "build:backend": "cd apps/backend && npm run build",
-    "test": "npm run test:auth && npm run test:dashboard && npm run test:backend",
-    "test:auth": "cd apps/frontend/auth && npm test",
-    "test:dashboard": "cd apps/frontend/dashboard && npm test",
+    "test": "npm run test:web && npm run test:mobile && npm run test:backend",
+    "test:web": "cd apps/frontend/web && npm test",
+    "test:mobile": "cd apps/frontend/mobile && npm test",
     "test:backend": "cd apps/backend && npm test",
-    "test:e2e": "concurrently \"cd apps/frontend/auth && npm run test:e2e\" \"cd apps/frontend/dashboard && npm run test:e2e\"",
-    "test:e2e:auth": "cd apps/frontend/auth && npm run test:e2e",
-    "test:e2e:dashboard": "cd apps/frontend/dashboard && npm run test:e2e",
-    "test:e2e:open": "cd apps/frontend/auth && npm run test:e2e:open",
-    "test:e2e:open:dashboard": "cd apps/frontend/dashboard && npm run test:e2e:open",
+    "test:e2e": "concurrently \"cd apps/frontend/web && npm run test:e2e\" \"cd apps/frontend/mobile && npm run test:e2e\"",
+    "test:e2e:web": "cd apps/frontend/web && npm run test:e2e",
+    "test:e2e:mobile": "cd apps/frontend/mobile && npm run test:e2e",
+    "test:e2e:open": "cd apps/frontend/web && npm run test:e2e:open",
+    "test:e2e:open:mobile": "cd apps/frontend/mobile && npm run test:e2e:open",
     "install:all": "npm install && npm run install:modules",
-    "install:modules": "cd apps/frontend/auth && npm install && cd ../dashboard && npm install && cd ../../backend && npm install && cd ../../packages && npm install"
+    "install:modules": "cd apps/frontend/web && npm install && cd ../mobile && npm install && cd ../../backend && npm install && cd ../../packages && npm install"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"
@@ -48,6 +48,6 @@
     "nodejs",
     "postgresql"
   ],
-  "author": "Adson Santos",
+  "webor": "Adson Santos",
   "license": "MIT"
 }

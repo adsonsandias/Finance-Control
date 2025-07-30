@@ -93,14 +93,14 @@ This project follows **Micro Frontend Architecture** with **Clean Architecture**
 │   ├── migrations/           # Database migrations
 │   └── Dockerfile.backend    # Backend container
 ├── frontend/                 # Frontend modules (micro frontends)
-│   ├── auth/                 # Authentication module
-│   │   ├── src/              # Auth-specific components
-│   │   ├── public/           # Auth public assets
-│   │   └── package.json      # Auth dependencies
-│   ├── dashboard/            # Dashboard module
-│   │   ├── src/              # Dashboard components
-│   │   ├── public/           # Dashboard public assets
-│   │   └── package.json      # Dashboard dependencies
+│   ├── web/                 # Web module
+│   │   ├── src/              # Web-specific components
+│   │   ├── public/           # Web public assets
+│   │   └── package.json      # Web dependencies
+│   ├── mobile/            # Mobile module
+│   │   ├── src/              # Mobile components
+│   │   ├── public/           # Mobile public assets
+│   │   └── package.json      # Mobile dependencies
 │   └── Dockerfile.frontend   # Frontend container
 ├── shared/                   # Shared code between modules
 │   ├── types/                # TypeScript types
@@ -298,22 +298,22 @@ Before running this project, make sure you have the following installed:
    npm run dev
 
    # Or start individual modules:
-   npm run dev:auth      # Auth module only
-   npm run dev:dashboard # Dashboard module only
+   npm run dev:web      # Web module only
+   npm run dev:mobile   # Mobile module only
    npm run dev:backend   # Backend only
    ```
 
 ### Docker Development
 
 ```bash
-# Start all services (auth, dashboard, backend, database)
+# Start all services (web, mobile, backend, database)
 docker-compose up -d
 
 # View logs
 docker-compose logs -f
 
 # Start specific services
-docker-compose up frontend-auth backend db
+docker-compose up frontend-web backend db
 
 # Stop services
 docker-compose down
@@ -338,12 +338,12 @@ docker-compose -f docker-compose.yml -f docker-compose.db.yml down
 ### Module-Specific Development
 
 ```bash
-# Work on authentication module
-cd frontend/auth
+# Work on web module
+cd frontend/web
 npm run dev
 
-# Work on dashboard module
-cd frontend/dashboard
+# Work on mobile module
+cd frontend/mobile
 npm run dev
 
 # Work on shared components
@@ -353,8 +353,8 @@ npm run build
 
 The application will be available at:
 
-- **Auth Module**: http://localhost:3000
-- **Dashboard Module**: http://localhost:3001
+- **Web Module**: http://localhost:3000
+- **Mobile Module**: http://localhost:3001
 - **Backend API**: http://localhost:5000
 - **Database**: localhost:5432
 
@@ -398,8 +398,8 @@ The project includes a complete Docker setup for easy deployment and development
 
 ### Services
 
-- **Frontend Auth**: React application for authentication (port 3000)
-- **Frontend Dashboard**: React application for dashboard (port 3003)
+- **Frontend Web**: React application for web (port 3000)
+- **Frontend Mobile**: React application for mobile (port 3003)
 - **Backend**: Node.js API integrated with Supabase (port 3002, mapped to 3001 internally)
 - **Database**: PostgreSQL 15 (port 5432)
 - **Supabase**: External service for authentication and database (configured via environment variables)
@@ -441,22 +441,22 @@ docker-compose build
 docker-compose up -d
 
 # Start specific modules
-docker-compose up -d frontend-auth backend db
-docker-compose up -d frontend-dashboard backend db
+docker-compose up -d frontend-web backend db
+docker-compose up -d frontend-mobile backend db
 
 # Access database directly
 docker-compose exec db psql -U postgres -d finance_control
 
 # Install dependencies in containers
-docker-compose exec frontend-auth npm install [package-name]
-docker-compose exec frontend-dashboard npm install [package-name]
+docker-compose exec frontend-web npm install [package-name]
+docker-compose exec frontend-mobile npm install [package-name]
 docker-compose exec backend npm install [package-name]
 
 # Service-specific logs
 docker-compose logs -f db
 docker-compose logs -f backend
-docker-compose logs -f frontend-auth
-docker-compose logs -f frontend-dashboard
+docker-compose logs -f frontend-web
+docker-compose logs -f frontend-mobile
 ```
 
 ### Accessing the Applications
@@ -495,28 +495,28 @@ docker-compose exec db pg_isready -U postgres
 
 ```bash
 # Check frontend logs
-docker-compose logs frontend-auth
-docker-compose logs frontend-dashboard
+docker-compose logs frontend-web
+docker-compose logs frontend-mobile
 
 # Rebuild frontend
-docker-compose build --no-cache frontend-auth
-docker-compose up -d frontend-auth
+docker-compose build --no-cache frontend-web
+docker-compose up -d frontend-web
 ```
 
 #### Problem: Missing dependencies (e.g., 'recharts')
 
 ```bash
 # Check for missing dependencies in logs
-docker-compose logs frontend-auth
+docker-compose logs frontend-web
 
 # Install missing dependency inside container
-docker-compose exec frontend-auth npm install recharts
+docker-compose exec frontend-web npm install recharts
 
 # Or add to package.json and rebuild
 # 1. Add the dependency to package.json
 # 2. Rebuild the container
-docker-compose build frontend-auth
-docker-compose up -d frontend-auth
+docker-compose build frontend-web
+docker-compose up -d frontend-web
 ```
 
 #### Problem: CORS error
@@ -603,7 +603,7 @@ kill -9 <PID>
 
 ```bash
 # Check Docker logs
-docker logs finance_frontend_auth
+docker logs finance_frontend_web
 docker logs finance_backend
 
 # Check Docker container status
@@ -809,10 +809,10 @@ Each frontend module can have its own environment configuration:
 
 ```bash
 # Auth module
-cp frontend/auth/.env.example frontend/auth/.env
+cp frontend/web/.env.example frontend/web/.env
 
 # Dashboard module
-cp frontend/dashboard/.env.example frontend/dashboard/.env
+cp frontend/mobile/.env.example frontend/mobile/.env
 ```
 
 ### Production Environment Variables
@@ -893,7 +893,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### 🚧 In Progress
 
-- Advanced analytics dashboard with additional chart types
+- Advanced analytics mobile with additional chart types
 - Export functionality for reports and data
 - Mobile app development
 - Additional payment integrations

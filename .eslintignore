@@ -3,5 +3,5 @@ node_modules
 dist
 tsconfig.json
 backend/server.js
-apps/frontend/auth/tsconfig.json
-apps/frontend/dashboard/tsconfig.json
+apps/frontend/web/tsconfig.json
+apps/frontend/mobile/tsconfig.json

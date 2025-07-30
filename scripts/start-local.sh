@@ -26,9 +26,10 @@ kill_process_on_port() {
 
 # Clear ports that will be used
 echo -e "${YELLOW}🧹 Clearing ports in use...${NC}"
-kill_process_on_port 3000  # Frontend Auth
+# Exemplo de alteração na linha 19
+kill_process_on_port 3000  # Frontend Web
 kill_process_on_port 3002  # Backend
-kill_process_on_port 3003  # Frontend Dashboard
+kill_process_on_port 3003  # Frontend Mobile
 
 echo -e "${GREEN}🚀 Starting development environment...${NC}"
 echo "=========================================="
@@ -163,34 +164,34 @@ cd "$ORIGINAL_DIR"
 echo -e "${YELLOW}⏳ Waiting for backend to start...${NC}"
 sleep 5
 
-# Start the authentication frontend
-echo -e "${YELLOW}🚀 Starting authentication frontend...${NC}"
+# Start the web frontend
+echo -e "${YELLOW}🚀 Starting web frontend...${NC}"
 cd "$(dirname "$0")"
-cd "../apps/frontend/auth" || { echo -e "${RED}❌ Authentication directory not found!${NC}"; exit 1; }
+cd "../apps/frontend/web" || { echo -e "${RED}❌ web directory not found!${NC}"; exit 1; }
 
 # Install dependencies if needed
 if [ ! -d "node_modules" ]; then
-  echo -e "${YELLOW}⏳ Installing authentication frontend dependencies...${NC}"
+  echo -e "${YELLOW}⏳ Installing web frontend dependencies...${NC}"
   npm install
 fi
 
-# Use port 3000 for authentication module
+# Use port 3000 for web module
 PORT=3000 npm start &
 AUTH_PID=$!
 cd "$ORIGINAL_DIR"
 
-# Start the dashboard frontend
-echo -e "${YELLOW}🚀 Starting dashboard frontend...${NC}"
+# Start the mobile frontend
+echo -e "${YELLOW}🚀 Starting mobile frontend...${NC}"
 cd "$(dirname "$0")"
-cd "../apps/frontend/dashboard" || { echo -e "${RED}❌ Dashboard directory not found!${NC}"; exit 1; }
+cd "../apps/frontend/mobile" || { echo -e "${RED}❌ mobile directory not found!${NC}"; exit 1; }
 
 # Install dependencies if needed
 if [ ! -d "node_modules" ]; then
-  echo -e "${YELLOW}⏳ Installing dashboard frontend dependencies...${NC}"
+  echo -e "${YELLOW}⏳ Installing mobile frontend dependencies...${NC}"
   npm install
 fi
 
-# Use port 3003 for dashboard module
+# Use port 3003 for mobile module
 PORT=3003 npm start &
 DASHBOARD_PID=$!
 cd "$ORIGINAL_DIR"
@@ -199,8 +200,8 @@ echo "=========================================="
 echo -e "${GREEN}✅ All services have been started!${NC}"
 echo -e "${BLUE}📊 Available services:${NC}"
 echo -e "${BLUE}   • Backend: http://localhost:3002${NC}"
-echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
-echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
+echo -e "${BLUE}   • Frontend Web: http://localhost:3000${NC}"
+echo -e "${BLUE}   • Frontend Mobile: http://localhost:3003${NC}"
 echo -e "${BLUE}   • Supabase Studio: http://localhost:54334${NC}"
 echo -e "${BLUE}   • PostgreSQL: localhost:54322${NC}"
 echo ""

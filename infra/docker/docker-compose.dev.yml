@@ -25,8 +25,8 @@ services:
       - REACT_APP_API_URL=http://localhost:3001/api
       - NODE_ENV=development
 
-  # Frontend Dashboard Module - Development overrides
-  frontend-dashboard:
+  # Frontend Mobile Module - Development overrides
+  frontend-mobile:
     environment:
       - REACT_APP_API_URL=http://localhost:3001/api
       - NODE_ENV=development

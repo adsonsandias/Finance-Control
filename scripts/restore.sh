@@ -102,7 +102,7 @@ echo -e "${GREEN}✅ Arquivo válido${NC}"
 
 # Parar aplicações que usam o banco
 echo -e "${YELLOW}⏸️  Parando aplicações...${NC}"
-docker stop finance_backend finance_frontend_auth finance_frontend_dashboard 2>/dev/null || true
+docker stop finance_backend finance_frontend_web finance_frontend_mobile 2>/dev/null || true
 
 # Desconectar usuários ativos
 echo -e "${YELLOW}🔌 Desconectando usuários ativos...${NC}"
@@ -141,7 +141,7 @@ fi
 
 # Reiniciar aplicações
 echo -e "${YELLOW}🚀 Reiniciando aplicações...${NC}"
-docker start finance_backend finance_frontend_auth finance_frontend_dashboard 2>/dev/null || true
+docker start finance_backend finance_frontend_web finance_frontend_mobile 2>/dev/null || true
 
 # Aguardar aplicações ficarem prontas
 echo -e "${YELLOW}⏳ Aguardando aplicações ficarem prontas...${NC}"
@@ -149,7 +149,7 @@ sleep 10
 
 # Verificar se tudo está funcionando
 echo -e "${YELLOW}🔍 Verificando status das aplicações...${NC}"
-if docker ps | grep -q "finance_backend\|finance_frontend_auth\|finance_frontend_dashboard"; then
+if docker ps | grep -q "finance_backend\|finance_frontend_web\|finance_frontend_mobile"; then
     echo -e "${GREEN}✅ Aplicações rodando${NC}"
 else
     echo -e "${RED}❌ Algumas aplicações podem não estar funcionando${NC}"

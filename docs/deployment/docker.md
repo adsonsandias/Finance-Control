@@ -13,8 +13,8 @@ This project includes a complete Docker configuration with local Supabase for de
 
 The `docker-compose.yml` includes the following services:
 
-- **Frontend Auth**: React application for authentication (port 3000)
-- **Frontend Dashboard**: React application for dashboard (port 3003)
+- **Frontend Web**: React application for web (port 3000)
+- **Frontend Mobile**: React application for mobile (port 3003)
 - **Backend**: Node.js API (port 3002)
 - **Database**: PostgreSQL 15 (port 5432)
 - **Supabase Studio**: Admin interface (port 54323)
@@ -28,16 +28,19 @@ The `docker-compose.yml` includes the following services:
 ### How to Run
 
 1. **Clone the repository and navigate to the folder:**
+
    ```bash
    cd Finance-Control
    ```
 
 2. **Copy the environment file:**
+
    ```bash
    cp .env.example .env
    ```
 
 3. **Start all services including the database:**
+
    ```bash
    ./scripts/start-local.sh
    ```
@@ -45,8 +48,8 @@ The `docker-compose.yml` includes the following services:
 4. **Wait for all services to start** (may take a few minutes on first run)
 
 5. **Access the applications:**
-   - **Frontend Auth**: http://localhost:3000
-   - **Frontend Dashboard**: http://localhost:3003
+   - **Frontend Web**: http://localhost:3000
+   - **Frontend Mobile**: http://localhost:3003
    - **Backend API**: http://localhost:3001
    - **Supabase Studio**: http://localhost:54323
 
@@ -63,8 +66,8 @@ The `docker-compose.yml` includes the following services:
 docker-compose logs -f
 
 # View logs of a specific service
-docker-compose logs -f frontend-auth
-docker-compose logs -f frontend-dashboard
+docker-compose logs -f frontend-web
+docker-compose logs -f frontend-mobile
 docker-compose logs -f backend
 docker-compose logs -f db
 
@@ -72,15 +75,15 @@ docker-compose logs -f db
 docker-compose down -v
 
 # Rebuild the frontend
-docker-compose build frontend-auth
-docker-compose build frontend-dashboard
-docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d frontend-auth frontend-dashboard
+docker-compose build frontend-web
+docker-compose build frontend-mobile
+docker-compose -f docker-compose.yml -f docker-compose.db.yml up -d frontend-web frontend-mobile
 
 # Run commands in the frontend container
-docker-compose exec frontend-auth npm install
-docker-compose exec frontend-auth npm run build
-docker-compose exec frontend-dashboard npm install
-docker-compose exec frontend-dashboard npm run build
+docker-compose exec frontend-web npm install
+docker-compose exec frontend-web npm run build
+docker-compose exec frontend-mobile npm install
+docker-compose exec frontend-mobile npm run build
 
 # Access the database
 docker-compose exec db psql -U postgres -d finance_control
@@ -100,7 +103,7 @@ docker-compose exec db psql -U postgres -d finance_control
 
 ### Database Configuration
 
-```
+````
 
 
 The database is automatically configured with:
@@ -129,19 +132,20 @@ For active development:
    ```bash
    # The frontend is already configured for hot reload
    # Any changes to src/ files will be automatically reflected
-   ```
+````
 
 2. **Install new dependencies:**
+
    ```bash
    # Stop the container
-   docker-compose stop frontend-auth
-   
+   docker-compose stop frontend-web
+
    # Install dependencies locally
    npm install new-dependency
-   
+
    # Rebuild and restart
-   docker-compose build frontend-auth
-   docker-compose up -d frontend-auth
+   docker-compose build frontend-web
+   docker-compose up -d frontend-web
    ```
 
 ### Google Authentication (Optional)
@@ -162,6 +166,7 @@ To configure Google authentication:
 ### Troubleshooting
 
 #### Problem: Services don't start
+
 ```bash
 # Check logs
 docker-compose logs
@@ -172,6 +177,7 @@ netstat -tulpn | grep :8000
 ```
 
 #### Problem: Database doesn't connect
+
 ```bash
 # Check if PostgreSQL is running
 docker-compose ps db
@@ -181,17 +187,19 @@ docker-compose exec db pg_isready -U postgres
 ```
 
 #### Problem: Frontend doesn't load
+
 ```bash
 # Check frontend logs
-docker-compose logs frontend-auth
-docker-compose logs frontend-dashboard
+docker-compose logs frontend-web
+docker-compose logs frontend-mobile
 
 # Rebuild frontend
-docker-compose build --no-cache frontend-auth
-docker-compose up -d frontend-auth
+docker-compose build --no-cache frontend-web
+docker-compose up -d frontend-web
 ```
 
 #### Problem: CORS error
+
 - Check if Kong is running: `docker-compose ps kong`
 - Check configuration in `supabase/kong.yml`
 
@@ -218,8 +226,8 @@ docker volume prune -f
 │   ├── docker-compose.db.yml       # Database configuration
 │   └── docker-compose.dev.yml      # Development overrides
 ├── apps/frontend/
-│   ├── auth/Dockerfile             # Auth frontend Dockerfile
-│   └── dashboard/Dockerfile        # Dashboard frontend Dockerfile
+│   ├── web/Dockerfile              # Web frontend Dockerfile
+│   └── mobile/Dockerfile           # Mobile frontend Dockerfile
 ├── apps/backend/
 │   └── Dockerfile.backend          # Backend Dockerfile
 ├── .dockerignore                   # Files ignored in build

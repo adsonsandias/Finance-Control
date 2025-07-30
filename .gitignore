@@ -31,11 +31,11 @@ credentials.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-apps/frontend/dashboard/node_modules/
-apps/frontend/dashboard/build/
-apps/frontend/auth/node_modules/
-apps/frontend/auth/build/
+apps/frontend/mobile/node_modules/
+apps/frontend/mobile/build/
+apps/frontend/web/node_modules/
+apps/frontend/web/build/
 health_response.txt
 apps/backend/dist/.env.example
 apps/backend/dist/
-apps/frontend/auth/apps/frontend/auth/node_modules/
+apps/frontend/web/apps/frontend/web/node_modules/

@@ -40,21 +40,21 @@ else
 fi
 
 # Verificar se o frontend de autenticação está rodando
-echo -e "${YELLOW}🚀 Verificando frontend de autenticação...${NC}"
+echo -e "${YELLOW}🚀 Verificando frontend de web...${NC}"
 if curl -s http://localhost:3000 > /dev/null; then
-    echo -e "${GREEN}✅ Frontend de autenticação está rodando${NC}"
+    echo -e "${GREEN}✅ Frontend de web está rodando${NC}"
 else
-    echo -e "${RED}❌ Frontend de autenticação não está rodando${NC}"
-    echo -e "${YELLOW}💡 Execute: cd apps/frontend/auth && npm start${NC}"
+    echo -e "${RED}❌ Frontend de web não está rodando${NC}"
+    echo -e "${YELLOW}💡 Execute: cd apps/frontend/web && npm start${NC}"
 fi
 
-# Verificar se o frontend de dashboard está rodando
-echo -e "${YELLOW}🚀 Verificando frontend de dashboard...${NC}"
+# Verificar se o frontend de mobile está rodando
+echo -e "${YELLOW}🚀 Verificando frontend de mobile...${NC}"
 if curl -s http://localhost:3003 > /dev/null; then
-    echo -e "${GREEN}✅ Frontend de dashboard está rodando${NC}"
+    echo -e "${GREEN}✅ Frontend de mobile está rodando${NC}"
 else
-    echo -e "${RED}❌ Frontend de dashboard não está rodando${NC}"
-    echo -e "${YELLOW}💡 Execute: cd apps/frontend/dashboard && npm start${NC}"
+    echo -e "${RED}❌ Frontend de mobile não está rodando${NC}"
+    echo -e "${YELLOW}💡 Execute: cd apps/frontend/mobile && npm start${NC}"
 fi
 
 echo "=========================================="

@@ -22,7 +22,7 @@ fi
 
 # Parar todos os containers do projeto
 echo -e "${YELLOW}🛑 Parando containers Docker...${NC}"
-docker stop finance_db finance_meta finance_backend finance_frontend_auth finance_frontend_dashboard 2>/dev/null || true
+docker stop finance_db finance_meta finance_backend finance_frontend_web finance_frontend_mobile 2>/dev/null || true
 
 # Matar processos Node.js relacionados ao projeto
 echo -e "${YELLOW}🛑 Parando processos Node.js...${NC}"

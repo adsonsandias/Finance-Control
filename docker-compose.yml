@@ -2,19 +2,19 @@
 # Use: docker-compose up
 
 services:
-  # Frontend Auth Module
-  frontend-auth:
+  # Frontend web Module
+  frontend-web:
     build:
-      context: ./apps/frontend/auth
+      context: ./apps/frontend/web
       dockerfile: Dockerfile
-    container_name: finance_frontend_auth
+    container_name: finance_frontend_web
     ports:
       - "3000:3000"
     environment:
       - REACT_APP_API_URL=http://localhost:3002
     volumes:
-      - ./apps/frontend/auth/src:/app/src
-      - ./apps/frontend/auth/public:/app/public
+      - ./apps/frontend/web/src:/app/src
+      - ./apps/frontend/web/public:/app/public
       - ./packages:/app/shared
       - /app/node_modules
     networks:
@@ -22,19 +22,19 @@ services:
     depends_on:
       - backend
 
-  # Frontend Dashboard Module
-  frontend-dashboard:
+  # Frontend mobile Module
+  frontend-mobile:
     build:
-      context: ./apps/frontend/dashboard
+      context: ./apps/frontend/mobile
       dockerfile: Dockerfile
-    container_name: finance_frontend_dashboard
+    container_name: finance_frontend_mobile
     ports:
       - "3003:3000"
     environment:
       - REACT_APP_API_URL=http://localhost:3002
     volumes:
-      - ./apps/frontend/dashboard/src:/app/src
-      - ./apps/frontend/dashboard/public:/app/public
+      - ./apps/frontend/mobile/src:/app/src
+      - ./apps/frontend/mobile/public:/app/public
       - ./packages:/app/shared
       - /app/node_modules
     networks:

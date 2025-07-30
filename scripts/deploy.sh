@@ -84,13 +84,13 @@ echo -e "${YELLOW}🐳 Construindo e enviando imagens Docker...${NC}"
 echo -e "${YELLOW}🔨 Construindo imagem do backend...${NC}"
 docker build -t finance-control-backend:latest -f ./apps/backend/Dockerfile.backend ./apps/backend
 
-# Construir e enviar imagem do frontend-auth
-echo -e "${YELLOW}🔨 Construindo imagem do frontend-auth...${NC}"
-docker build -t finance-control-auth:latest -f ./apps/frontend/auth/Dockerfile ./apps/frontend/auth
+# Construir e enviar imagem do frontend-web
+echo -e "${YELLOW}🔨 Construindo imagem do frontend-web...${NC}"
+docker build -t finance-control-web:latest -f ./apps/frontend/web/Dockerfile ./apps/frontend/web
 
-# Construir e enviar imagem do frontend-dashboard
-echo -e "${YELLOW}🔨 Construindo imagem do frontend-dashboard...${NC}"
-docker build -t finance-control-dashboard:latest -f ./apps/frontend/dashboard/Dockerfile ./apps/frontend/dashboard
+# Construir e enviar imagem do frontend-mobile
+echo -e "${YELLOW}🔨 Construindo imagem do frontend-mobile...${NC}"
+docker build -t finance-control-mobile:latest -f ./apps/frontend/mobile/Dockerfile ./apps/frontend/mobile
 
 # Se você tiver um registro Docker configurado, você pode fazer push das imagens
 # docker tag finance-control-backend:latest seu-registro/finance-control-backend:latest
@@ -103,11 +103,11 @@ echo -e "${BLUE}💡 Para configurar o deploy remoto, edite este script e adicio
 
 # Exemplo:
 # ssh usuario@seu-servidor.com "cd /caminho/para/aplicacao && git pull && \
-#   docker stop finance_backend finance_frontend_auth finance_frontend_dashboard && \
-#   docker rm finance_backend finance_frontend_auth finance_frontend_dashboard && \
+#   docker stop finance_backend finance_frontend_web finance_frontend_mobile && \
+#   docker rm finance_backend finance_frontend_web finance_frontend_mobile && \
 #   docker run -d --name finance_backend --network finance-network finance-control-backend:latest && \
-#   docker run -d --name finance_frontend_auth --network finance-network finance-control-auth:latest && \
-#   docker run -d --name finance_frontend_dashboard --network finance-network finance-control-dashboard:latest"
+#   docker run -d --name finance_frontend_web --network finance-network finance-control-web:latest && \
+#   docker run -d --name finance_frontend_mobile --network finance-network finance-control-mobile:latest"
 
 echo "=========================================="
 echo -e "${GREEN}✅ Deploy concluído com sucesso!${NC}"

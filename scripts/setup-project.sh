@@ -155,27 +155,27 @@ if [ ! -d "node_modules" ]; then
 fi
 echo -e "${GREEN}✅ Backend dependencies installed.${NC}"
 
-# Install frontend auth dependencies
-echo -e "${YELLOW}⏳ Installing frontend auth dependencies...${NC}"
-cd "$PROJECT_ROOT/apps/frontend/auth"
+# Install frontend web dependencies
+echo -e "${YELLOW}⏳ Installing frontend web dependencies...${NC}"
+cd "$PROJECT_ROOT/apps/frontend/web"
 if [ ! -d "node_modules" ]; then
     npm install --no-fund --no-audit || {
-        echo -e "${YELLOW}⚠️ Error installing frontend auth dependencies. Trying with --legacy-peer-deps...${NC}"
+        echo -e "${YELLOW}⚠️ Error installing frontend web dependencies. Trying with --legacy-peer-deps...${NC}"
         npm install --no-fund --no-audit --legacy-peer-deps
     }
 fi
-echo -e "${GREEN}✅ Frontend auth dependencies installed.${NC}"
+echo -e "${GREEN}✅ Frontend web dependencies installed.${NC}"
 
-# Install frontend dashboard dependencies
-echo -e "${YELLOW}⏳ Installing frontend dashboard dependencies...${NC}"
-cd "$PROJECT_ROOT/apps/frontend/dashboard"
+# Install frontend mobile dependencies
+echo -e "${YELLOW}⏳ Installing frontend mobile dependencies...${NC}"
+cd "$PROJECT_ROOT/apps/frontend/mobile"
 if [ ! -d "node_modules" ]; then
     npm install --no-fund --no-audit || {
-        echo -e "${YELLOW}⚠️ Error installing frontend dashboard dependencies. Trying with --legacy-peer-deps...${NC}"
+        echo -e "${YELLOW}⚠️ Error installing frontend mobile dependencies. Trying with --legacy-peer-deps...${NC}"
         npm install --no-fund --no-audit --legacy-peer-deps
     }
 fi
-echo -e "${GREEN}✅ Frontend dashboard dependencies installed.${NC}"
+echo -e "${GREEN}✅ Frontend mobile dependencies installed.${NC}"
 
 # Setup environment files
 echo -e "\n${BLUE}=== Setting Up Environment Files ===${NC}"
@@ -391,7 +391,7 @@ else
     echo -e "\n${YELLOW}💡 Serviços disponíveis:${NC}"
     echo -e "${BLUE}   • Backend: http://localhost:3002${NC}"
     echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
-    echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
+    echo -e "${BLUE}   • Frontend mobile: http://localhost:3003${NC}"
     echo -e "${BLUE}   • Supabase Studio: http://localhost:54334${NC}"
     echo -e "${BLUE}   • PostgreSQL: localhost:54333${NC}"
     echo -e "\n${GREEN}✨ Happy coding! ✨${NC}"

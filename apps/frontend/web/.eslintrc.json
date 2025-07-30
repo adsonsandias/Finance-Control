@@ -1,5 +1,5 @@
 {
-  "extends": ["../../config/eslint/base.json"],
+  "extends": ["../../../config/eslint/base.json"],
   "rules": {
     "quotes": ["error", "single"],
     "semi": ["error", "never"]

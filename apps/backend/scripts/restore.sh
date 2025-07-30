@@ -102,7 +102,7 @@ echo -e "${GREEN}✅ Arquivo válido${NC}"
 
 # Parar aplicações que usam o banco
 echo -e "${YELLOW}⏸️  Parando aplicações...${NC}"
-docker-compose stop backend frontend-auth frontend-dashboard 2>/dev/null || true
+docker-compose stop backend frontend-web frontend-mobile 2>/dev/null || true
 
 # Desconectar usuários ativos
 echo -e "${YELLOW}🔌 Desconectando usuários ativos...${NC}"
