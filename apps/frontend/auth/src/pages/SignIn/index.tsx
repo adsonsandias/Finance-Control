@@ -22,11 +22,13 @@ export function Signin() {
   const [password, setPassword] = useState('')
 
   useEffect(() => {
-    // Verificar status de autenticação quando a página carrega
-    if (checkAuthStatus) {
-      checkAuthStatus()
+    // Verificar status de autenticação apenas se não estiver na página de login
+    // Isso evita o ciclo infinito de verificações
+    const currentPath = window.location.pathname;
+    if (checkAuthStatus && currentPath !== '/signin') {
+      checkAuthStatus();
     }
-  }, [checkAuthStatus])
+  }, [checkAuthStatus]);
 
   const handleLogin = async () => {
     try {

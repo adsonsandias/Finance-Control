@@ -28,19 +28,40 @@ export function useAuth(authService: AuthService): IUseAuthReturn {
 
   const loadCurrentUser = useCallback(async () => {
     try {
-      const isAuth = await authService.isAuthenticated()
-      if (isAuth) {
-        const currentUser = await authService.getCurrentUser()
-        setUser(currentUser)
+      // Verificar se há token no localStorage
+      const token = await authService.getToken();
+      
+      if (token) {
+        // Se houver token, verificar se ainda é válido
+        try {
+          const currentUser = await authService.getCurrentUser();
+          setUser(currentUser);
+        } catch (error) {
+          // Se o token for inválido, tentar renovar
+          try {
+            await authService.refreshToken();
+            // Após renovar, tentar obter o usuário novamente
+            const currentUser = await authService.getCurrentUser();
+            setUser(currentUser);
+          } catch (refreshError) {
+            // Se falhar ao renovar, fazer logout
+            console.error('Erro ao renovar token:', refreshError);
+            await authService.signOut();
+            setUser(null);
+          }
+        }
+      } else {
+        setUser(null);
       }
     } catch (err) {
-      console.error('Erro ao carregar usuário:', err)
+      console.error('Erro ao carregar usuário:', err);
       // Se falhar ao carregar o usuário, limpar o token
-      await authService.signOut()
+      await authService.signOut();
+      setUser(null);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [authService])
+  }, [authService]);
 
   useEffect(() => {
     loadCurrentUser()

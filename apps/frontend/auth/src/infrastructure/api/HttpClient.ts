@@ -39,21 +39,33 @@ export class HttpClient {
             // Refaz a requisição original com o novo token
             const originalRequest = response.url;
             const originalMethod = response.type;
-            const originalHeaders = this.getAuthHeader();
+            const originalHeaders = {
+              ...this.getAuthHeader(),
+              'Content-Type': 'application/json'
+            };
             
             return fetch(originalRequest, {
               method: originalMethod,
-              headers: {
-                ...originalHeaders,
-                'Content-Type': 'application/json'
-              }
+              headers: originalHeaders
             });
+          } else {
+            // Se falhar ao renovar o token, limpa o armazenamento
+            TokenStorage.clearAll();
+            // NÃO redirecionar automaticamente - remover esta linha
+            // window.location.href = '/signin';
           }
         } catch (error) {
           console.error('Failed to refresh token:', error);
           // Se falhar ao renovar o token, limpa o armazenamento
           TokenStorage.clearAll();
+          // NÃO redirecionar automaticamente - remover esta linha
+          // window.location.href = '/signin';
         }
+      } else {
+        // Se não houver refresh token, limpa o armazenamento
+        TokenStorage.clearAll();
+        // NÃO redirecionar automaticamente - remover esta linha
+        // window.location.href = '/signin';
       }
     }
     

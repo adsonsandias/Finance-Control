@@ -47,13 +47,18 @@ export class AuthRepositoryImpl implements AuthRepository {
       password: data.password,
       grant_type: 'password',
     });
-
-    // Armazenar tokens e usuário
-    if (response.access_token) {
-      TokenStorage.setAccessToken(response.access_token);
-    }
-    if (response.refresh_token) {
-      TokenStorage.setRefreshToken(response.refresh_token);
+  
+    // Armazenar sessão completa
+    if (response.session) {
+      TokenStorage.setSession(response.session);
+    } else if (response.access_token) {
+      // Formato alternativo da resposta
+      TokenStorage.setSession({
+        access_token: response.access_token,
+        refresh_token: response.refresh_token,
+        token_type: response.token_type || 'bearer',
+        expires_in: response.expires_in || 86400
+      });
     }
     
     const user = {
@@ -63,11 +68,11 @@ export class AuthRepositoryImpl implements AuthRepository {
     };
     
     TokenStorage.setUser(user);
-
+  
     return {
       user,
-      token: response.access_token,
-      refreshToken: response.refresh_token,
+      token: response.access_token || response.session?.access_token,
+      refreshToken: response.refresh_token || response.session?.refresh_token,
     };
   }
 
