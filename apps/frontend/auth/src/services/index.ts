@@ -1,47 +1,28 @@
 import { AuthService } from '../application/services/AuthService'
 import { TransactionService } from '../application/services/TransactionService'
-import {
-  ITransaction,
-  ICreateTransactionData,
-  IUpdateTransactionData,
-  ITransactionFilters,
-  ITransactionSummary,
-  TransactionType,
-} from '../domain/entities/Transaction'
-import { User } from '../domain/entities/User'
-import {
-  AuthRepository,
-  SignUpData,
-  SignInData,
-  AuthResponse,
-} from '../domain/repositories/AuthRepository'
-import {
-  ITransactionRepository,
-  IPaginatedResponse,
-} from '../domain/repositories/TransactionRepository'
 import { dependencyContainer } from '../utils/DependencyContainer'
-import { ApiClient } from '../infrastructure/api/ApiClient'
-import { AuthApiRepository } from '../infrastructure/api/AuthApiRepository'
+import { HttpClient } from '../infrastructure/api/HttpClient'
+import { AuthRepositoryImpl } from '../infrastructure/api/AuthRepository'
 import { TransactionApiRepository } from '../infrastructure/api/TransactionApiRepository'
 
-// Initialize services with real API implementations
+// Inicializar serviços com implementações reais de API
 export function initializeServices() {
-  // Create API client with base URL from environment variable
+  // Criar cliente HTTP com URL base do ambiente
   const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:3001'
-  const apiClient = new ApiClient(baseURL)
+  const httpClient = new HttpClient(baseURL)
 
-  // Create real repository implementations
-  const authRepository = new AuthApiRepository(apiClient)
-  const transactionRepository = new TransactionApiRepository(apiClient)
+  // Criar implementações reais de repositório
+  const authRepository = new AuthRepositoryImpl(httpClient)
+  const transactionRepository = new TransactionApiRepository(httpClient)
 
-  // Create services with real repositories
+  // Criar serviços com repositórios reais
   const authService = new AuthService(authRepository)
   const transactionService = new TransactionService(transactionRepository)
 
-  // Register services in dependency container
+  // Registrar serviços no contêiner de dependências
   dependencyContainer.setAuthService(authService)
   dependencyContainer.setTransactionService(transactionService)
 }
 
-// Export for use in other parts of the application
+// Exportar para uso em outras partes da aplicação
 export { dependencyContainer }

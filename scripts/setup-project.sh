@@ -202,24 +202,19 @@ fi
 echo -e "\n${BLUE}=== Setting Up Supabase ===${NC}"
 echo -e "${YELLOW}⏳ Setting up Supabase...${NC}"
 
-# Execute o script de configuração do Supabase
-echo -e "${YELLOW}⏳ Executando script de configuração do Supabase...${NC}"
+# Executar script adicional de setup do Supabase (se necessário)
 chmod +x "$PROJECT_ROOT/scripts/setup-supabase.sh"
 "$PROJECT_ROOT/scripts/setup-supabase.sh"
 
-# Verificar se o Supabase foi iniciado com sucesso
+# Verificar se o Supabase está rodando
 if ! supabase status &> /dev/null; then
-    echo -e "${RED}❌ Falha ao iniciar o Supabase. Tentando novamente...${NC}"
-    
-    # Tentar parar qualquer instância existente do Supabase primeiro
+    echo -e "${RED}❌ Supabase não está rodando. Tentando iniciar...${NC}"
     supabase stop &> /dev/null || true
     sleep 2
-    
-    # Iniciar o Supabase com uma porta diferente, se necessário
+
+    # Tentar iniciar com configuração personalizada
     if ! supabase start; then
-        echo -e "${YELLOW}⚠️ Falha ao iniciar o Supabase com as portas padrão. Tentando com configuração personalizada...${NC}"
-        
-        # Criar um arquivo de configuração temporário com portas diferentes, se não existir
+        echo -e "${YELLOW}⚠️ Tentando iniciar Supabase com configuração personalizada...${NC}"
         if [ ! -f "$PROJECT_ROOT/supabase/config.toml" ]; then
             mkdir -p "$PROJECT_ROOT/supabase"
             cat > "$PROJECT_ROOT/supabase/config.toml" << EOF
@@ -230,48 +225,75 @@ port = 54323
 [studio]
 port = 54334
 EOF
-            echo -e "${YELLOW}Criada configuração personalizada do Supabase com portas diferentes.${NC}"
         fi
-        
-        # Tentar iniciar com a configuração personalizada
-        if ! supabase start; then
-            echo -e "${RED}❌ Falha ao iniciar o Supabase. Tente manualmente: supabase start${NC}"
+        supabase start || {
+            echo -e "${RED}❌ Falha ao iniciar o Supabase. Execute manualmente: supabase start${NC}"
             exit 1
-        fi
+        }
     fi
 fi
 
-# Aplicar o schema SQL e dados de exemplo
-echo -e "${YELLOW}⏳ Aplicando schema SQL e dados de exemplo...${NC}"
-
-# Caminho para os arquivos SQL
+# Aplicar o schema SQL
+echo -e "${YELLOW}⏳ Aplicando schema SQL...${NC}"
 SCHEMA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/supabase-schema.sql"
 SAMPLE_DATA_FILE="$PROJECT_ROOT/apps/backend/supabase/migrations/sample-data.sql"
 
-# Verificar se os arquivos existem
 if [ ! -f "$SCHEMA_FILE" ]; then
     echo -e "${RED}❌ Arquivo de schema não encontrado: $SCHEMA_FILE${NC}"
     exit 1
 fi
 
-# Aplicar o schema usando psql
-echo -e "${YELLOW}🔄 Aplicando schema usando psql...${NC}"
 PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$SCHEMA_FILE"
-PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$SAMPLE_DATA_FILE"
-echo -e "${BLUE}   • PostgreSQL: localhost:54322${NC}"
+echo -e "${GREEN}✅ Schema aplicado com sucesso.${NC}"
 
-# Aplicar os dados de exemplo, se o arquivo existir
-if [ -f "$SAMPLE_DATA_FILE" ]; then
-    echo -e "${YELLOW}🔄 Aplicando dados de exemplo...${NC}"
-    PGPASSWORD="postgres" psql -h "localhost" -p "54333" -d "postgres" -U "postgres" -f "$SAMPLE_DATA_FILE"
-    echo -e "${GREEN}✅ Dados de exemplo aplicados com sucesso!${NC}"
-else
-    echo -e "${YELLOW}⚠️ Arquivo de dados de exemplo não encontrado: $SAMPLE_DATA_FILE${NC}"
+echo -e "${BLUE}=== Criando usuário real via Supabase Admin API ===${NC}"
+
+USER_EMAIL="usuario@exemplo.com"
+USER_PASSWORD="123456"
+DISPLAY_NAME="Usuário Teste"
+
+# Obter a URL e a chave do Supabase local
+SUPABASE_URL="http://127.0.0.1:54321"
+SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU"
+
+# Criar usuário usando a API REST do Supabase
+CREATE_USER_RESPONSE=$(curl -s -X POST "${SUPABASE_URL}/auth/v1/admin/users" \
+  -H "Authorization: Bearer ${SUPABASE_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "email": "'"$USER_EMAIL"'",
+        "password": "'"$USER_PASSWORD"'",
+        "email_confirm": true,
+        "user_metadata": {
+          "display_name": "'"$DISPLAY_NAME"'"
+        }
+      }')
+
+USER_ID=$(echo "$CREATE_USER_RESPONSE" | grep -o '"id":"[^"]*' | cut -d '"' -f4)
+
+if [ -z "$USER_ID" ]; then
+    echo -e "${RED}❌ Falha ao criar usuário via API:${NC}"
+    echo "$CREATE_USER_RESPONSE"
+    exit 1
 fi
 
+echo -e "${GREEN}✅ Usuário criado com ID: $USER_ID${NC}"
+
+# Remover o script temporário
+rm "$TEMP_SCRIPT"
+
+# Substituir placeholder no sample-data.sql e aplicar
+TEMP_SQL="/tmp/sample-data-temp.sql"
+sed "s/{{USER_ID}}/$USER_ID/g" "$SAMPLE_DATA_FILE" > "$TEMP_SQL"
+
+echo -e "${YELLOW}⏳ Inserindo dados de exemplo vinculados ao usuário...${NC}"
+PGPASSWORD="postgres" psql -h "localhost" -p "54322" -d "postgres" -U "postgres" -f "$TEMP_SQL"
+rm "$TEMP_SQL"
+echo -e "${GREEN}✅ Dados de exemplo inseridos com sucesso.${NC}"
+
+# Finalização
 echo -e "\n${GREEN}=== Project Setup Complete! ===${NC}"
 
-# Perguntar ao usuário se deseja iniciar o projeto
 echo -e "${YELLOW}Deseja iniciar o projeto agora? (s/n)${NC}"
 read -r start_project
 
@@ -281,12 +303,11 @@ if [[ "$start_project" =~ ^[Ss]$ ]]; then
 else
     echo -e "${YELLOW}💡 Para iniciar o projeto posteriormente, execute:${NC}"
     echo -e "${BLUE}   ./scripts/start-local.sh${NC}"
-    echo -e "\n${YELLOW}💡 Available services:${NC}"
+    echo -e "\n${YELLOW}💡 Serviços disponíveis:${NC}"
     echo -e "${BLUE}   • Backend: http://localhost:3002${NC}"
     echo -e "${BLUE}   • Frontend Auth: http://localhost:3000${NC}"
     echo -e "${BLUE}   • Frontend Dashboard: http://localhost:3003${NC}"
     echo -e "${BLUE}   • Supabase Studio: http://localhost:54334${NC}"
     echo -e "${BLUE}   • PostgreSQL: localhost:54333${NC}"
-
     echo -e "\n${GREEN}✨ Happy coding! ✨${NC}"
 fi
